@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Adobe Illustrator 24.2.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 175 170" style="enable-background:new 0 0 175 170;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FFFFFF;stroke:#828282;stroke-miterlimit:10;}
+	.st1{fill:#828282;stroke:#828282;stroke-miterlimit:10;}
+	.st2{fill:#FFFFFF;stroke:#737373;stroke-width:4;stroke-miterlimit:10;}
+	.st3{fill:none;stroke:#737373;stroke-width:4;stroke-miterlimit:10;}
+	.st4{fill:#FFFFFF;stroke:#525252;stroke-width:4;stroke-miterlimit:10;}
+	.st5{fill:none;stroke:#525252;stroke-width:4;stroke-miterlimit:10;}
+	.st6{fill:#FFFFFF;stroke:#000000;stroke-width:4;stroke-miterlimit:10;}
+	.st7{fill:none;stroke:#000000;stroke-width:4;stroke-miterlimit:10;}
+</style>
+<g id="Layer_1">
+	<circle class="st0" cx="44.25" cy="45.95" r="42"/>
+	<circle class="st0" cx="44.25" cy="46.07" r="19.88"/>
+	<circle class="st0" cx="44.25" cy="45.95" r="9.88"/>
+	<g id="Layer_2">
+		<polygon class="st1" points="44.25,55.82 42.5,87.95 46,87.95 		"/>
+		<polygon class="st1" points="54.12,45.95 86.25,47.7 86.25,44.2 		"/>
+		<polygon class="st1" points="44.25,36.07 46,3.95 42.5,3.95 		"/>
+		<polygon class="st1" points="35.31,45.95 3.18,44.2 3.18,47.7 		"/>
+	</g>
+</g>
+<g id="Layer_7">
+	<g id="Layer_6">
+		<polygon class="st2" points="57.7,115.39 72.65,130.45 75.04,157.48 67.3,165.02 22.19,120.88 30.58,112.69 		"/>
+		<path class="st3" d="M72.34,130.4c-8.56,11.36-50.05-9.48-50.05-9.48"/>
+		<path class="st3" d="M57.61,115.29c-11.35,8.55,9.43,49.96,9.43,49.96"/>
+		<path class="st3" d="M57.56,115.25c-17.85-1.89-35.13,5.39-35.13,5.39"/>
+		<path class="st3" d="M72.43,130.12c1.89,17.85-5.39,35.13-5.39,35.13"/>
+	</g>
+	<g id="Layer_9">
+		<polygon class="st4" points="93.63,76.68 112.89,96.07 116.96,129.89 107.61,138.97 49.56,82.11 59.69,72.23 		"/>
+		<path class="st5" d="M112.49,96c-10.22,13.83-62.81-13.84-62.81-13.84"/>
+		<path class="st5" d="M93.52,76.57c-13.81,10.21,13.78,62.69,13.78,62.69"/>
+		<path class="st5" d="M93.46,76.51c-22.34-3.08-43.6,5.31-43.6,5.31"/>
+		<path class="st5" d="M112.6,95.65c3.07,22.33-5.31,43.6-5.31,43.6"/>
+	</g>
+	<g id="Layer_3">
+		<polygon class="st6" points="136.39,34.34 162,60.11 167.82,104.65 155.66,116.46 78.5,40.85 91.69,28 		"/>
+		<path class="st7" d="M161.47,60c-13.24,18.04-82.81-19.1-82.81-19.1"/>
+		<path class="st7" d="M136.23,34.18c-18.02,13.23,19.01,82.65,19.01,82.65"/>
+		<path class="st7" d="M136.16,34.1c-29.42-4.37-57.28,6.36-57.28,6.36"/>
+		<path class="st7" d="M161.61,59.56c4.36,29.42-6.36,57.28-6.36,57.28"/>
+	</g>
+</g>
+</svg>
