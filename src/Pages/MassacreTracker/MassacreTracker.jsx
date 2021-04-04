@@ -11,6 +11,8 @@ import {
 	TableCell,
 	IconButton,
 } from "@material-ui/core";
+import FactionRow from "./FactionRow";
+
 const MassacreTracker = () => (
 	<Grid container spacing={3}>
 		<Grid item xs={12}>
@@ -22,15 +24,19 @@ const MassacreTracker = () => (
 			<Table>
 				<TableHead>
 					<TableRow>
+						<TableCell></TableCell>
 						<TableCell>Faction</TableCell>
 						<TableCell>Missions</TableCell>
-						<TableCell>Locations</TableCell>
 						<TableCell>Kills</TableCell>
 						<TableCell>Current Value</TableCell>
 						<TableCell>Total Value</TableCell>
 					</TableRow>
 				</TableHead>
-				<TableData></TableData>
+				<TableData>
+					{props.missionState.factions.map((f) => {
+						return <FactionRow f />;
+					})}
+				</TableData>
 			</Table>
 		</Grid>
 	</Grid>
