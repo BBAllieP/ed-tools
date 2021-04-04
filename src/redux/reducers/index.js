@@ -1,19 +1,5 @@
-import '../actionTypes';
-import {TOGGLE_MENU} from '../actionTypes';
+import missions from "./missions";
+import ui from "./ui";
+import { combineReducers } from "react-redux";
 
-const initialState = {
-    showMenu: false,
-};
-
-export default function(state = initialState, action) {
-    switch (action.type) {
-        case TOGGLE_MENU: {
-            state = {...state, showMenu: !state.showMenu};
-            return state;
-        }
-        default: {
-            return state;
-        }
-        
-    }
-}
+export default combineReducers({ ui, missions });
