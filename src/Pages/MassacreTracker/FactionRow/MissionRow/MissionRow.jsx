@@ -1,14 +1,16 @@
 import React from "react";
-import {
-	TableCell,
-	TableBody,
-	TableRow,
-	TableContainer,
-	Box,
-	Typography,
-} from "@material-ui/core";
+import { TableCell, TableRow } from "@material-ui/core";
 const MissionRow = (props) => {
-	return "Row";
+	return (
+		<TableRow>
+			<TableCell>{props.destination}</TableCell>
+			<TableCell>{props.targetFaction}</TableCell>
+			<TableCell>{props.kills + " / " + props.needed}</TableCell>
+			<TableCell>{props.isWing}</TableCell>
+			<TableCell>{props.status}</TableCell>
+			<TableCell>{props.value}</TableCell>
+		</TableRow>
+	);
 };
 
 export default MissionRow;

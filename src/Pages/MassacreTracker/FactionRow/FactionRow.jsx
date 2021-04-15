@@ -55,9 +55,10 @@ const DataRow = (props) => {
 								<TableHeader>
 									<TableRow>
 										<TableCell>Destination</TableCell>
+										<TableCell>Target Faction</TableCell>
+										<TableCell>Progress</TableCell>
+										<TableCell>Wing Mission</TableCell>
 										<TableCell>Status</TableCell>
-										<TableCell>Kills</TableCell>
-										<TableCell>Kills Required</TableCell>
 										<TableCell>Reward</TableCell>
 									</TableRow>
 								</TableHeader>
