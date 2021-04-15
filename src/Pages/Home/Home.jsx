@@ -4,7 +4,7 @@ const Home = () => (
 	<Grid container spacing={3}>
 		<Grid item xs={12}>
 			<Typography variant='h1' component='h2' gutterBottom>
-				Welcome to CMDR BBAllie's Elite Dangerous Tools
+				Welcome to CMDR CPT Allie's Elite Dangerous Tools
 			</Typography>
 		</Grid>
 	</Grid>
