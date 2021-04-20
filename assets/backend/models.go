@@ -1,7 +1,13 @@
 package main
 
-type mission struct {
-	id int
+import "time"
+
+type Mission struct {
+	id int `json:"MissionID"`
+	name string `json:"Name"`
+	passenger_mission bool `json:"PassengerMission`
+	expires int `json:"Expires"`
+	start time.Time
 	faction string
 	targetFaction string
 	needed int
@@ -13,8 +19,15 @@ type mission struct {
 	reputation string
 } 
 
-type faction struct {
+type Faction struct {
 	missions []mission
 	name string
 	reputation int
+}
+
+type ResumedMissions struct {
+	Timestamp time.Time
+	Active []Mission
+	Complete []Mission
+	Failed []Mission
 }

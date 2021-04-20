@@ -68,6 +68,9 @@ func setupRoutes() {
 
 func main() {
     fmt.Println("ED-Tools Backend v0.0.0.1")
-    setupRoutes()
-    http.ListenAndServe(":8080", nil)
+    //setupRoutes()
+    //http.ListenAndServe(":8080", nil)
+    var StartMissionList []ResumedMissions
+    getResumedMissionList(*StartMissionList)
+    fmt.Sprint(StartMissionList)
 }
