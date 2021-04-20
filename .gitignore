@@ -7,7 +7,7 @@
 
 # testing
 /coverage
-
+/assets/data/Elite Dangerous
 # production
 /build
 
