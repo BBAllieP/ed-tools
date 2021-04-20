@@ -54,3 +54,7 @@ func readChangedFile(file string) {
 	// the change in length and know how many lines to read
 	return
 }
+
+func parseLog(journals []Logfile, missions *[]Mission){
+	
+}
