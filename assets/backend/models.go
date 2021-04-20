@@ -1,6 +1,7 @@
 package main
 
 type mission struct {
+	id int
 	faction string
 	targetFaction string
 	needed int
