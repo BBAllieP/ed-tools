@@ -13,7 +13,8 @@ import (
 	"github.com/fsnotify/fsnotify"
 )
 
-func watchLogs(logLocation string) {
+func watchLogs(journals *[]Logfile, missions *[]Mission) {
+	logLocation := getLogLocation()
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
 		log.Fatal(err)
@@ -33,7 +34,7 @@ func watchLogs(logLocation string) {
 					match, _ := regexp.MatchString("Journal.*.log", event.Name)
 					if match {
 						log.Println("modified file:", event.Name)
-						readChangedFile(event.Name)
+						readChangedFile(event.Name, journals, missions)
 					}
 				}
 			case err, ok := <-watcher.Errors:
@@ -52,19 +53,19 @@ func watchLogs(logLocation string) {
 	<-done
 }
 
-func readChangedFile(file string) {
-	// look at last lines of file and determine the changes
-	// first need to determine how many lines are added
-	// we know that the only changes are adding lines or creating a new log
-	// if we store the last known length of the active logfile we can check
-	// the change in length and know how many lines to read
-	return
+func readChangedFile(file string, journals *[]Logfile, missions *[]Mission) {
+	for i, journal := range((*journals)){
+		if journal.path == file{
+			tempList := []Logfile{journal}
+			parseLog(&tempList, missions)
+		}
+	}
 }
 
-func parseLog(journals []Logfile, missions *[]Mission){
-	for i, journal := range(journals) {
+func parseLog(journals *[]Logfile, missions *[]Mission){
+	for i, journal := range(*journals) {
 		var isLatest bool
-		if len(journals) == i {
+		if len((*journals)) == i {
 			isLatest = true
 		} else {
 			isLatest = false
@@ -75,7 +76,13 @@ func parseLog(journals []Logfile, missions *[]Mission){
 		}
 		scanner := bufio.NewScanner(file)
 		var event map[string]interface{}
-		for scanner.Scan() {
+		var lineCount int
+		lineCount = 0
+		for scanner.Scan(){
+			lineCount +=1
+			if lineCount <= journal.lastLine {
+				continue
+			}
 			//parse each line and do something with it based on contents
 			if strings.Contains(scanner.Text(), "Mission_Massacre"){
 				if scanner.Text()[38:56] == "\"event\":\"Missions\""{
@@ -92,6 +99,7 @@ func parseLog(journals []Logfile, missions *[]Mission){
 				processBounty(&event, missions)
 			}
 		}
+		(*journals)[i].lastLine = lineCount
 		file.Close()
 	}
 	
@@ -149,27 +157,24 @@ func processBounty(event *map[string]interface{}, missions *[]Mission){
 		// now we know there's at least one mission
 		// find oldest active mission
 		tempFacMissions := fact.Missions
+		//remove redirected (i.e. complete) missions from consideration
 		for i, misTemp := range(fact.Missions){
-			if misTemp.Status != "Active"{
+			if misTemp.Status != "Progress"{
 				tempFacMissions = append(fact.Missions[:i], fact.Missions[i+1:]...)
 			}
 		}
-		
+		//sort oldest to newest
 		sort.SliceStable(tempFacMissions, func(i,j int) bool {
 			return tempFacMissions[i].Start.Before(tempFacMissions[j].Start)
 		})
 		// if there are missions
 		if len(tempFacMissions) > 0 {
-			//add one to progress
+			//add one to progress of oldest active mission
 			for i, mis := range((*missions)){
 				if mis.Id == tempFacMissions[0].Id && mis.TargetFaction == killFaction{
 					(*missions)[i].Kills = (*missions)[i].Kills + 1
 				}
 			}
 		}
-		
 	}
-	// ok now we have missions populated to the target faction
-	
-
 }

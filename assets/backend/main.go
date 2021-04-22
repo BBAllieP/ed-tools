@@ -73,7 +73,8 @@ func main() {
     fmt.Println("ED-Tools Backend v0.0.0.1")
     //setupRoutes()
     //http.ListenAndServe(":8080", nil)
-    missions := getResumedMissionList()
+    var journals []Logfile
+    missions := getResumedMissionList(&journals)
 
     buff := &bytes.Buffer{}
     w := struct2csv.NewWriter(buff)
@@ -82,5 +83,5 @@ func main() {
         // handle error
     }
     ioutil.WriteFile("output.csv", buff.Bytes(), 0644)
-    //fmt.Println(buff.String())
+    //fmt.Println(journals)
 }

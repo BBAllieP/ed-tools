@@ -19,8 +19,8 @@ import (
 // 3) store the names of all of the logs we will need to parse - TODO
 // 4) parse all logs in chronological order to determine current state - TODO
 // 5) set the active log - TODO
-func getLogList() []Logfile {
-	var resultLogs []Logfile
+func getLogList(resultLogs *[]Logfile) {
+	//var resultLogs []Logfile
 	var logLocation string
 	if runtime.GOOS == "windows" {
 		uhome, err := os.UserHomeDir()
@@ -50,16 +50,16 @@ func getLogList() []Logfile {
 			}
 			newLog.path = logLocation + "/" + journal.Name()
 			newLog.mod = info.ModTime()
-			newLog.active = false
-			resultLogs = append(resultLogs, newLog)
+			newLog.lastLine = 0
+			*resultLogs = append(*resultLogs, newLog)
 		}
 	}
-	return resultLogs
+	//return resultLogs
 }
 
-func getLatestLog(logList []Logfile) Logfile {
-	latest:= logList[0]
-	for _, journal := range logList {
+func getLatestLog(logList *[]Logfile) Logfile {
+	latest:= (*logList)[0]
+	for _, journal := range (*logList) {
 		if journal.mod.After(latest.mod) {
 			latest = journal
 		}
@@ -67,9 +67,9 @@ func getLatestLog(logList []Logfile) Logfile {
 	return latest
 }
 
-func getResumedMissionList() []Mission{
+func getResumedMissionList(logList *[]Logfile) []Mission{
 	statuses := []string{"Active", "Complete", "Failed"}
-	logList := getLogList()
+	getLogList(logList)
 	latestLog := getLatestLog(logList)
 	file, err := os.Open(latestLog.path)
 	if err != nil {
@@ -103,25 +103,26 @@ func getResumedMissionList() []Mission{
 			oldestMis = mis
 		}
 	}
-	sort.SliceStable(logList, func(i,j int) bool {
-		return logList[i].mod.Before(logList[j].mod)
+	sort.SliceStable((*logList), func(i,j int) bool {
+		return (*logList)[i].mod.Before((*logList)[j].mod)
 	})
 	//make list of journals more recent than that mission
 	var journList []Logfile
 	//var tempJourn Logfile
-	for _, journ := range(logList){
+	for _, journ := range(*logList){
 		if journ.mod.After(oldestMis.Start.AddDate(0,0,-7)){
 			journList = append(journList, journ)
 		}
 		//tempJourn = journ
 	}
-	//journList = append(journList, tempJourn)
 	// sort journals in chron order
 	sort.SliceStable(journList, func(i,j int) bool {
 		return journList[i].mod.Before(journList[j].mod)
 	})
+	//set master list to sorted and filtered list
+	*logList = journList
 	// parse journals for updates
-	parseLog(journList, &allMissions)
+	parseLog(logList, &allMissions)
 	return allMissions
 }
 

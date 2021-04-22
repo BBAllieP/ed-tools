@@ -5,7 +5,7 @@ import "time"
 type Logfile struct {
 	path string
 	mod time.Time
-	active bool
+	lastLine int
 }
 
 type Mission struct {
