@@ -54,12 +54,24 @@ func watchLogs(journals *[]Logfile, missions *[]Mission) {
 }
 
 func readChangedFile(file string, journals *[]Logfile, missions *[]Mission) {
-	for i, journal := range((*journals)){
+	found := false
+	var tempList []Logfile
+	for _, journal := range((*journals)){
 		if journal.path == file{
-			tempList := []Logfile{journal}
-			parseLog(&tempList, missions)
+			found = true
+			tempList = append(tempList, journal)
 		}
 	}
+	if !found {
+		info, err := os.Stat(file)
+		if err != nil {
+			log.Fatal(err)
+		}
+		newLog := Logfile{file, info.ModTime(), 0}
+		(*journals) = append((*journals), newLog)
+		tempList = append(tempList, newLog)
+	}
+	parseLog(&tempList, missions)
 }
 
 func parseLog(journals *[]Logfile, missions *[]Mission){

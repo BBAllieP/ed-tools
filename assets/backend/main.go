@@ -1,13 +1,10 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 
-	"github.com/dnlo/struct2csv"
 	"github.com/gorilla/websocket"
 )
 
@@ -76,12 +73,13 @@ func main() {
     var journals []Logfile
     missions := getResumedMissionList(&journals)
 
-    buff := &bytes.Buffer{}
+    /*buff := &bytes.Buffer{}
     w := struct2csv.NewWriter(buff)
     err := w.WriteStructs(missions)
     if err != nil {
         // handle error
     }
     ioutil.WriteFile("output.csv", buff.Bytes(), 0644)
-    //fmt.Println(journals)
+    //fmt.Println(journals)*/
+    watchLogs(&journals, &missions)
 }
