@@ -26,9 +26,8 @@ type Mission struct {
 } 
 
 type Faction struct {
-	missions []Mission
-	name string
-	reputation int
+	Missions []Mission
+	Name string
 }
 
 type ResumedMissions struct {

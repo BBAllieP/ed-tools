@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"regexp"
+	"sort"
 	"strings"
 
 	"github.com/fsnotify/fsnotify"
@@ -85,11 +86,8 @@ func parseLog(journals []Logfile, missions *[]Mission){
 					continue
 				}
 				missionEvent := fmt.Sprintf("%v", event["event"])[7:]
-				//if missionEvent == "Accepted"{
-				//	fmt.Println(event["MissionID"])
-				//}
 				processMission(&event, missions, missionEvent, isLatest)
-			} else if scanner.Text() == "Bounty" {
+			} else if strings.Contains(scanner.Text(), "Bounty") {
     			json.Unmarshal([]byte(scanner.Text()), &event)
 				processBounty(&event, missions)
 			}
@@ -121,7 +119,6 @@ func processMission(mission *map[string]interface{}, missionsIn *[]Mission, miss
 	// fill in mission details in main array
 	switch missionEvent{
 	case "Accepted":
-		fmt.Println("accepted")
 		(*missionsIn)[i].Status = "Progress"
 		(*missionsIn)[i].Faction = fmt.Sprintf("%v", (*mission)["Faction"])
 		(*missionsIn)[i].TargetFaction = fmt.Sprintf("%v", (*mission)["TargetFaction"])
@@ -140,5 +137,39 @@ func processMission(mission *map[string]interface{}, missionsIn *[]Mission, miss
 }
 
 func processBounty(event *map[string]interface{}, missions *[]Mission){
+	killFaction := fmt.Sprintf("%v",(*event)["VictimFaction"])
+	factions := bucketFactions(missions)
+	if len(factions) < 1 {
+		return
+	}
+	for _, fact := range(factions){
+		if len(fact.Missions) < 1 {
+			return
+		}
+		// now we know there's at least one mission
+		// find oldest active mission
+		tempFacMissions := fact.Missions
+		for i, misTemp := range(fact.Missions){
+			if misTemp.Status != "Active"{
+				tempFacMissions = append(fact.Missions[:i], fact.Missions[i+1:]...)
+			}
+		}
+		
+		sort.SliceStable(tempFacMissions, func(i,j int) bool {
+			return tempFacMissions[i].Start.Before(tempFacMissions[j].Start)
+		})
+		// if there are missions
+		if len(tempFacMissions) > 0 {
+			//add one to progress
+			for i, mis := range((*missions)){
+				if mis.Id == tempFacMissions[0].Id && mis.TargetFaction == killFaction{
+					(*missions)[i].Kills = (*missions)[i].Kills + 1
+				}
+			}
+		}
+		
+	}
+	// ok now we have missions populated to the target faction
 	
+
 }
