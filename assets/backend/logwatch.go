@@ -35,6 +35,7 @@ func watchLogs(journals *[]Logfile, missions *[]Mission) {
 					if match {
 						log.Println("modified file:", event.Name)
 						readChangedFile(event.Name, journals, missions)
+						fmt.Println(*missions)
 					}
 				}
 			case err, ok := <-watcher.Errors:
