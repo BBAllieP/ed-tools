@@ -7,24 +7,31 @@ import (
 	"log"
 	"os"
 	"regexp"
+	"runtime"
+	"sort"
 	"strings"
 	"time"
 )
 
 // the purpose of this one is to:
-// 1) read the most recent log and find the login line
-// 2) read the login line and determine the oldest mission
-// 3) store the names of all of the logs we will need to parse
-// 4) parse all logs in chronological order to determine current state
-// 5) set the active log
+// 1) read the most recent log and find the login line - DONE
+// 2) read the login line and determine the oldest mission - PARTIAL
+// 3) store the names of all of the logs we will need to parse - TODO
+// 4) parse all logs in chronological order to determine current state - TODO
+// 5) set the active log - TODO
 func getLogList() []Logfile {
 	var resultLogs []Logfile
-	//uhome, err := os.UserHomeDir()
-	/*if err != nil {
-        log.Fatal( err )
-    }*/
-	//logLocation := uhome + "\\Saved Games\\Frontier Developments\\Elite Dangerous"
-	logLocation := "../data/Elite Dangerous"
+	var logLocation string
+	if runtime.GOOS == "windows" {
+		uhome, err := os.UserHomeDir()
+		if err != nil {
+			log.Fatal( err )
+		}
+		logLocation = uhome + "\\Saved Games\\Frontier Developments\\Elite Dangerous"
+	} else {
+		logLocation = "../data/Elite Dangerous"
+	}
+	
 	logs, err := ioutil.ReadDir(logLocation)
 	if err != nil {
 		log.Fatal(err)
@@ -50,8 +57,7 @@ func getLogList() []Logfile {
 	return resultLogs
 }
 
-func getLatestLog() Logfile {
-	logList := getLogList()
+func getLatestLog(logList []Logfile) Logfile {
 	latest:= logList[0]
 	for _, journal := range logList {
 		if journal.mod.After(latest.mod) {
@@ -63,7 +69,8 @@ func getLatestLog() Logfile {
 
 func getResumedMissionList() []Mission{
 	statuses := []string{"Active", "Complete", "Failed"}
-	latestLog := getLatestLog()
+	logList := getLogList()
+	latestLog := getLatestLog(logList)
 	file, err := os.Open(latestLog.path)
 	if err != nil {
 		log.Fatal(err)
@@ -77,7 +84,7 @@ func getResumedMissionList() []Mission{
 			lastLine = scanner.Text()
 		}
 	}
-	//take resumed mission data and populate pointed array with data
+	//take resumed mission data and populate array with data
 
 	var resumed ResumedMissions
 	var allMissions []Mission
@@ -86,10 +93,40 @@ func getResumedMissionList() []Mission{
 	for _, misStatus := range statuses {
 		allMissions = append(allMissions, modAndAddMissions(resumed, misStatus)...)
 	}
-	
+	//find oldest current mission
+	var oldestMis Mission
+	for _, mis := range(allMissions){
+		if oldestMis.Id == 0{
+			oldestMis = mis
+		}
+		if mis.Start.Before(oldestMis.Start) {
+			oldestMis = mis
+		}
+	}
+	sort.SliceStable(logList, func(i,j int) bool {
+		return logList[i].mod.Before(logList[j].mod)
+	})
+	//make list of journals more recent than that mission
+	var journList []Logfile
+	//var tempJourn Logfile
+	for _, journ := range(logList){
+		if journ.mod.After(oldestMis.Start.AddDate(0,0,-7)){
+			journList = append(journList, journ)
+		}
+		//tempJourn = journ
+	}
+	//journList = append(journList, tempJourn)
+	// sort journals in chron order
+	sort.SliceStable(journList, func(i,j int) bool {
+		return journList[i].mod.Before(journList[j].mod)
+	})
+	// parse journals for updates
+	parseLog(journList, &allMissions)
 	return allMissions
 }
 
+
+//adds custom info to missions data and puts it all together
 func modAndAddMissions(resumed ResumedMissions, status string) []Mission{
 	var missionArr []Mission
 	var newMission Mission
@@ -107,6 +144,7 @@ func modAndAddMissions(resumed ResumedMissions, status string) []Mission{
 		if strings.Contains(mis.Name, "Massacre"){
 			newMission = mis
 			if strings.Contains(mis.Name, "Wing"){
+				newMission.IsWing = true
 				newMission.Start = resumed.Timestamp.Add(time.Duration(7*24)*time.Hour).Add(time.Duration(mis.Expires)* time.Second)
 			} else {
 				newMission.Start = resumed.Timestamp.Add(time.Duration(172800)*time.Second).Add(time.Duration(mis.Expires)* time.Second)
@@ -117,19 +155,3 @@ func modAndAddMissions(resumed ResumedMissions, status string) []Mission{
 	}
 	return missionArr
 }
-/*func parseMissionSlice(missionsIn []Mission, missionsOut *[]Mission) {
-	if len(missionsIn) != 0 {
-		var newMission Mission
-		json.Unmarshal([]byte(missionsIn), &newMission)
-		for _, mis := range(missionsIn){
-			if strings.Contains(mis.Name, "Massacre"){
-				if strings.Contains(mis.Name, "Wing"){
-					newMission.start = mis.Timestamp - 604800 + mis["Expires"]
-				} else {
-					newMission.start = mis.Timestamp - 172800 + mis["Expires"]
-				}
-				&missionsOut = append(&missionsOut, newMission)
-			}
-		}
-	}
-}*/

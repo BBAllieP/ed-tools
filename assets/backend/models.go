@@ -16,9 +16,9 @@ type Mission struct {
 	Start time.Time
 	Faction string
 	TargetFaction string
-	Needed int
+	Needed int `json:"Count"`
 	Kills int
-	Value int
+	Value int `json:"Reward"`
 	IsWing bool
 	Status string
 	Destination string
