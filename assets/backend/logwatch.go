@@ -35,7 +35,7 @@ func watchLogs(journals *[]Logfile, missions *[]Mission) {
 					if match {
 						log.Println("modified file:", event.Name)
 						readChangedFile(event.Name, journals, missions)
-						fmt.Println(*missions)
+						log.Println((*missions))
 					}
 				}
 			case err, ok := <-watcher.Errors:
@@ -57,8 +57,8 @@ func watchLogs(journals *[]Logfile, missions *[]Mission) {
 func readChangedFile(file string, journals *[]Logfile, missions *[]Mission) {
 	found := false
 	var tempList []Logfile
-	for _, journal := range((*journals)){
-		if journal.path == file{
+	for _, journal := range *journals {
+		if journal.path == file {
 			found = true
 			tempList = append(tempList, journal)
 		}
@@ -75,8 +75,9 @@ func readChangedFile(file string, journals *[]Logfile, missions *[]Mission) {
 	parseLog(&tempList, missions)
 }
 
-func parseLog(journals *[]Logfile, missions *[]Mission){
-	for i, journal := range(*journals) {
+func parseLog(journals *[]Logfile, missions *[]Mission) {
+	defer writeCsv(missions)
+	for i, journal := range *journals {
 		var isLatest bool
 		if len((*journals)) == i {
 			isLatest = true
@@ -91,41 +92,41 @@ func parseLog(journals *[]Logfile, missions *[]Mission){
 		var event map[string]interface{}
 		var lineCount int
 		lineCount = 0
-		for scanner.Scan(){
-			lineCount +=1
+		for scanner.Scan() {
+			lineCount += 1
 			if lineCount <= journal.lastLine {
 				continue
 			}
 			//parse each line and do something with it based on contents
-			if strings.Contains(scanner.Text(), "Mission_Massacre"){
-				if scanner.Text()[38:56] == "\"event\":\"Missions\""{
+			if strings.Contains(scanner.Text(), "Mission_Massacre") {
+				if scanner.Text()[38:56] == "\"event\":\"Missions\"" {
 					continue
-				}				
-    			json.Unmarshal([]byte(scanner.Text()), &event)
-				if event["event"] == "Missions"{
+				}
+				json.Unmarshal([]byte(scanner.Text()), &event)
+				if event["event"] == "Missions" {
 					continue
 				}
 				missionEvent := fmt.Sprintf("%v", event["event"])[7:]
 				processMission(&event, missions, missionEvent, isLatest)
 			} else if strings.Contains(scanner.Text(), "Bounty") {
-    			json.Unmarshal([]byte(scanner.Text()), &event)
+				json.Unmarshal([]byte(scanner.Text()), &event)
 				processBounty(&event, missions)
 			}
 		}
 		(*journals)[i].lastLine = lineCount
 		file.Close()
 	}
-	
+
 }
 
-func processMission(mission *map[string]interface{}, missionsIn *[]Mission, missionEvent string, isLatest bool ){
-	
+func processMission(mission *map[string]interface{}, missionsIn *[]Mission, missionEvent string, isLatest bool) {
+
 	cont := isLatest
 	//if initial load ignore missions not in active list
 	var i int
 	var tempMis Mission
-	for i, tempMis = range((*missionsIn)){
-		var misId64 float64 
+	for i, tempMis = range *missionsIn {
+		var misId64 float64
 		var misIdInt int
 		misId64, _ = (*mission)["MissionID"].(float64)
 		misIdInt = int(misId64)
@@ -138,7 +139,7 @@ func processMission(mission *map[string]interface{}, missionsIn *[]Mission, miss
 		return
 	}
 	// fill in mission details in main array
-	switch missionEvent{
+	switch missionEvent {
 	case "Accepted":
 		(*missionsIn)[i].Status = "Progress"
 		(*missionsIn)[i].Faction = fmt.Sprintf("%v", (*mission)["Faction"])
@@ -149,7 +150,7 @@ func processMission(mission *map[string]interface{}, missionsIn *[]Mission, miss
 		(*missionsIn)[i].Reputation = fmt.Sprintf("%v", (*mission)["Reputation"])
 	case "Redirected":
 		(*missionsIn)[i].Status = "Done"
-		(*missionsIn)[i].Destination = fmt.Sprintf("%v",(*mission)["Destination"])
+		(*missionsIn)[i].Destination = fmt.Sprintf("%v", (*mission)["Destination"])
 		(*missionsIn)[i].Kills = (*missionsIn)[i].Needed
 	default:
 		//Handle failed/abandoned case
@@ -157,13 +158,13 @@ func processMission(mission *map[string]interface{}, missionsIn *[]Mission, miss
 	}
 }
 
-func processBounty(event *map[string]interface{}, missions *[]Mission){
-	killFaction := fmt.Sprintf("%v",(*event)["VictimFaction"])
+func processBounty(event *map[string]interface{}, missions *[]Mission) {
+	killFaction := fmt.Sprintf("%v", (*event)["VictimFaction"])
 	factions := bucketFactions(missions)
 	if len(factions) < 1 {
 		return
 	}
-	for _, fact := range(factions){
+	for _, fact := range factions {
 		if len(fact.Missions) < 1 {
 			return
 		}
@@ -171,20 +172,20 @@ func processBounty(event *map[string]interface{}, missions *[]Mission){
 		// find oldest active mission
 		tempFacMissions := fact.Missions
 		//remove redirected (i.e. complete) missions from consideration
-		for i, misTemp := range(fact.Missions){
-			if misTemp.Status != "Progress"{
+		for i, misTemp := range fact.Missions {
+			if misTemp.Status != "Progress" {
 				tempFacMissions = append(fact.Missions[:i], fact.Missions[i+1:]...)
 			}
 		}
 		//sort oldest to newest
-		sort.SliceStable(tempFacMissions, func(i,j int) bool {
+		sort.SliceStable(tempFacMissions, func(i, j int) bool {
 			return tempFacMissions[i].Start.Before(tempFacMissions[j].Start)
 		})
 		// if there are missions
 		if len(tempFacMissions) > 0 {
 			//add one to progress of oldest active mission
-			for i, mis := range((*missions)){
-				if mis.Id == tempFacMissions[0].Id && mis.TargetFaction == killFaction{
+			for i, mis := range *missions {
+				if mis.Id == tempFacMissions[0].Id && mis.TargetFaction == killFaction {
 					(*missions)[i].Kills = (*missions)[i].Kills + 1
 				}
 			}

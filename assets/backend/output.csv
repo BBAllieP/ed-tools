@@ -1,8 +1,5 @@
-id,name,passenger_mission,expires,faction,target_faction,needed,kills,value,is_wing,status,destination,reputation
-754422847,Mission_Massacre_name,false,0,Lescherty Flag,HIP 103208 Blue Posse,7,7,5421516,false,Done,<nil>,++
-755268945,Mission_MassacreWing_name,false,578636,Allied Oduduro Defence Party,LP 410-93 Purple Syndicate,48,0,23137630,true,Progress,LP 410-93,++
-755271123,Mission_MassacreWing_name,false,579074,Allied Oduduro Defence Party,LP 410-93 Purple Syndicate,45,0,21669934,true,Progress,LP 410-93,++
-755273550,Mission_MassacreWing_name,false,579471,Space Cow Truckers Ltd,LP 410-93 Purple Syndicate,45,0,21639622,true,Progress,LP 410-93,++
-755273862,Mission_MassacreWing_name,false,577673,Oduduro Natural PLC,LP 410-93 Purple Syndicate,25,0,12093002,true,Progress,LP 410-93,++
-755285614,Mission_MassacreWing_name,false,582010,Oduduro Inc,LP 410-93 Purple Syndicate,40,0,19356136,true,Progress,LP 410-93,++
-755288257,Mission_Massacre_name,false,79432,Earth Defense Fleet,LP 410-93 Purple Syndicate,20,0,21439280,false,Progress,LP 410-93,++
+Id,Name,Passenger_mission,Expires,Faction,TargetFaction,Needed,Kills,Value,IsWing,Status,Destination,Reputation
+755268945,Mission_MassacreWing_name,false,340773,Allied Oduduro Defence Party,LP 410-93 Purple Syndicate,48,0,23137630,true,Progress,LP 410-93,++
+755271123,Mission_MassacreWing_name,false,341211,Allied Oduduro Defence Party,LP 410-93 Purple Syndicate,45,0,21669934,true,Progress,LP 410-93,++
+755273550,Mission_MassacreWing_name,false,341608,Space Cow Truckers Ltd,LP 410-93 Purple Syndicate,45,0,21639622,true,Progress,LP 410-93,++
+755273862,Mission_MassacreWing_name,false,339810,Oduduro Natural PLC,LP 410-93 Purple Syndicate,25,0,12093002,true,Progress,LP 410-93,++
