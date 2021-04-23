@@ -29,13 +29,13 @@ func watchLogs(journals *[]Logfile, missions *[]Mission) {
 				if !ok {
 					return
 				}
-				log.Println("event:", event)
+				//log.Println("event:", event)
 				if event.Op&fsnotify.Write == fsnotify.Write {
 					match, _ := regexp.MatchString("Journal.*.log", event.Name)
 					if match {
-						log.Println("modified file:", event.Name)
+						//log.Println("modified file:", event.Name)
 						readChangedFile(event.Name, journals, missions)
-						log.Println((*missions))
+						//log.Println((*missions))
 					}
 				}
 			case err, ok := <-watcher.Errors:

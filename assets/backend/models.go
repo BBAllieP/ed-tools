@@ -36,3 +36,7 @@ type ResumedMissions struct {
 	Complete []Mission `json:"Complete"`
 	Failed []Mission `json:"Failed"`
 }
+type ServerMessage struct {
+	Action string `json:"action"`
+	Value string `json:"value"`
+}

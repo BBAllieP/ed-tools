@@ -67,7 +67,7 @@ func getLatestLog(logList *[]Logfile) Logfile {
 	return latest
 }
 
-func getResumedMissionList(logList *[]Logfile) []Mission{
+func getResumedMissionList(missionList *[]Mission, logList *[]Logfile){
 	statuses := []string{"Active", "Complete", "Failed"}
 	getLogList(logList)
 	latestLog := getLatestLog(logList)
@@ -123,7 +123,7 @@ func getResumedMissionList(logList *[]Logfile) []Mission{
 	*logList = journList
 	// parse journals for updates
 	parseLog(logList, &allMissions)
-	return allMissions
+	*missionList = allMissions
 }
 
 

@@ -4,6 +4,8 @@ import (
 	"log"
 	"os"
 	"runtime"
+
+	"github.com/gorilla/websocket"
 )
 
 func getLogLocation() string {
@@ -17,3 +19,5 @@ func getLogLocation() string {
 		return "../data/Elite Dangerous"
 	}
 }
+
+var clientConn *websocket.Conn
