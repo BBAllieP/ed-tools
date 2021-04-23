@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
 	"github.com/gorilla/websocket"
@@ -37,8 +38,12 @@ func reader(conn *websocket.Conn) {
 		// print out that message for clarity
 		switch msg.Action{
 		case "getMissions":
-			log.Println(Missions)
 			conn.WriteJSON(Missions)
+		case "getFactions":
+			conn.WriteJSON(bucketFactions(&Missions))
+		case "getMissionById":
+			val, _ := strconv.Atoi(msg.Value)
+			conn.WriteJSON(getMissionByID(&Missions, val))
 		default:
 			conn.WriteMessage(1, []byte("Unhandled Request"))
 		}
