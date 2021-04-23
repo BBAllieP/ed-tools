@@ -39,6 +39,7 @@ func getMissionByID(missions *[]Mission, id int) Mission{
 			return (*missions)[i]
 		}
 	}
+	return Mission{}
 }
 func factionMissionsGetter(missions *[]Mission, bountyTarget string) []Mission {
 	var missionList []Mission

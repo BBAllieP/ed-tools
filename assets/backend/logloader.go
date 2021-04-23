@@ -110,7 +110,7 @@ func getResumedMissionList(missionList *[]Mission, logList *[]Logfile){
 	var journList []Logfile
 	//var tempJourn Logfile
 	for _, journ := range(*logList){
-		if journ.mod.After(oldestMis.Start.AddDate(0,0,-7)){
+		if journ.mod.After(oldestMis.Start){
 			journList = append(journList, journ)
 		}
 		//tempJourn = journ
@@ -146,9 +146,9 @@ func modAndAddMissions(resumed ResumedMissions, status string) []Mission{
 			newMission = mis
 			if strings.Contains(mis.Name, "Wing"){
 				newMission.IsWing = true
-				newMission.Start = resumed.Timestamp.Add(time.Duration(7*24)*time.Hour).Add(time.Duration(mis.Expires)* time.Second)
+				newMission.Start = resumed.Timestamp.Add(time.Duration(604800)*time.Second*-1).Add(time.Duration(mis.Expires)* time.Second)
 			} else {
-				newMission.Start = resumed.Timestamp.Add(time.Duration(172800)*time.Second).Add(time.Duration(mis.Expires)* time.Second)
+				newMission.Start = resumed.Timestamp.Add(time.Duration(172800)*time.Second*-1).Add(time.Duration(mis.Expires)* time.Second)
 			}
 			newMission.Status = status
 			missionArr = append(missionArr, newMission)
