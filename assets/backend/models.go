@@ -14,6 +14,7 @@ type Mission struct {
 	Passenger_mission bool `json:"PassengerMission`
 	Expires int `json:"Expires"`
 	Start time.Time
+	End time.Time
 	Faction string
 	TargetFaction string
 	Needed int `json:"Count"`

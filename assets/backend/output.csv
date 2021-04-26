@@ -1,8 +1,21 @@
 Id,Name,Passenger_mission,Expires,Faction,TargetFaction,Needed,Kills,Value,IsWing,Status,Destination,Reputation
-754422847,Mission_Massacre_name,false,0,Lescherty Flag,HIP 103208 Blue Posse,7,7,5421516,false,Done,<nil>,++
-755268945,Mission_MassacreWing_name,false,578636,Allied Oduduro Defence Party,LP 410-93 Purple Syndicate,48,81,23137630,true,Progress,LP 410-93,++
-755271123,Mission_MassacreWing_name,false,579074,Allied Oduduro Defence Party,LP 410-93 Purple Syndicate,45,0,21669934,true,Progress,LP 410-93,++
-755273550,Mission_MassacreWing_name,false,579471,Space Cow Truckers Ltd,LP 410-93 Purple Syndicate,45,81,21639622,true,Progress,LP 410-93,++
-755273862,Mission_MassacreWing_name,false,577673,Oduduro Natural PLC,LP 410-93 Purple Syndicate,25,81,12093002,true,Progress,LP 410-93,++
-755285614,Mission_MassacreWing_name,false,582010,Oduduro Inc,LP 410-93 Purple Syndicate,40,81,19356136,true,Progress,LP 410-93,++
-755288257,Mission_Massacre_name,false,79432,Earth Defense Fleet,LP 410-93 Purple Syndicate,20,81,21439280,false,Progress,LP 410-93,++
+758516326,Mission_MassacreWing_name,false,599431,Njulngan Future,Qi Yomisii Council,40,40,19212808,true,Done,<nil>,++
+758516373,Mission_MassacreWing_name,false,599431,Law Party of Njulngan,Qi Yomisii Council,56,56,27106880,true,Done,<nil>,++
+758516445,Mission_MassacreWing_name,false,599431,Independent CK Arietis Green Party,Qi Yomisii Council,48,48,23050448,true,Done,<nil>,++
+758516503,Mission_MassacreWing_name,false,599431,Njulngan Natural Co,Qi Yomisii Council,54,54,26068088,true,Done,<nil>,++
+758516511,Mission_MassacreWing_name,false,599431,Njulngan Natural Co,Qi Yomisii Council,45,26,21661548,true,Progress,Qi Yomisii,++
+758516900,Mission_MassacreWing_name,false,599431,Njulngan Future,Qi Yomisii Council,20,20,9634663,true,Done,<nil>,++
+758516914,Mission_MassacreWing_name,false,599431,Njulngan Future,Qi Yomisii Council,20,20,9649197,true,Done,<nil>,++
+758517264,Mission_MassacreWing_name,false,599431,Njulngan Future,Qi Yomisii Council,54,8,26060288,true,Progress,Qi Yomisii,++
+758517390,Mission_MassacreWing_name,false,599431,People's MET 20 Liberals,Qi Yomisii Council,72,72,34778384,true,Done,<nil>,++
+758517423,Mission_MassacreWing_name,false,599431,Law Party of Njulngan,Qi Yomisii Council,56,24,27098480,true,Progress,Qi Yomisii,++
+758517508,Mission_MassacreWing_name,false,599431,Workers of Momus Reach for Equality,Qi Yomisii Council,35,35,16957312,true,Done,<nil>,++
+758519279,Mission_MassacreWing_Legal_CivilUnrest_name,false,600407,Naren Industry,Qi Yomisii Council,45,45,21734152,true,Done,<nil>,++
+758519313,Mission_MassacreWing_Legal_CivilUnrest_name,false,600407,Naren Industry,Qi Yomisii Council,35,35,16852408,true,Done,<nil>,++
+758519353,Mission_MassacreWing_Legal_Bust_name,false,600407,Aseveljet,Qi Yomisii Council,30,30,3610848,true,Done,<nil>,++
+758519418,Mission_MassacreWing_Legal_CivilUnrest_name,false,600407,Pardian Commodities,Qi Yomisii Council,56,56,26914788,true,Done,<nil>,++
+758520441,Mission_MassacreWing_Legal_CivilUnrest_name,false,600715,Pardian Commodities,Qi Yomisii Council,63,24,30393770,true,Progress,Qi Yomisii,++
+758522763,Mission_MassacreWing_name,false,601307,Workers of Momus Reach for Equality,Qi Yomisii Council,45,45,21718510,true,Done,<nil>,++
+758522831,Mission_MassacreWing_name,false,600076,People's MET 20 Liberals,Qi Yomisii Council,40,13,19253906,true,Progress,Qi Yomisii,++
+758522927,Mission_MassacreWing_name,false,601307,Independent CK Arietis Green Party,Qi Yomisii Council,72,30,34796904,true,Progress,Qi Yomisii,++
+758523245,Mission_MassacreWing_name,false,601307,Workers of Momus Reach for Equality,Qi Yomisii Council,35,8,16875160,true,Progress,Qi Yomisii,++

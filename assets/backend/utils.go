@@ -17,19 +17,21 @@ func Find(slice []string, val string) (int, bool) {
 }
 
 func bucketFactions(missions *[]Mission) []Faction {
-	found := false
+	
 	var activeFactionList []Faction
 	for _, mission := range *missions {
-		for _, fact := range activeFactionList {
+		found := false
+		for i, fact := range activeFactionList {
 			if fact.Name == mission.Faction {
 				found = true
-				fact.Missions = append(fact.Missions, mission)
+				activeFactionList[i].Missions = append(activeFactionList[i].Missions, mission)
+				//break
 			}
 		}
-		if !found {
+		if found == false {
 			activeFactionList = append(activeFactionList, Faction{[]Mission{mission}, mission.Faction})
 		}
-		found = false
+		//found = false
 	}
 	return activeFactionList
 }

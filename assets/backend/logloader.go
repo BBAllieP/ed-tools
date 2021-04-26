@@ -95,14 +95,15 @@ func getResumedMissionList(missionList *[]Mission, logList *[]Logfile){
 	}
 	//find oldest current mission
 	var oldestMis Mission
-	for _, mis := range(allMissions){
-		if oldestMis.Id == 0{
+	for cnt, mis := range(allMissions){
+		if cnt == 1{
 			oldestMis = mis
 		}
 		if mis.Start.Before(oldestMis.Start) {
 			oldestMis = mis
 		}
 	}
+
 	sort.SliceStable((*logList), func(i,j int) bool {
 		return (*logList)[i].mod.Before((*logList)[j].mod)
 	})
@@ -110,7 +111,7 @@ func getResumedMissionList(missionList *[]Mission, logList *[]Logfile){
 	var journList []Logfile
 	//var tempJourn Logfile
 	for _, journ := range(*logList){
-		if journ.mod.After(oldestMis.Start){
+		if journ.mod.After(oldestMis.Start.Add(time.Duration(24) * time.Hour * -1)){
 			journList = append(journList, journ)
 		}
 		//tempJourn = journ
@@ -122,8 +123,9 @@ func getResumedMissionList(missionList *[]Mission, logList *[]Logfile){
 	//set master list to sorted and filtered list
 	*logList = journList
 	// parse journals for updates
-	parseLog(logList, &allMissions)
 	*missionList = allMissions
+	parseLog(logList, missionList, true)
+	
 }
 
 
@@ -150,9 +152,14 @@ func modAndAddMissions(resumed ResumedMissions, status string) []Mission{
 			} else {
 				newMission.Start = resumed.Timestamp.Add(time.Duration(172800)*time.Second*-1).Add(time.Duration(mis.Expires)* time.Second)
 			}
-			newMission.Status = status
+			if status == "Active" {
+				newMission.Status = "Progress"
+			}else{
+				newMission.Status = status
+			}
 			missionArr = append(missionArr, newMission)
 		}
 	}
+	//fmt.Println(len(missionArr))
 	return missionArr
 }
