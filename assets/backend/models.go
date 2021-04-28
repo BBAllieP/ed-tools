@@ -41,3 +41,8 @@ type ServerMessage struct {
 	Action string `json:"action"`
 	Value string `json:"value"`
 }
+
+type MissionMessage struct {
+	Action string `json:"action"`
+	Mission Mission `json:"mission"`
+}

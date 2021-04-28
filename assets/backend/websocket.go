@@ -56,12 +56,12 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
 
 	// upgrade this connection to a WebSocket
 	// connection
-	ws, err := upgrader.Upgrade(w, r, nil)
+	clientConn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)
 	}
 	
-	go reader(ws)
+	go reader(clientConn)
 }
 func handleHome(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.Host)

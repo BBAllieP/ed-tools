@@ -146,6 +146,7 @@ func processMission(mission map[string]interface{}, missionsIn *[]Mission, missi
 		//Handle failed/abandoned case
 		(*missionsIn) = append((*missionsIn)[:i], (*missionsIn)[i+1:]...)
 	}
+	clientConn.WriteJSON(MissionMessage{"Mission"+missionEvent, (*missionsIn)[i]})
 }
 
 func processBounty(event map[string]interface{}, missions *[]Mission) {
@@ -182,6 +183,7 @@ func processBounty(event map[string]interface{}, missions *[]Mission) {
 			for i, mis := range *missions {
 				if mis.Id == tempFacMissions[0].Id{
 					(*missions)[i].Kills += 1
+					clientConn.WriteJSON(MissionMessage{"Bounty", (*missions)[i]})
 				}
 			}
 		}
