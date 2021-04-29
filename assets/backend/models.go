@@ -46,3 +46,12 @@ type MissionMessage struct {
 	Action string `json:"action"`
 	Mission Mission `json:"mission"`
 }
+type MissionsMessage struct {
+	Action string `json:"action"`
+	Missions []Mission `json:"missions"`
+}
+
+type FactionsMessage struct {
+	Action string `json:"action"`
+	Factions []Faction `json:"factions"`
+}

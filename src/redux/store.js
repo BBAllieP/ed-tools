@@ -1,4 +1,5 @@
-import { createStore } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
 import rootReducer from "./reducers";
+import wsMiddleware from "./middleware/websocket";
 
-export default createStore(rootReducer);
+export default createStore(rootReducer, compose(applyMiddleware(wsMiddleware)));

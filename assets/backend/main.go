@@ -10,6 +10,7 @@ var Journals []Logfile
 
 func main() {
 	fmt.Println("ED-Tools Backend v0.0.0.1")
+    Connected = false
     //var wg sync.WaitGroup
 	//http.ListenAndServe(":8080", nil)
     //start websocket

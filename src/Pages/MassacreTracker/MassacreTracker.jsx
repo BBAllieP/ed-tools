@@ -12,8 +12,9 @@ import {
 	IconButton,
 } from "@material-ui/core";
 import FactionRow from "./FactionRow";
+import { connect } from "react-redux";
 
-const MassacreTracker = () => (
+const MassacreTracker = (props) => (
 	<Grid container spacing={3}>
 		<Grid item xs={12}>
 			<Typography variant='h1' component='h2' gutterBottom>
@@ -32,11 +33,11 @@ const MassacreTracker = () => (
 						<TableCell>Total Value</TableCell>
 					</TableRow>
 				</TableHead>
-				<TableData>
-					{props.missionState.factions.map((f) => {
+				<TableBody>
+					{props.missions.map((f) => {
 						return <FactionRow f />;
 					})}
-				</TableData>
+				</TableBody>
 			</Table>
 		</Grid>
 	</Grid>

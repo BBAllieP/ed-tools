@@ -38,9 +38,11 @@ func reader(conn *websocket.Conn) {
 		// print out that message for clarity
 		switch msg.Action{
 		case "getMissions":
-			conn.WriteJSON(Missions)
+			misMsg := MissionsMessage{"GetAllMissions", Missions}
+			conn.WriteJSON(misMsg)
 		case "getFactions":
-			conn.WriteJSON(bucketFactions(&Missions))
+			factMsg := FactionsMessage{"GetAllFactions", bucketFactions(&Missions)}
+			conn.WriteJSON(factMsg)
 		case "getMissionById":
 			val, _ := strconv.Atoi(msg.Value)
 			conn.WriteJSON(getMissionByID(&Missions, val))
@@ -60,7 +62,7 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
-	
+	Connected = true
 	go reader(clientConn)
 }
 func handleHome(w http.ResponseWriter, r *http.Request) {

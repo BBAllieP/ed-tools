@@ -5,6 +5,7 @@ import App from "./Containers/App";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import wsMiddleware from "./redux/middleware/websocket";
 
 const theme = createMuiTheme({
 	palette: {

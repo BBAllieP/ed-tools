@@ -20,4 +20,6 @@ func getLogLocation() string {
 	}
 }
 
-var clientConn *websocket.Conn
+var ClientConn *websocket.Conn
+
+var Connected bool

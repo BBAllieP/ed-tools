@@ -1,13 +1,16 @@
-import React from "react";
+import { React, useState, useEffect } from "react";
 import {
 	TableCell,
 	TableBody,
 	TableRow,
-	TableContainer,
 	Collapse,
 	Box,
 	Typography,
+	IconButton,
+	Table,
+	TableHead,
 } from "@material-ui/core";
+import MissionRow from "./MissionRow";
 
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
@@ -52,7 +55,7 @@ const DataRow = (props) => {
 								Missions
 							</Typography>
 							<Table size='small'>
-								<TableHeader>
+								<TableHead>
 									<TableRow>
 										<TableCell>Destination</TableCell>
 										<TableCell>Target Faction</TableCell>
@@ -61,7 +64,7 @@ const DataRow = (props) => {
 										<TableCell>Status</TableCell>
 										<TableCell>Reward</TableCell>
 									</TableRow>
-								</TableHeader>
+								</TableHead>
 								<TableBody>
 									{props.map((mis) => {
 										return <MissionRow props={mis} />;

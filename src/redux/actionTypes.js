@@ -1,1 +1,11 @@
 export const TOGGLE_MENU = "TOGGLE_MENU";
+export const WS_CONNECT = "WS_CONNECT";
+export const WS_DISCONNECT = "WS_DISCONNECT";
+export const WS_CONNECTING = "WS_CONNECTING";
+export const WS_CONNECTED = "WS_CONNECTED";
+export const WS_DISCONNECTED = "WS_DISCONNECTED";
+export const ADD_MISSION = "ADD_MISSION";
+export const REMOVE_MISSION = "REMOVE_MISSION";
+export const MODIFY_MISSION = "MODIFY_MISSION";
+export const GET_ALL_FACTION = "GET_ALL_FACTION";
+export const ADD_ALL_FACTION = "ADD_ALL_FACTION";
