@@ -25,7 +25,7 @@ export default function (state = { ...initialState }, action) {
 			return { ...state, returnFact };
 
 		case actionTypes.ADD_ALL_FACTION:
-			return { ...action.payload };
+			return { ...utils.translateFactions(action.payload) };
 		default:
 			return state;
 	}

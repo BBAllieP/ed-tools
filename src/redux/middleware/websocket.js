@@ -16,7 +16,6 @@ const socketMiddleware = () => {
 	};
 
 	const onMessage = (store) => (event) => {
-		console.log(event.data);
 		const payload = JSON.parse(event.data);
 		console.log("receiving server message");
 

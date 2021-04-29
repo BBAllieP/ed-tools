@@ -1,7 +1,11 @@
 const electron = require("electron");
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
-
+const {
+	default: installExtension,
+	REACT_DEVELOPER_TOOLS,
+	REDUX_DEVTOOLS,
+} = require("electron-devtools-installer");
 const path = require("path");
 const url = require("url");
 const isDev = require("electron-is-dev");
@@ -17,7 +21,16 @@ function createWindow() {
 	);
 	mainWindow.on("closed", () => (mainWindow = null));
 }
-
+app.on("ready", () => {
+	installExtension(REACT_DEVELOPER_TOOLS)
+		.then((name) => console.log(`Added Extension: ${name}`))
+		.catch((err) => console.log("An error occurred: ", err));
+});
+app.on("ready", () => {
+	installExtension(REDUX_DEVTOOLS)
+		.then((name) => console.log(`Added Extension: ${name}`))
+		.catch((err) => console.log("An error occurred: ", err));
+});
 app.on("ready", createWindow);
 
 app.on("window-all-closed", () => {
