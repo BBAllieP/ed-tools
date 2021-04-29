@@ -140,7 +140,7 @@ func processMission(mission map[string]interface{}, missionsIn *[]Mission, missi
 		(*missionsIn)[i].Status = "Done"
 		endTime, _ := time.Parse("2006-01-02T15:04:05Z", fmt.Sprintf("%v", (mission)["timestamp"]))
 		(*missionsIn)[i].End = endTime
-		(*missionsIn)[i].Destination = fmt.Sprintf("%v", (mission)["Destination"])
+		(*missionsIn)[i].Destination = fmt.Sprintf("%v", (mission)["NewDestinationSystem"])
 		(*missionsIn)[i].Kills = (*missionsIn)[i].Needed
 	default:
 		//Handle failed/abandoned case

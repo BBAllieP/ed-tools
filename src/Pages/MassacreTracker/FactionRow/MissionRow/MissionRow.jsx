@@ -3,12 +3,12 @@ import { TableCell, TableRow } from "@material-ui/core";
 const MissionRow = (props) => {
 	return (
 		<TableRow>
-			<TableCell>{props.destination}</TableCell>
-			<TableCell>{props.targetFaction}</TableCell>
-			<TableCell>{props.kills + " / " + props.needed}</TableCell>
-			<TableCell>{props.isWing}</TableCell>
-			<TableCell>{props.status}</TableCell>
-			<TableCell>{props.value}</TableCell>
+			<TableCell>{props.props.Destination}</TableCell>
+			<TableCell>{props.props.TargetFaction}</TableCell>
+			<TableCell>{props.props.Kills + " / " + props.props.Count}</TableCell>
+			<TableCell>{props.props.IsWing ? "True" : "False"}</TableCell>
+			<TableCell>{props.props.Status}</TableCell>
+			<TableCell>{props.props.Reward.toLocaleString()}</TableCell>
 		</TableRow>
 	);
 };

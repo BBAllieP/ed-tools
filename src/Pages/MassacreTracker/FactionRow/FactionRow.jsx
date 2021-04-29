@@ -17,35 +17,39 @@ import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 
 const DataRow = (props) => {
 	const [open, setOpen] = useState(false);
-	var sumKills = 0;
-	var sumVal = 0;
-	var curVal = 0;
-	var getStats = () => {
-		props.fact.forEach((mis) => {
-			sumKills = sumKills + mis.kills;
-			sumVal = sumVal + mis.value;
-			if (mis.status == "complete") {
-				curVal = curVal + mis.value;
+
+	const getVal = (val) => {
+		let tempSum = 0;
+		for (let i = 0; i < props.fact.length; i++) {
+			tempSum = tempSum + props.fact[i][val];
+		}
+		return tempSum;
+	};
+	const getCompleteVal = () => {
+		let curVal = 0;
+		for (let i = 0; i < props.fact.length; i++) {
+			if (props.fact[i].Status == "Done") {
+				curVal = curVal + props.fact[i].Reward;
 			}
-		});
+		}
+		return curVal;
 	};
 
-	useEffect(() => {
-		getStats();
-	}, []);
 	return (
 		<>
 			<TableRow>
 				<TableCell>
 					<IconButton size='small' onClick={() => setOpen(!open)}>
-						{open ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
+						{open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
 					</IconButton>
 				</TableCell>
 				<TableCell>{props.factName}</TableCell>
 				<TableCell>{props.fact.length}</TableCell>
-				<TableCell>{sumKills}</TableCell>
-				<TableCell>{curVal}</TableCell>
-				<TableCell>{sumVal}</TableCell>
+				<TableCell>
+					{getVal("Kills")} / {getVal("Count")}
+				</TableCell>
+				<TableCell>{getCompleteVal().toLocaleString()}</TableCell>
+				<TableCell>{getVal("Reward").toLocaleString()}</TableCell>
 			</TableRow>
 			<TableRow>
 				<TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
