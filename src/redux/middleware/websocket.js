@@ -1,20 +1,22 @@
 import * as actions from "../actions";
+import * as wsActions from "../reducers/websocket";
 import * as actionTypes from "../actionTypes";
-import { GET_ALL_FACTION, WS_CONNECT } from "../actionTypes";
 
 const socketMiddleware = () => {
 	let socket = null;
 
 	const onOpen = (store) => (event) => {
 		console.log("websocket open", event.target.url);
-		store.dispatch(actions.wsConnected(event.target.url));
+		store.dispatch(wsActions.wsConnected(event.target.url));
+		store.dispatch(actions.getAllFactions());
 	};
 
 	const onClose = (store) => () => {
-		store.dispatch(actions.wsDisconnected());
+		store.dispatch(wsActions.wsDisconnected());
 	};
 
 	const onMessage = (store) => (event) => {
+		console.log(event.data);
 		const payload = JSON.parse(event.data);
 		console.log("receiving server message");
 
@@ -33,8 +35,6 @@ const socketMiddleware = () => {
 				break;
 			case "Bounty":
 				store.dispatch(actions.modifyMission(payload.mission));
-			/*case "GetAllMissions":
-				store.dispatch(actions.setMissions(payload.missions));*/
 			case "GetAllFactions":
 				store.dispatch(actions.addAllFactions(payload.factions));
 			default:
@@ -44,20 +44,22 @@ const socketMiddleware = () => {
 
 	// the middleware part of this function
 	return (store) => (next) => (action) => {
+		console.log(action.type);
 		switch (action.type) {
 			case actionTypes.WS_CONNECT:
+				console.log("connect fired");
 				if (socket !== null) {
 					socket.close();
 				}
 
 				// connect to the remote host
-				socket = new WebSocket(action.host);
+				socket = new WebSocket("ws://127.0.0.1:8844/ws");
+				console.log("Socket Created");
 
 				// websocket handlers
 				socket.onmessage = onMessage(store);
 				socket.onclose = onClose(store);
 				socket.onopen = onOpen(store);
-
 				break;
 			case actionTypes.WS_DISCONNECT:
 				if (socket !== null) {
@@ -69,7 +71,10 @@ const socketMiddleware = () => {
 			case actionTypes.GET_ALL_FACTION:
 				//console.log("sending a message", action.msg);
 				socket.send(
-					JSON.stringify({ action: GET_ALL_FACTION, value: action.msg })
+					JSON.stringify({
+						action: "getFactions",
+						value: action.msg,
+					})
 				);
 				break;
 			default:

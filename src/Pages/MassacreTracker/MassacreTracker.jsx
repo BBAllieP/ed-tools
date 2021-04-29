@@ -34,8 +34,8 @@ const MassacreTracker = (props) => (
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{props.missions.map((f) => {
-						return <FactionRow f />;
+					{Object.keys(props.missionState).map((f) => {
+						return <FactionRow factionName={f} />;
 					})}
 				</TableBody>
 			</Table>

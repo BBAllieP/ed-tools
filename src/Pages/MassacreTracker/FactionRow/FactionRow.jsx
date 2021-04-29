@@ -11,7 +11,7 @@ import {
 	TableHead,
 } from "@material-ui/core";
 import MissionRow from "./MissionRow";
-
+import { connect } from "react-redux";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 
@@ -21,7 +21,7 @@ const DataRow = (props) => {
 	var sumVal = 0;
 	var curVal = 0;
 	var getStats = () => {
-		props.forEach((mis) => {
+		props.fact.forEach((mis) => {
 			sumKills = sumKills + mis.kills;
 			sumVal = sumVal + mis.value;
 			if (mis.status == "complete") {
@@ -34,15 +34,15 @@ const DataRow = (props) => {
 		getStats();
 	}, []);
 	return (
-		<React.Fragment>
+		<>
 			<TableRow>
 				<TableCell>
 					<IconButton size='small' onClick={() => setOpen(!open)}>
 						{open ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
 					</IconButton>
 				</TableCell>
-				<TableCell>{props.name}</TableCell>
-				<TableCell>{props.length}</TableCell>
+				<TableCell>{props.factName}</TableCell>
+				<TableCell>{props.fact.length}</TableCell>
 				<TableCell>{sumKills}</TableCell>
 				<TableCell>{curVal}</TableCell>
 				<TableCell>{sumVal}</TableCell>
@@ -66,7 +66,7 @@ const DataRow = (props) => {
 									</TableRow>
 								</TableHead>
 								<TableBody>
-									{props.map((mis) => {
+									{props.fact.map((mis) => {
 										return <MissionRow props={mis} />;
 									})}
 								</TableBody>
@@ -75,8 +75,12 @@ const DataRow = (props) => {
 					</Collapse>
 				</TableCell>
 			</TableRow>
-		</React.Fragment>
+		</>
 	);
 };
+const mapStateToProps = (state, ownProps) => {
+	const fact = state.missions[ownProps.factionName];
+	return { fact: fact, factName: ownProps.factionName };
+};
 
-export default DataRow;
+export default connect(mapStateToProps)(DataRow);

@@ -41,6 +41,7 @@ func reader(conn *websocket.Conn) {
 			misMsg := MissionsMessage{"GetAllMissions", Missions}
 			conn.WriteJSON(misMsg)
 		case "getFactions":
+			fmt.Println("Factions Requested")
 			factMsg := FactionsMessage{"GetAllFactions", bucketFactions(&Missions)}
 			conn.WriteJSON(factMsg)
 		case "getMissionById":

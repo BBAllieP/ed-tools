@@ -3,7 +3,7 @@ export const addMission = (state, mission) => {
 	var tempFact;
 	var found = false;
 	for (const fact in tempState) {
-		if (fact.key == mission.Faction) {
+		if (fact.key === mission.Faction) {
 			tempFact = fact;
 			tempFact = [...fact.Missions, mission];
 			found = true;
@@ -20,7 +20,7 @@ export const addMission = (state, mission) => {
 export const removeMission = (state, mission) => {
 	var tempFact = state[mission.Faction];
 	for (var i; i < tempFact.length; i++) {
-		if (tempFact[i].Id == mission.Id) {
+		if (tempFact[i].Id === mission.Id) {
 			tempFact.splice(i, 1);
 			return tempFact;
 		}
@@ -30,7 +30,7 @@ export const removeMission = (state, mission) => {
 export const changeMission = (state, mission) => {
 	var tempFact = state[mission.Faction];
 	for (var i; i < tempFact.length; i++) {
-		if (tempFact[i].Id == mission.Id) {
+		if (tempFact[i].Id === mission.Id) {
 			tempFact[i] = mission;
 		}
 	}
