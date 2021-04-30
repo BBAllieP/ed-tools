@@ -5,7 +5,7 @@ import App from "./Containers/App";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-
+import "semantic-ui-css/semantic.min.css";
 const theme = createMuiTheme({
 	palette: {
 		primary: {

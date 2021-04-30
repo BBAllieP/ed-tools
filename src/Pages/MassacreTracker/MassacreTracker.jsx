@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 
 import { makeMil } from "../../utils/numUtils";
 import CircleProgress from "./CircleProgress";
+import ProgressBar from "./ProgressBar";
 
 const MassacreTracker = (props) => {
 	const getVal = (val, fact, complete) => {
@@ -63,6 +64,9 @@ const MassacreTracker = (props) => {
 			<Grid item xs={4}>
 				<Grid container>
 					<Grid item xs={12}>
+						<Typography variant='h4'>Stats</Typography>
+					</Grid>
+					<Grid item xs={12}>
 						Stack Width: {Object.keys(props.missionState).length}
 					</Grid>
 					<Grid item xs={12}>
@@ -80,10 +84,24 @@ const MassacreTracker = (props) => {
 				</Grid>
 			</Grid>
 			<Grid item xs={4}>
-				Progress Bar
+				<Grid container>
+					<Grid item xs={12}>
+						<Typography variant='h4'>Kill Progress</Typography>
+					</Grid>
+					<Grid item xs={12}>
+						<ProgressBar kills={maxKills(false)} total={maxKills(true)} />
+					</Grid>
+				</Grid>
 			</Grid>
 			<Grid item xs={4}>
-				<CircleProgress value={currentReward()} maxValue={totalReward()} />
+				<Grid container>
+					<Grid item xs={12}>
+						<Typography variant='h4'>Credits Earned</Typography>
+					</Grid>
+					<Grid container item xs={12} justify='center'>
+						<CircleProgress value={currentReward()} maxValue={totalReward()} />
+					</Grid>
+				</Grid>
 			</Grid>
 			<Grid item xs={12}>
 				{[...Object.keys(props.missionState)]

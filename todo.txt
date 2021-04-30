@@ -1,5 +1,5 @@
 [x] create widget for tracking overall progress on mission tracker - Circular (creds)
-[] create widget for tracking overall progress on mission tracker - Linear (kills)
+[x] create widget for tracking overall progress on mission tracker - Linear (kills)
 [x] calculate efficiency metrics for mission tracker header
 [?] put mission tracker header in collapseable to save space
 [x] ensmallen or get rid of the title bar on the pages (include instead in app bar on navigation)
