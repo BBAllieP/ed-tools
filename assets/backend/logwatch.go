@@ -134,13 +134,15 @@ func processMission(mission map[string]interface{}, missionsIn *[]Mission, missi
 		(*missionsIn)[i].TargetFaction = fmt.Sprintf("%v", (mission)["TargetFaction"])
 		(*missionsIn)[i].Needed = int((mission)["KillCount"].(float64))
 		(*missionsIn)[i].Value = int((mission)["Reward"].(float64))
-		(*missionsIn)[i].Destination = fmt.Sprintf("%v", (mission)["DestinationSystem"])
+		(*missionsIn)[i].DestinationSystem = fmt.Sprintf("%v", (mission)["DestinationSystem"])
+		(*missionsIn)[i].DestinationStation= fmt.Sprintf("%v", (mission)["DestinationStation"])
 		(*missionsIn)[i].Reputation = fmt.Sprintf("%v", (mission)["Reputation"])
 	case "Redirected":
 		(*missionsIn)[i].Status = "Done"
 		endTime, _ := time.Parse("2006-01-02T15:04:05Z", fmt.Sprintf("%v", (mission)["timestamp"]))
 		(*missionsIn)[i].End = endTime
-		(*missionsIn)[i].Destination = fmt.Sprintf("%v", (mission)["NewDestinationSystem"])
+		(*missionsIn)[i].DestinationSystem = fmt.Sprintf("%v", (mission)["NewDestinationSystem"])
+		(*missionsIn)[i].DestinationStation = fmt.Sprintf("%v", (mission)["NewDestinationStation"])
 		(*missionsIn)[i].Kills = (*missionsIn)[i].Needed
 	default:
 		//Handle failed/abandoned case

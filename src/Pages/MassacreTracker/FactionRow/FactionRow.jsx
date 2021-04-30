@@ -1,5 +1,6 @@
 import { React, useState } from "react";
 import clsx from "clsx";
+import { makeMil } from "../../../utils/numUtils";
 import { v4 as uuidv4 } from "uuid";
 import {
 	TableCell,
@@ -136,8 +137,7 @@ const FactionRow = (props) => {
 						Kills: {getVal("Kills")} / {getVal("Count")}
 					</Grid>
 					<Grid item xs={3}>
-						Reward: {Math.round((getCompleteVal() / 1000000) * 100) / 100} mil /{" "}
-						{Math.round((getVal("Reward") / 1000000) * 100) / 100} mil
+						Reward: {makeMil(getCompleteVal())} / {makeMil(getVal("Reward"))}
 					</Grid>
 					<Grid item xs={3}>
 						<IconButton

@@ -1,7 +1,8 @@
-[] create widgets for tracking overall progress on mission tracker
-[] calculate efficiency metrics for mission tracker header
-[] put mission tracker header in collapseable to save space
-[] ensmallen or get rid of the title bar on the pages (include instead in app bar on navigation)
+[x] create widget for tracking overall progress on mission tracker - Circular (creds)
+[] create widget for tracking overall progress on mission tracker - Linear (kills)
+[x] calculate efficiency metrics for mission tracker header
+[?] put mission tracker header in collapseable to save space
+[x] ensmallen or get rid of the title bar on the pages (include instead in app bar on navigation)
 [] Backend: perform sanity check on mission redirect to update counts on unfinished missions for other factions
 [] Figure out how to spawn backend on app load
 [] figure out build pipeline:

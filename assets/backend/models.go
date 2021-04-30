@@ -22,7 +22,8 @@ type Mission struct {
 	Value int `json:"Reward"`
 	IsWing bool
 	Status string
-	Destination string
+	DestinationSystem string
+	DestinationStation string
 	Reputation string
 } 
 
