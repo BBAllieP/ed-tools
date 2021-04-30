@@ -1,19 +1,18 @@
-import { React, useState, useEffect } from "react";
+import { React, useState } from "react";
 import clsx from "clsx";
+import { v4 as uuidv4 } from "uuid";
 import {
 	TableCell,
 	TableBody,
 	TableRow,
 	Collapse,
 	Box,
-	Typography,
 	IconButton,
 	Table,
 	TableHead,
 	Card,
 	CardHeader,
 	CardContent,
-	CardActions,
 	Grid,
 	Avatar,
 } from "@material-ui/core";
@@ -91,12 +90,8 @@ const getColor = (str) =>
 	colors[colorUtils.stringToIndex(str, colors.length)][
 		shades[colorUtils.stringToIndex(str, shades.length)]
 	];
-/*const getColor = (str) => {
-	console.log(colorUtils.stringToIndex(str));
-	return colors[0][shades[0]];
-};*/
 
-const DataRow = (props) => {
+const FactionRow = (props) => {
 	const [open, setOpen] = useState(false);
 	const classes = useStyles();
 	const getVal = (val) => {
@@ -109,7 +104,7 @@ const DataRow = (props) => {
 	const getCompleteVal = () => {
 		let curVal = 0;
 		for (let i = 0; i < props.fact.length; i++) {
-			if (props.fact[i].Status == "Done") {
+			if (props.fact[i].Status === "Done") {
 				curVal = curVal + props.fact[i].Reward;
 			}
 		}
@@ -117,73 +112,68 @@ const DataRow = (props) => {
 	};
 
 	return (
-		<>
-			<Card raised={true}>
-				<CardHeader
-					avatar={
-						<Avatar
-							aria-label='faction'
-							style={{
-								backgroundColor: getColor(props.factName),
-							}}>
-							{props.factName.charAt(0)}
-						</Avatar>
-					}
-					title={props.factName}
-					subheader=''
-					titleTypographyProps={{ variant: "h4" }}
-				/>
-				<CardContent>
-					<Grid container spacing={3}>
-						<Grid item xs={3}>
-							Missions: {props.fact.length}
-						</Grid>
-						<Grid item xs={3}>
-							Kills: {getVal("Kills")} / {getVal("Count")}
-						</Grid>
-						<Grid item xs={3}>
-							Reward: {Math.round((getCompleteVal() / 1000000) * 100) / 100} mil
-							/ {Math.round((getVal("Reward") / 1000000) * 100) / 100} mil
-						</Grid>
-						<Grid item xs={3}>
-							<IconButton
-								className={clsx(classes.expand, {
-									[classes.expandOpen]: open,
-								})}
-								onClick={() => setOpen(!open)}
-								aria-expanded={open}
-								aria-label='show more'>
-								<ExpandMoreIcon />
-							</IconButton>
-						</Grid>
+		<Card raised={true}>
+			<CardHeader
+				avatar={
+					<Avatar
+						aria-label='faction'
+						style={{
+							backgroundColor: getColor(props.factName),
+						}}>
+						{props.factName.charAt(0)}
+					</Avatar>
+				}
+				title={props.factName}
+				subheader=''
+				titleTypographyProps={{ variant: "h4" }}
+			/>
+			<CardContent>
+				<Grid container spacing={3}>
+					<Grid item xs={3}>
+						Missions: {props.fact.length}
 					</Grid>
-				</CardContent>
-				<Collapse in={open} timeout='auto' unmountOnExit>
-					<Box margin={1}>
-						<Typography variant='h6' gutterBottom component='div'>
-							Missions
-						</Typography>
-						<Table size='small'>
-							<TableHead>
-								<TableRow>
-									<TableCell>Destination</TableCell>
-									<TableCell>Target Faction</TableCell>
-									<TableCell>Progress</TableCell>
-									<TableCell>Wing Mission</TableCell>
-									<TableCell>Status</TableCell>
-									<TableCell>Reward</TableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{props.fact.map((mis) => {
-									return <MissionRow props={mis} />;
-								})}
-							</TableBody>
-						</Table>
-					</Box>
-				</Collapse>
-			</Card>
-		</>
+					<Grid item xs={3}>
+						Kills: {getVal("Kills")} / {getVal("Count")}
+					</Grid>
+					<Grid item xs={3}>
+						Reward: {Math.round((getCompleteVal() / 1000000) * 100) / 100} mil /{" "}
+						{Math.round((getVal("Reward") / 1000000) * 100) / 100} mil
+					</Grid>
+					<Grid item xs={3}>
+						<IconButton
+							className={clsx(classes.expand, {
+								[classes.expandOpen]: open,
+							})}
+							onClick={() => setOpen(!open)}
+							aria-expanded={open}
+							aria-label='show more'>
+							<ExpandMoreIcon />
+						</IconButton>
+					</Grid>
+				</Grid>
+			</CardContent>
+			<Collapse in={open} timeout='auto' unmountOnExit>
+				<Box margin={1}>
+					<Table size='small'>
+						<TableHead>
+							<TableRow>
+								<TableCell>Destination</TableCell>
+								<TableCell>Target Faction</TableCell>
+								<TableCell>Progress</TableCell>
+								<TableCell>Wing Mission</TableCell>
+								<TableCell>Status</TableCell>
+								<TableCell>Reward</TableCell>
+							</TableRow>
+						</TableHead>
+						<TableBody>
+							{props.fact.map((mis) => {
+								return <MissionRow key={uuidv4()} props={mis} />;
+							})}
+						</TableBody>
+					</Table>
+				</Box>
+			</Collapse>
+		</Card>
 	);
 };
 const mapStateToProps = (state, ownProps) => {
@@ -191,4 +181,4 @@ const mapStateToProps = (state, ownProps) => {
 	return { fact: fact, factName: ownProps.factionName };
 };
 
-export default connect(mapStateToProps)(DataRow);
+export default connect(mapStateToProps)(FactionRow);

@@ -34,8 +34,10 @@ const socketMiddleware = () => {
 				break;
 			case "Bounty":
 				store.dispatch(actions.modifyMission(payload.mission));
+				break;
 			case "GetAllFactions":
 				store.dispatch(actions.addAllFactions(payload.factions));
+				break;
 			default:
 				break;
 		}

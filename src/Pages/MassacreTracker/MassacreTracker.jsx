@@ -1,16 +1,5 @@
 import React from "react";
-import {
-	Typography,
-	Grid,
-	Collapse,
-	Table,
-	TableBody,
-	TableRow,
-	TableHead,
-	TableContainer,
-	TableCell,
-	IconButton,
-} from "@material-ui/core";
+import { Typography, Grid } from "@material-ui/core";
 import FactionRow from "./FactionRow";
 import { connect } from "react-redux";
 
@@ -21,10 +10,46 @@ const MassacreTracker = (props) => (
 				Massacre Mission Tracking
 			</Typography>
 		</Grid>
+		<Grid item xs={4}>
+			<Grid container>
+				<Grid item xs={12}>
+					Stack Height:
+				</Grid>
+				<Grid item xs={12}>
+					Stack Width:
+				</Grid>
+				<Grid item xs={12}>
+					Kills Needed:
+				</Grid>
+				<Grid item xs={12}>
+					Efficiency:
+				</Grid>
+				<Grid item xs={12}>
+					Total Reward:
+				</Grid>
+			</Grid>
+		</Grid>
+		<Grid item xs={4}>
+			Progress Bar
+		</Grid>
+		<Grid item xs={4}>
+			Ready for Turn In
+		</Grid>
 		<Grid item xs={12}>
-			{Object.keys(props.missionState).map((f) => {
-				return <FactionRow factionName={f} />;
-			})}
+			{[...Object.keys(props.missionState)]
+				/*.sort((i, j) => {
+					if (
+						props.missionState[Object.keys(props.missionState)[i]].length >
+						props.missionState[Object.keys(props.missionState)[j]].length
+					) {
+						return -1;
+					} else {
+						return 1;
+					}
+				})*/
+				.map((f) => {
+					return <FactionRow key={f} factionName={f} />;
+				})}
 		</Grid>
 	</Grid>
 );

@@ -39,7 +39,7 @@ export const changeMission = (state, mission) => {
 
 export const translateFactions = (factions) => {
 	let tempFact = {};
-	factions.map((f) => {
+	factions.forEach((f) => {
 		tempFact[f.Name] = f.Missions;
 	});
 	return tempFact;

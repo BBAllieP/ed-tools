@@ -25,7 +25,7 @@ function App(props) {
 				<Paper>
 					<Switch>
 						{MenuItems.map((i, index) => (
-							<Route exact={i.isExact} path={i.route}>
+							<Route key={i} exact={i.isExact} path={i.route}>
 								{i.page}
 							</Route>
 						))}
