@@ -62,29 +62,31 @@ const MassacreTracker = (props) => {
 		<Grid container spacing={3}>
 			<Grid item xs={12} />
 			<Grid item xs={4}>
-				<Grid container>
+				<Grid container direction='column' justify='space-evenly' spacing={4}>
 					<Grid item xs={12}>
 						<Typography variant='h4'>Stats</Typography>
 					</Grid>
-					<Grid item xs={12}>
-						Stack Width: {Object.keys(props.missionState).length}
-					</Grid>
-					<Grid item xs={12}>
-						Total Kills Needed: {maxKills(true)}
-					</Grid>
-					<Grid item xs={12}>
-						Total Kills Completed: {maxKills(false)}
-					</Grid>
-					<Grid item xs={12}>
-						Total Missions: {numMissions()}
-					</Grid>
-					<Grid item xs={12}>
-						Total Reward: {makeMil(totalReward())}
+					<Grid item container>
+						<Grid item xs={12}>
+							Stack Width: {Object.keys(props.missionState).length}
+						</Grid>
+						<Grid item xs={12}>
+							Total Kills Needed: {maxKills(true)}
+						</Grid>
+						<Grid item xs={12}>
+							Total Kills Completed: {maxKills(false)}
+						</Grid>
+						<Grid item xs={12}>
+							Total Missions: {numMissions()}
+						</Grid>
+						<Grid item xs={12}>
+							Total Reward: {makeMil(totalReward())}
+						</Grid>
 					</Grid>
 				</Grid>
 			</Grid>
 			<Grid item xs={4}>
-				<Grid container>
+				<Grid container direction='column' justify='space-evenly' spacing={8}>
 					<Grid item xs={12}>
 						<Typography variant='h4'>Kill Progress</Typography>
 					</Grid>
