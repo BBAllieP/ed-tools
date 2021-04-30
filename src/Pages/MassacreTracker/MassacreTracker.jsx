@@ -22,23 +22,9 @@ const MassacreTracker = (props) => (
 			</Typography>
 		</Grid>
 		<Grid item xs={12}>
-			<Table>
-				<TableHead>
-					<TableRow>
-						<TableCell></TableCell>
-						<TableCell>Faction</TableCell>
-						<TableCell>Missions</TableCell>
-						<TableCell>Kills</TableCell>
-						<TableCell>Current Value</TableCell>
-						<TableCell>Total Value</TableCell>
-					</TableRow>
-				</TableHead>
-				<TableBody>
-					{Object.keys(props.missionState).map((f) => {
-						return <FactionRow factionName={f} />;
-					})}
-				</TableBody>
-			</Table>
+			{Object.keys(props.missionState).map((f) => {
+				return <FactionRow factionName={f} />;
+			})}
 		</Grid>
 	</Grid>
 );
