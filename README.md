@@ -4,6 +4,15 @@ This is my custom companion tool for Elite Dangerous.
 
 Currently implemented Massacre Mission stacking assistant
 
+# How to run in dev?
+Make sure you have both Golang and nodeJS installed
+Clone repo
+$yarn install
+$cd assets/backend
+$go run ./*.go
+$cd ../..
+$yarn run electron-dev
+
 # Future Plans
 
 Route Planner - will take exported CSV files from spansh.co.uk tool, monitor the game journal, and whenever a jump is completed copy the next system to the clipboard so you don't have to tab out to target the next system
