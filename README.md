@@ -6,11 +6,17 @@ Currently implemented Massacre Mission stacking assistant
 
 # How to run in dev?
 Make sure you have both Golang and nodeJS installed
+
 Clone repo
+
 $yarn install
+
 $cd assets/backend
+
 $go run ./*.go
+
 $cd ../..
+
 $yarn run electron-dev
 
 # Future Plans
