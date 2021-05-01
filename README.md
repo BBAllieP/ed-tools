@@ -36,3 +36,5 @@ React JS frontend with redux and custom middleware
 Golang backend for journal parsing and serving a custom websocket
 
 Frontend communicates exclusively with backend through websocket
+
+All wrapped in Electron for packaging app
