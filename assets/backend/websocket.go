@@ -36,7 +36,7 @@ func reader(conn *websocket.Conn) {
 			return
 		}
 		// print out that message for clarity
-		switch msg.Action{
+		switch msg.Action {
 		case "getMissions":
 			misMsg := MissionsMessage{"GetAllMissions", Missions}
 			conn.WriteJSON(misMsg)
@@ -59,12 +59,12 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
 
 	// upgrade this connection to a WebSocket
 	// connection
-	clientConn, err := upgrader.Upgrade(w, r, nil)
+	ClientConn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)
 	}
 	Connected = true
-	go reader(clientConn)
+	go reader(ClientConn)
 }
 func handleHome(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.Host)
@@ -72,12 +72,12 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Hello"))
 }
 
-func setupRoutes() *mux.Router{
+func setupRoutes() *mux.Router {
 	router := mux.NewRouter()
 	router.HandleFunc("/ws", serveWs)
 	router.HandleFunc("/", handleHome)
 	// listen indefinitely for new messages coming
 	// through on our WebSocket connection
-	
+
 	return router
 }

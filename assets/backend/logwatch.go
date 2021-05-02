@@ -69,19 +69,27 @@ func readChangedFile(file string, journals *[]Logfile, missions *[]Mission) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		newLog := Logfile{file, info.ModTime(), 0}
+		newLog := Logfile{file, info.ModTime(), 0, 0}
 		(*journals) = append((*journals), newLog)
 		tempList = append(tempList, newLog)
 	}
-	parseLog(&tempList, missions, false)
+	parseLog(&tempList, missions, true)
 }
 
-func parseLog(journals *[]Logfile, missions *[]Mission, isLatest bool) {
+func parseLog(journals *[]Logfile, missions *[]Mission, initialLoad bool) {
 	//defer writeCsv(missions)
+	last := len(*journals) - 1
+	var latestLog bool
 	for i, journal := range *journals {
 		file, err := os.Open(journal.path)
 		if err != nil {
 			log.Fatal(err)
+		}
+		if i == last {
+			latestLog = true
+			fmt.Println("found latest")
+		} else {
+			latestLog = false
 		}
 		scanner := bufio.NewScanner(file)
 
@@ -100,7 +108,12 @@ func parseLog(journals *[]Logfile, missions *[]Mission, isLatest bool) {
 					continue
 				}
 				missionEvent := fmt.Sprintf("%v", event["event"])[7:]
-				processMission(event, missions, missionEvent, isLatest)
+				if !latestLog || (latestLog && lineCount <= journal.lastLoad) {
+					processMission(event, missions, missionEvent, false)
+				} else {
+					processMission(event, missions, missionEvent, true)
+				}
+
 			} else if event["event"] == "Bounty" {
 				processBounty(event, missions)
 			}
@@ -110,8 +123,9 @@ func parseLog(journals *[]Logfile, missions *[]Mission, isLatest bool) {
 	}
 }
 
-func processMission(mission map[string]interface{}, missionsIn *[]Mission, missionEvent string, isLatest bool) {
-	cont := false
+func processMission(mission map[string]interface{}, missionsIn *[]Mission, missionEvent string, processNew bool) {
+	cont := processNew
+	found := false
 	var i int
 	//is mission in existing mission list
 	for ii, tempMis := range *missionsIn {
@@ -119,6 +133,7 @@ func processMission(mission map[string]interface{}, missionsIn *[]Mission, missi
 		misIdInt = int((mission)["MissionID"].(float64))
 		if tempMis.Id == misIdInt {
 			cont = true
+			found = true
 			i = ii
 			break
 		}
@@ -126,9 +141,14 @@ func processMission(mission map[string]interface{}, missionsIn *[]Mission, missi
 	if cont == false {
 		return
 	}
+
 	// fill in mission details in main array
 	switch missionEvent {
 	case "Accepted":
+		if !found {
+			(*missionsIn) = append(*missionsIn, Mission{Id: int(mission["MissionID"].(float64)), Name: fmt.Sprintf("%v", mission["Name"]), IsWing: strings.Contains(fmt.Sprintf("%v", mission["Name"]), "Wing")})
+			i = len(*missionsIn) - 1
+		}
 		(*missionsIn)[i].Status = "Progress"
 		(*missionsIn)[i].Faction = fmt.Sprintf("%v", (mission)["Faction"])
 		(*missionsIn)[i].TargetFaction = fmt.Sprintf("%v", (mission)["TargetFaction"])
@@ -137,6 +157,8 @@ func processMission(mission map[string]interface{}, missionsIn *[]Mission, missi
 		(*missionsIn)[i].DestinationSystem = fmt.Sprintf("%v", (mission)["DestinationSystem"])
 		(*missionsIn)[i].DestinationStation = fmt.Sprintf("%v", (mission)["DestinationStation"])
 		(*missionsIn)[i].Reputation = fmt.Sprintf("%v", (mission)["Reputation"])
+		startTime, _ := time.Parse("2006-01-02T15:04:05Z", fmt.Sprintf("%v", (mission)["timestamp"]))
+		(*missionsIn)[i].Start = startTime
 	case "Redirected":
 		(*missionsIn)[i].Status = "Done"
 		endTime, _ := time.Parse("2006-01-02T15:04:05Z", fmt.Sprintf("%v", (mission)["timestamp"]))
@@ -155,9 +177,8 @@ func processMission(mission map[string]interface{}, missionsIn *[]Mission, missi
 }
 
 func processBounty(event map[string]interface{}, missions *[]Mission) {
-	//killFaction := fmt.Sprintf("%v", (event)["VictimFaction"])
 	killFaction := event["VictimFaction"].(string)
-	//bountyTime, _ := time.Parse("2006-01-02T15:04:05Z", fmt.Sprintf("%v", (*event)["timestamp"]))
+	//bountyTime, _ := time.Parse("2006-01-02T15:04:05Z", fmt.Sprintf("%v", (event)["timestamp"]))
 	factions := bucketFactions(missions)
 	if len(factions) < 1 {
 		return
