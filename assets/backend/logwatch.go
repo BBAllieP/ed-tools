@@ -77,14 +77,14 @@ func readChangedFile(file string, journals *[]Logfile, missions *[]Mission) {
 }
 
 func parseLog(journals *[]Logfile, missions *[]Mission, isLatest bool) {
-	defer writeCsv(missions)
+	//defer writeCsv(missions)
 	for i, journal := range *journals {
 		file, err := os.Open(journal.path)
 		if err != nil {
 			log.Fatal(err)
 		}
 		scanner := bufio.NewScanner(file)
-		
+
 		var lineCount int
 		lineCount = 0
 		for scanner.Scan() {
@@ -101,7 +101,7 @@ func parseLog(journals *[]Logfile, missions *[]Mission, isLatest bool) {
 				}
 				missionEvent := fmt.Sprintf("%v", event["event"])[7:]
 				processMission(event, missions, missionEvent, isLatest)
-			} else if event["event"] == "Bounty"{
+			} else if event["event"] == "Bounty" {
 				processBounty(event, missions)
 			}
 		}
@@ -135,7 +135,7 @@ func processMission(mission map[string]interface{}, missionsIn *[]Mission, missi
 		(*missionsIn)[i].Needed = int((mission)["KillCount"].(float64))
 		(*missionsIn)[i].Value = int((mission)["Reward"].(float64))
 		(*missionsIn)[i].DestinationSystem = fmt.Sprintf("%v", (mission)["DestinationSystem"])
-		(*missionsIn)[i].DestinationStation= fmt.Sprintf("%v", (mission)["DestinationStation"])
+		(*missionsIn)[i].DestinationStation = fmt.Sprintf("%v", (mission)["DestinationStation"])
 		(*missionsIn)[i].Reputation = fmt.Sprintf("%v", (mission)["Reputation"])
 	case "Redirected":
 		(*missionsIn)[i].Status = "Done"
@@ -149,9 +149,9 @@ func processMission(mission map[string]interface{}, missionsIn *[]Mission, missi
 		(*missionsIn) = append((*missionsIn)[:i], (*missionsIn)[i+1:]...)
 	}
 	if Connected {
-		ClientConn.WriteJSON(MissionMessage{"Mission"+missionEvent, (*missionsIn)[i]})
+		ClientConn.WriteJSON(MissionMessage{"Mission" + missionEvent, (*missionsIn)[i]})
 	}
-	
+
 }
 
 func processBounty(event map[string]interface{}, missions *[]Mission) {
@@ -186,7 +186,7 @@ func processBounty(event map[string]interface{}, missions *[]Mission) {
 		if len(tempFacMissions) > 0 {
 			//add one to progress of oldest active mission
 			for i, mis := range *missions {
-				if mis.Id == tempFacMissions[0].Id{
+				if mis.Id == tempFacMissions[0].Id {
 					(*missions)[i].Kills += 1
 					if Connected {
 						ClientConn.WriteJSON(MissionMessage{"Bounty", (*missions)[i]})

@@ -1,6 +1,7 @@
 import React from "react";
 import { Typography, Grid, Divider, Link } from "@material-ui/core";
-import logo from "../../assets/images/EDToolsAppIconTransparent.png";
+import path from 'path';
+//import logo from `${path.join(__dirname, "assets/icon.png")}`;
 
 const Home = () => (
 	<Grid container spacing={3} direction='column' justify='space-evenly'>
@@ -11,7 +12,7 @@ const Home = () => (
 		</Grid>
 		<Grid item xs={12}>
 			<img
-				src={logo}
+				src={`${path.join(__dirname, "assets/icon.png")}`}
 				style={{
 					marginTop: 20,
 					height: "50vh",

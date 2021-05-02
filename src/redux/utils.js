@@ -39,8 +39,11 @@ export const changeMission = (state, mission) => {
 
 export const translateFactions = (factions) => {
 	let tempFact = {};
-	factions.forEach((f) => {
+	if(factions != null){
+		factions.forEach((f) => {
 		tempFact[f.Name] = f.Missions;
 	});
+	}
+	
 	return tempFact;
 };
