@@ -9,8 +9,17 @@ const {
 const path = require("path");
 const url = require("url");
 const isDev = require("electron-is-dev");
-
+var child = require("child_process").execFile;
+var backendPath = "../assets/backend/bin/backend-amd64.exe";
 let mainWindow;
+
+child(backendPath, function (err, data) {
+	if (err) {
+		console.error(err);
+		return;
+	}
+	console.log(data.toString());
+});
 
 function createWindow() {
 	mainWindow = new BrowserWindow({ width: 900, height: 680 });

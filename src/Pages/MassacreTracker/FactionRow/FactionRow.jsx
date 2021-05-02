@@ -129,17 +129,17 @@ const FactionRow = (props) => {
 				titleTypographyProps={{ variant: "h4" }}
 			/>
 			<CardContent>
-				<Grid container spacing={3}>
-					<Grid item xs={3}>
+				<Grid container spacing={1}>
+					<Grid item xs>
 						Missions: {props.fact.length}
 					</Grid>
-					<Grid item xs={3}>
+					<Grid item xs={4}>
 						Kills: {getVal("Kills")} / {getVal("Count")}
 					</Grid>
-					<Grid item xs={3}>
+					<Grid item xs={4}>
 						Reward: {makeMil(getCompleteVal())} / {makeMil(getVal("Reward"))}
 					</Grid>
-					<Grid item xs={3}>
+					<Grid item xs>
 						<IconButton
 							className={clsx(classes.expand, {
 								[classes.expandOpen]: open,
