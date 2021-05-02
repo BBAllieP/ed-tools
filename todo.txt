@@ -3,8 +3,9 @@
 [x] calculate efficiency metrics for mission tracker header
 [?] put mission tracker header in collapseable to save space
 [x] ensmallen or get rid of the title bar on the pages (include instead in app bar on navigation)
-[] Backend: perform sanity check on mission redirect to update counts on unfinished missions for other factions
-[] Figure out how to spawn backend on app load
+[_] Backend: perform sanity check on mission redirect to update counts on unfinished missions for other factions
+     This could actually cause a lot of problems if a mission is abandone
+[] Figure out how to spawn backend on 
 [] figure out build pipeline:
      - build go to executable first
      - execute backend on electron load
