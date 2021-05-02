@@ -1,7 +1,23 @@
 # CMDR CPT Allie's Elite Dangerous Companion Tool
 
 This is my custom companion tool for Elite Dangerous.
+
 Currently implemented Massacre Mission stacking assistant
+
+# How to run in dev?
+Make sure you have both Golang and nodeJS installed
+
+Clone repo
+
+$yarn install
+
+$cd assets/backend
+
+$go run ./*.go
+
+$cd ../..
+
+$yarn run electron-dev
 
 # Future Plans
 
@@ -16,6 +32,9 @@ Engineering? - if everything else gets finished, porting most of EDEngineer with
 # Architecture
 
 React JS frontend with redux and custom middleware
+
 Golang backend for journal parsing and serving a custom websocket
 
 Frontend communicates exclusively with backend through websocket
+
+All wrapped in Electron for packaging app
