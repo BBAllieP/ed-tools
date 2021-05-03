@@ -25,63 +25,67 @@ func getLogList(resultLogs *[]Logfile) {
 	if runtime.GOOS == "windows" {
 		uhome, err := os.UserHomeDir()
 		if err != nil {
-			log.Fatal( err )
+			log.Fatal(err)
 		}
 		logLocation = uhome + "\\Saved Games\\Frontier Developments\\Elite Dangerous"
 	} else {
 		logLocation = "../data/Elite Dangerous"
 	}
-	
+
 	logs, err := ioutil.ReadDir(logLocation)
 	if err != nil {
 		log.Fatal(err)
 	}
-	for _, journal := range logs{
+	for _, journal := range logs {
 		match, err := regexp.MatchString("Journal.*.log", journal.Name())
 		if err != nil {
-			log.Fatal( err )
+			log.Fatal(err)
 		}
 		if match {
 			//Add logfile to slice of logfiles
 			var newLog Logfile
-			info, err := os.Stat(logLocation + "/" +journal.Name())
+			info, err := os.Stat(logLocation + "/" + journal.Name())
 			if err != nil {
 				log.Fatal(err)
 			}
 			newLog.path = logLocation + "/" + journal.Name()
 			newLog.mod = info.ModTime()
 			newLog.lastLine = 0
+			newLog.lastLoad = 0
 			*resultLogs = append(*resultLogs, newLog)
 		}
 	}
 	//return resultLogs
 }
 
-func getLatestLog(logList *[]Logfile) Logfile {
-	latest:= (*logList)[0]
-	for _, journal := range (*logList) {
-		if journal.mod.After(latest.mod) {
-			latest = journal
+func getLatestLog(logList *[]Logfile) int {
+	latest := 0
+	for i, journal := range *logList {
+		if journal.mod.After((*logList)[i].mod) {
+			latest = i
 		}
 	}
 	return latest
 }
 
-func getResumedMissionList(missionList *[]Mission, logList *[]Logfile){
+func getResumedMissionList(missionList *[]Mission, logList *[]Logfile) {
 	statuses := []string{"Active", "Complete", "Failed"}
 	getLogList(logList)
-	latestLog := getLatestLog(logList)
-	file, err := os.Open(latestLog.path)
+	latestLogInd := getLatestLog(logList)
+	file, err := os.Open((*logList)[latestLogInd].path)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer file.Close()
 	lastLine := ""
 	scanner := bufio.NewScanner(file)
+	lineNo := 0
 	for scanner.Scan() {
+		lineNo += 1
 		// Logic to find last mission resume line and assign it to variable
 		if strings.Contains(scanner.Text(), "\"event\":\"Missions\"") {
 			lastLine = scanner.Text()
+			(*logList)[latestLogInd].lastLoad = lineNo
 		}
 	}
 	//take resumed mission data and populate array with data
@@ -95,8 +99,8 @@ func getResumedMissionList(missionList *[]Mission, logList *[]Logfile){
 	}
 	//find oldest current mission
 	var oldestMis Mission
-	for cnt, mis := range(allMissions){
-		if cnt == 1{
+	for cnt, mis := range allMissions {
+		if cnt == 1 {
 			oldestMis = mis
 		}
 		if mis.Start.Before(oldestMis.Start) {
@@ -104,20 +108,20 @@ func getResumedMissionList(missionList *[]Mission, logList *[]Logfile){
 		}
 	}
 
-	sort.SliceStable((*logList), func(i,j int) bool {
+	sort.SliceStable((*logList), func(i, j int) bool {
 		return (*logList)[i].mod.Before((*logList)[j].mod)
 	})
 	//make list of journals more recent than that mission
 	var journList []Logfile
 	//var tempJourn Logfile
-	for _, journ := range(*logList){
-		if journ.mod.After(oldestMis.Start.Add(time.Duration(24) * time.Hour * -1)){
+	for _, journ := range *logList {
+		if journ.mod.After(oldestMis.Start.Add(time.Duration(24) * time.Hour * -1)) {
 			journList = append(journList, journ)
 		}
 		//tempJourn = journ
 	}
 	// sort journals in chron order
-	sort.SliceStable(journList, func(i,j int) bool {
+	sort.SliceStable(journList, func(i, j int) bool {
 		return journList[i].mod.Before(journList[j].mod)
 	})
 	//set master list to sorted and filtered list
@@ -125,16 +129,15 @@ func getResumedMissionList(missionList *[]Mission, logList *[]Logfile){
 	// parse journals for updates
 	*missionList = allMissions
 	parseLog(logList, missionList, true)
-	
+
 }
 
-
 //adds custom info to missions data and puts it all together
-func modAndAddMissions(resumed ResumedMissions, status string) []Mission{
+func modAndAddMissions(resumed ResumedMissions, status string) []Mission {
 	var missionArr []Mission
 	var newMission Mission
 	var missionsIn []Mission
-	
+
 	switch status {
 	case "Active":
 		missionsIn = resumed.Active
@@ -143,18 +146,18 @@ func modAndAddMissions(resumed ResumedMissions, status string) []Mission{
 	case "Complete":
 		missionsIn = resumed.Complete
 	}
-	for _, mis := range(missionsIn) {
-		if strings.Contains(mis.Name, "Massacre"){
+	for _, mis := range missionsIn {
+		if strings.Contains(mis.Name, "Massacre") {
 			newMission = mis
-			if strings.Contains(mis.Name, "Wing"){
+			if strings.Contains(mis.Name, "Wing") {
 				newMission.IsWing = true
-				newMission.Start = resumed.Timestamp.Add(time.Duration(604800)*time.Second*-1).Add(time.Duration(mis.Expires)* time.Second)
+				newMission.Start = resumed.Timestamp.Add(time.Duration(604800) * time.Second * -1).Add(time.Duration(mis.Expires) * time.Second)
 			} else {
-				newMission.Start = resumed.Timestamp.Add(time.Duration(172800)*time.Second*-1).Add(time.Duration(mis.Expires)* time.Second)
+				newMission.Start = resumed.Timestamp.Add(time.Duration(172800) * time.Second * -1).Add(time.Duration(mis.Expires) * time.Second)
 			}
 			if status == "Active" {
 				newMission.Status = "Progress"
-			}else{
+			} else {
 				newMission.Status = status
 			}
 			missionArr = append(missionArr, newMission)

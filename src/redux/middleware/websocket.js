@@ -17,7 +17,7 @@ const socketMiddleware = () => {
 
 	const onMessage = (store) => (event) => {
 		const payload = JSON.parse(event.data);
-		console.log("receiving server message");
+		//console.log("receiving server message");
 
 		switch (payload.action) {
 			case "MissionAccepted":
@@ -79,7 +79,7 @@ const socketMiddleware = () => {
 				);
 				break;
 			default:
-				console.log("the next action:", action);
+				//console.log("the next action:", action);
 				return next(action);
 		}
 	};

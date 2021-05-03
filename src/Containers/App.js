@@ -5,18 +5,24 @@ import { wsConnect, wsDisconnect } from "../redux/reducers/websocket";
 import { useEffect } from "react";
 import Header from "../Components/Header";
 import Menu from "../Components/Menu";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import MenuItems from "../Pages/MenuItems";
 import Paper from "@material-ui/core/Paper";
 
 function App(props) {
 	useEffect(() => {
 		props.wsConnect("ws://127.0.0.1:8844/ws");
-		//props.getAllFactions();
+		const interval = setInterval(()=>{
+				console.log("fetching update");
+				props.getAllFactions();
+			
+		}, 1000);
 		return function cleanup() {
 			props.wsDisconnect("ws://127.0.0.1:8844/ws");
+			clearInterval(interval);
 		};
-	});
+	}, []);
+
 	return (
 		<div className='App'>
 			<Router>
@@ -41,5 +47,8 @@ const mapDispatchToProps = {
 	wsDisconnect: (host) => wsDisconnect(host),
 	getAllFactions,
 };
+const mapStateToProps = (state) => {
+	return { socketState: { ...state.websocketReducer } };
+};
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -1,6 +1,7 @@
 import React from "react";
 import { Typography, Grid, Divider, Link } from "@material-ui/core";
-import logo from "../../assets/images/EDToolsAppIconTransparent.png";
+import path from 'path';
+import logo from "../../assets/icon.png";
 
 const Home = () => (
 	<Grid container spacing={3} direction='column' justify='space-evenly'>

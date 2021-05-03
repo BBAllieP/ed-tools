@@ -9,7 +9,7 @@
 [x] figure out build pipeline:
      - build go to executable first
      - execute backend on electron load
-[] test on live
+[x] test on live
 [] get alpha testers and ensure it works in other people's computers
 *** MVP Ready
 
