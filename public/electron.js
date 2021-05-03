@@ -34,7 +34,7 @@ let mainWindow;
 
 function createWindow() {
 	mainWindow = new BrowserWindow({ width: 900, height: 680 });
-	mainWindow.setMenu(false);
+	mainWindow.setMenu(null);
 	mainWindow.loadURL(
 		isDev
 			? "http://localhost:3000"
