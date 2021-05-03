@@ -1,13 +1,17 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Typography, Grid } from "@material-ui/core";
 import FactionRow from "./FactionRow";
 import { connect } from "react-redux";
+import { getAllFactions } from "../../redux/actions";
 
+import {useInterval} from "../../utils/genericUtils";
 import { makeMil } from "../../utils/numUtils";
 import CircleProgress from "./CircleProgress";
 import ProgressBar from "./ProgressBar";
 
 const MassacreTracker = (props) => {
+
+	
 	const getVal = (val, fact, complete) => {
 		let tempSum = 0;
 		for (let i = 0; i < fact.length; i++) {
@@ -125,7 +129,12 @@ const MassacreTracker = (props) => {
 	);
 };
 const mapStateToProps = (state) => {
-	return { missionState: { ...state.missions } };
+	return { missionState: { ...state.missions }, 
+	socketState: { ...state.websocketReducer } 
+	}; 
+};
+const mapDispatchToProps = {
+	getAllFactions,
 };
 
-export default connect(mapStateToProps)(MassacreTracker);
+export default connect(mapStateToProps, mapDispatchToProps)(MassacreTracker);

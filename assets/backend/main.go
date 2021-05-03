@@ -19,6 +19,7 @@ func main() {
 	getResumedMissionList(&Missions, &Journals)
 	fmt.Println("Missions Loaded")
 	fmt.Println("Serving Router")
-	go http.ListenAndServe(":8844", router)
-	watchLogs(&Journals, &Missions)
+	go watchLogs(&Journals, &Missions)
+	http.ListenAndServe(":8844", router)
+
 }

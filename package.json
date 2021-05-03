@@ -37,6 +37,7 @@
 		"electron-pack": "build --em.main=build/electron.js",
 		"preelectron-pack": "yarn run react-scripts build",
 		"build": "electron-packager . ed-tools --overwrite --asar=true --out=build --icon=./assets/icon.png",
+		"build-temp": "electron-builder build --win --publish never",
 		"deploy": "electron-builder build --win --publish always"
 	},
 	"eslintConfig": {
@@ -69,10 +70,14 @@
 		"files": [
 			"build/**/*",
 			"node_modules/**/*",
-			"assets/backend/bin/backend-amd64.exe"
+			"assets/backend/bin",
+			"src/assets/"
+		],
+		"extraResources": [
+			"./assets/backend/bin/*"
 		],
 		"directories": {
-			"buildResources": "src/assets"
+			"buildResources": "./src/assets"
 		}
 	},
 	"repository": {

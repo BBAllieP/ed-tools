@@ -34,7 +34,7 @@ func watchLogs(journals *[]Logfile, missions *[]Mission) {
 				if event.Op&fsnotify.Write == fsnotify.Write {
 					match, _ := regexp.MatchString("Journal.*.log", event.Name)
 					if match {
-						//log.Println("modified file:", event.Name)
+						log.Println("modified file:", event.Name)
 						readChangedFile(event.Name, journals, missions)
 						//log.Println((*missions))
 					}
@@ -168,11 +168,16 @@ func processMission(mission map[string]interface{}, missionsIn *[]Mission, missi
 		(*missionsIn)[i].Kills = (*missionsIn)[i].Needed
 	default:
 		//Handle failed/abandoned case
-		(*missionsIn) = append((*missionsIn)[:i], (*missionsIn)[i+1:]...)
+		if len(*missionsIn) > 1 {
+			(*missionsIn) = append((*missionsIn)[:i], (*missionsIn)[i+1:]...)
+		} else {
+			*missionsIn = nil
+		}
+
 	}
-	if Connected {
+	/*if Connected {
 		ClientConn.WriteJSON(MissionMessage{"Mission" + missionEvent, (*missionsIn)[i]})
-	}
+	}*/
 
 }
 
@@ -209,9 +214,9 @@ func processBounty(event map[string]interface{}, missions *[]Mission) {
 			for i, mis := range *missions {
 				if mis.Id == tempFacMissions[0].Id {
 					(*missions)[i].Kills += 1
-					if Connected {
+					/*if Connected {
 						ClientConn.WriteJSON(MissionMessage{"Bounty", (*missions)[i]})
-					}
+					}*/
 				}
 			}
 		}
