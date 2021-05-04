@@ -33,6 +33,7 @@ const socketMiddleware = () => {
 				store.dispatch(actions.removeMission(payload.mission));
 				break;
 			case "Bounty":
+				console.log(payload);
 				store.dispatch(actions.modifyMission(payload.mission));
 				break;
 			case "GetAllFactions":

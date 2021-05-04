@@ -2,9 +2,9 @@ const electron = require("electron");
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const isDev = require("electron-is-dev");
-if(isDev){
+//if(isDev){
 	const { default: installExtension, REACT_DEVELOPER_TOOLS,REDUX_DEVTOOLS } = require('electron-devtools-installer');
-}
+//}
 const url = require("url");
 const execFile = require("child_process").execFile;
 const path = require("path");
@@ -34,7 +34,7 @@ let mainWindow;
 
 function createWindow() {
 	mainWindow = new BrowserWindow({ width: 900, height: 680 });
-	mainWindow.setMenu(null);
+	//mainWindow.setMenu(null);
 	mainWindow.loadURL(
 		isDev
 			? "http://localhost:3000"
@@ -45,7 +45,7 @@ function createWindow() {
 }
 
 app.on("ready", ()=> {
-	runBackend();
+	//runBackend();
 	createWindow();
 
 });

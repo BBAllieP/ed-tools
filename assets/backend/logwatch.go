@@ -11,57 +11,52 @@ import (
 	"strings"
 	"time"
 
-	"github.com/fsnotify/fsnotify"
+	"github.com/radovskyb/watcher"
 )
 
 func watchLogs(journals *[]Logfile, missions *[]Mission) {
 	logLocation := getLogLocation()
-	watcher, err := fsnotify.NewWatcher()
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer watcher.Close()
+	w := watcher.New()
+	w.SetMaxEvents(1)
 
+	//defer w.Close()
+	w.FilterOps(watcher.Write)
+	r := regexp.MustCompile("Journal.*.log")
+	w.AddFilterHook(watcher.RegexFilterHook(r, false))
 	done := make(chan bool)
 	go func() {
 		for {
 			select {
-			case event, ok := <-watcher.Events:
-				if !ok {
-					return
-				}
-				//log.Println("event:", event)
-				if event.Op&fsnotify.Write == fsnotify.Write {
-					match, _ := regexp.MatchString("Journal.*.log", event.Name)
-					if match {
-						log.Println("modified file:", event.Name)
-						readChangedFile(event.Name, journals, missions)
-						//log.Println((*missions))
-					}
-				}
-			case err, ok := <-watcher.Errors:
-				if !ok {
-					return
-				}
+			case event := <-w.Event:
+				log.Println("modified file:", event.Path)
+				readChangedFile(event.Path, journals, missions)
+				//log.Println((*missions))
+
+			case err := <-w.Error:
 				log.Println("error:", err)
 			}
 		}
 	}()
 
-	err = watcher.Add(logLocation)
-	if err != nil {
-		log.Fatal(err)
+	if err := w.Add(logLocation); err != nil {
+		log.Fatalln(err)
+	}
+	// Start the watching process - it'll check for changes every 100ms.
+	if err := w.Start(time.Millisecond * 100); err != nil {
+		log.Fatalln(err)
 	}
 	<-done
 }
 
 func readChangedFile(file string, journals *[]Logfile, missions *[]Mission) {
 	found := false
-	var tempList []Logfile
-	for _, journal := range *journals {
+	var index int
+	for i, journal := range *journals {
+		//fmt.Println(journal)
 		if journal.path == file {
+			fmt.Println("found journal")
 			found = true
-			tempList = append(tempList, journal)
+			index = i
 		}
 	}
 	if !found {
@@ -71,16 +66,26 @@ func readChangedFile(file string, journals *[]Logfile, missions *[]Mission) {
 		}
 		newLog := Logfile{file, info.ModTime(), 0, 0}
 		(*journals) = append((*journals), newLog)
-		tempList = append(tempList, newLog)
+		index = len((*journals)) - 1
 	}
-	parseLog(&tempList, missions, true)
+
+	parseLog(journals, missions, true, index)
 }
 
-func parseLog(journals *[]Logfile, missions *[]Mission, initialLoad bool) {
+func parseLog(journals *[]Logfile, missions *[]Mission, initialLoad bool, index int) {
 	//defer writeCsv(missions)
 	last := len(*journals) - 1
 	var latestLog bool
+	if index >= 0 {
+		fmt.Println("newLine")
+	}
 	for i, journal := range *journals {
+		if index >= 0 && i != index {
+			continue
+		}
+		if index >= 0 {
+			fmt.Println(i)
+		}
 		file, err := os.Open(journal.path)
 		if err != nil {
 			log.Fatal(err)
@@ -101,6 +106,7 @@ func parseLog(journals *[]Logfile, missions *[]Mission, initialLoad bool) {
 			if lineCount <= journal.lastLine {
 				continue
 			}
+
 			//parse each line and do something with it based on contents
 			json.Unmarshal([]byte(scanner.Text()), &event)
 			if strings.Contains(scanner.Text(), "Mission_Massacre") {
@@ -119,12 +125,15 @@ func parseLog(journals *[]Logfile, missions *[]Mission, initialLoad bool) {
 			}
 		}
 		(*journals)[i].lastLine = lineCount
+		fmt.Println((*journals)[i].lastLine)
+
 		file.Close()
 	}
 }
 
 func processMission(mission map[string]interface{}, missionsIn *[]Mission, missionEvent string, processNew bool) {
 	cont := processNew
+	//fmt.Println("processing mission")
 	found := false
 	var i int
 	//is mission in existing mission list
@@ -159,6 +168,9 @@ func processMission(mission map[string]interface{}, missionsIn *[]Mission, missi
 		(*missionsIn)[i].Reputation = fmt.Sprintf("%v", (mission)["Reputation"])
 		startTime, _ := time.Parse("2006-01-02T15:04:05Z", fmt.Sprintf("%v", (mission)["timestamp"]))
 		(*missionsIn)[i].Start = startTime
+		if Connected {
+			MsgChan <- MissionMessage{"Mission" + missionEvent, (*missionsIn)[i]}
+		}
 	case "Redirected":
 		(*missionsIn)[i].Status = "Done"
 		endTime, _ := time.Parse("2006-01-02T15:04:05Z", fmt.Sprintf("%v", (mission)["timestamp"]))
@@ -166,8 +178,15 @@ func processMission(mission map[string]interface{}, missionsIn *[]Mission, missi
 		(*missionsIn)[i].DestinationSystem = fmt.Sprintf("%v", (mission)["NewDestinationSystem"])
 		(*missionsIn)[i].DestinationStation = fmt.Sprintf("%v", (mission)["NewDestinationStation"])
 		(*missionsIn)[i].Kills = (*missionsIn)[i].Needed
+		if Connected {
+			MsgChan <- MissionMessage{"Mission" + missionEvent, (*missionsIn)[i]}
+		}
 	default:
 		//Handle failed/abandoned case
+		if Connected && found {
+			tempMis := (*missionsIn)[i]
+			MsgChan <- MissionMessage{"Mission" + missionEvent, tempMis}
+		}
 		if len(*missionsIn) > 1 {
 			(*missionsIn) = append((*missionsIn)[:i], (*missionsIn)[i+1:]...)
 		} else {
@@ -175,9 +194,6 @@ func processMission(mission map[string]interface{}, missionsIn *[]Mission, missi
 		}
 
 	}
-	/*if Connected {
-		ClientConn.WriteJSON(MissionMessage{"Mission" + missionEvent, (*missionsIn)[i]})
-	}*/
 
 }
 
@@ -205,18 +221,21 @@ func processBounty(event map[string]interface{}, missions *[]Mission) {
 			continue
 		}
 		//sort oldest to newest
-		sort.SliceStable(tempFacMissions, func(i, j int) bool {
-			return tempFacMissions[i].Start.Before(tempFacMissions[j].Start)
-		})
+		if len(tempFacMissions) > 1 {
+			sort.SliceStable(tempFacMissions, func(i, j int) bool {
+				return tempFacMissions[i].Start.Before(tempFacMissions[j].Start)
+			})
+		}
+
 		// if there are missions
 		if len(tempFacMissions) > 0 {
 			//add one to progress of oldest active mission
 			for i, mis := range *missions {
 				if mis.Id == tempFacMissions[0].Id {
 					(*missions)[i].Kills += 1
-					/*if Connected {
-						ClientConn.WriteJSON(MissionMessage{"Bounty", (*missions)[i]})
-					}*/
+					if Connected {
+						MsgChan <- MissionMessage{"Bounty", (*missions)[i]}
+					}
 				}
 			}
 		}

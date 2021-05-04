@@ -50,6 +50,7 @@ func reader(conn *websocket.Conn) {
 		default:
 			conn.WriteMessage(1, []byte("Unhandled Request"))
 		}
+
 	}
 }
 
@@ -65,6 +66,10 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
 	}
 	Connected = true
 	go reader(clientConn)
+	for msg := range MsgChan {
+		clientConn.WriteJSON(msg)
+	}
+
 }
 func handleHome(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.Host)

@@ -11,7 +11,12 @@ import ProgressBar from "./ProgressBar";
 
 const MassacreTracker = (props) => {
 
-	
+	useEffect(()=>{
+		if(props.socketState.connected){
+			props.getAllFactions();
+		}
+		
+	});
 	const getVal = (val, fact, complete) => {
 		let tempSum = 0;
 		for (let i = 0; i < fact.length; i++) {

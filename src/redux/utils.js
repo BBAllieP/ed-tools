@@ -4,8 +4,9 @@ export const addMission = (state, mission) => {
 	var found = false;
 	for (const fact in tempState) {
 		if (fact.key === mission.Faction) {
+			tempFact={};
 			tempFact = fact;
-			tempFact = [...fact.Missions, mission];
+			tempFact[fact.key] = [...fact.Missions, mission];
 			found = true;
 		}
 	}
@@ -18,23 +19,26 @@ export const addMission = (state, mission) => {
 };
 
 export const removeMission = (state, mission) => {
-	var tempFact = state[mission.Faction];
-	for (var i; i < tempFact.length; i++) {
-		if (tempFact[i].Id === mission.Id) {
-			tempFact.splice(i, 1);
+	var tempFact = {};
+	var tempFactMis = state[mission.Faction];
+	for (var i; i < tempFactMis.length; i++) {
+		if (tempFactMis[i].Id === mission.Id) {
+			tempFactMis.splice(i, 1);
+			tempFact[mission.Faction]= tempFactMis;
 			return tempFact;
 		}
 	}
 };
 
 export const changeMission = (state, mission) => {
+	var tempState = state;
 	var tempFact = state[mission.Faction];
 	for (var i; i < tempFact.length; i++) {
 		if (tempFact[i].Id === mission.Id) {
-			tempFact[i] = mission;
+			tempState[mission.Faction][i] = mission;
 		}
 	}
-	return tempFact;
+	return tempState;
 };
 
 export const translateFactions = (factions) => {

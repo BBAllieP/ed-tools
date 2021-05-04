@@ -10,7 +10,7 @@ export default function missionState(state = { ...initialState }, action) {
 		case actionTypes.ADD_MISSION:
 			tempState = { ...state };
 			returnFact = utils.addMission(state, action.payload);
-			tempState = { ...state, returnFact };
+			tempState = { ...state, ...returnFact };
 			return tempState;
 
 		case actionTypes.REMOVE_MISSION:
@@ -20,11 +20,12 @@ export default function missionState(state = { ...initialState }, action) {
 				delete tempState[returnFact.key];
 				return tempState;
 			} else {
-				return (state = { ...state, returnFact });
+				return { ...state, returnFact };
 			}
 		case actionTypes.MODIFY_MISSION:
 			returnFact = utils.changeMission(state, action.payload);
-			return { ...state, returnFact };
+			console.log(returnFact);
+			return { ...state, ...returnFact };
 
 		case actionTypes.ADD_ALL_FACTION:
 			return { ...utils.translateFactions(action.payload) };
