@@ -25,7 +25,7 @@ export default function missionState(state = { ...initialState }, action) {
 		case actionTypes.MODIFY_MISSION:
 			returnFact = utils.changeMission(state, action.payload);
 			console.log(returnFact);
-			return { ...state, ...returnFact };
+			return { ...state, returnFact };
 
 		case actionTypes.ADD_ALL_FACTION:
 			return { ...utils.translateFactions(action.payload) };

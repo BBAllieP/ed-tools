@@ -83,9 +83,7 @@ func parseLog(journals *[]Logfile, missions *[]Mission, initialLoad bool, index 
 		if index >= 0 && i != index {
 			continue
 		}
-		if index >= 0 {
-			fmt.Println(i)
-		}
+
 		file, err := os.Open(journal.path)
 		if err != nil {
 			log.Fatal(err)
@@ -125,7 +123,6 @@ func parseLog(journals *[]Logfile, missions *[]Mission, initialLoad bool, index 
 			}
 		}
 		(*journals)[i].lastLine = lineCount
-		fmt.Println((*journals)[i].lastLine)
 
 		file.Close()
 	}
