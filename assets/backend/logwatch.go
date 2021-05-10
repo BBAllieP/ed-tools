@@ -56,10 +56,13 @@ func readChangedFile(file string, journals *[]Logfile, missions *[]Mission) {
 		if journal.path == file {
 			fmt.Println("found journal")
 			found = true
-			index = i
+			tempList = append(tempList, journal)
+			break
 		}
 	}
 	if !found {
+		fmt.Println(file)
+		fmt.Println((*journals)[0].path)
 		info, err := os.Stat(file)
 		if err != nil {
 			log.Fatal(err)
@@ -69,7 +72,7 @@ func readChangedFile(file string, journals *[]Logfile, missions *[]Mission) {
 		index = len((*journals)) - 1
 	}
 
-	parseLog(journals, missions, true, index)
+	parseLog(journals, missions, false, index)
 }
 
 func parseLog(journals *[]Logfile, missions *[]Mission, initialLoad bool, index int) {
@@ -113,13 +116,13 @@ func parseLog(journals *[]Logfile, missions *[]Mission, initialLoad bool, index 
 				}
 				missionEvent := fmt.Sprintf("%v", event["event"])[7:]
 				if !latestLog || (latestLog && lineCount <= journal.lastLoad) {
-					processMission(event, missions, missionEvent, false)
+					go processMission(event, missions, missionEvent, false)
 				} else {
-					processMission(event, missions, missionEvent, true)
+					go processMission(event, missions, missionEvent, true)
 				}
 
 			} else if event["event"] == "Bounty" {
-				processBounty(event, missions)
+				go processBounty(event, missions)
 			}
 		}
 		(*journals)[i].lastLine = lineCount
