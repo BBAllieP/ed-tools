@@ -7,7 +7,6 @@ import (
 	"log"
 	"os"
 	"regexp"
-	"sort"
 	"strings"
 	"time"
 
@@ -123,7 +122,7 @@ func parseLog(journals *[]Logfile, missions *[]Mission, initialLoad bool, index 
 				}
 
 			} else if event["event"] == "Bounty" {
-				go processBounty(event, missions)
+				go processBounty(event)
 			}
 		}
 		(*journals)[i].lastLine = lineCount
@@ -148,7 +147,7 @@ func processMission(mission map[string]interface{}, missionsIn *[]Mission, missi
 			break
 		}
 	}
-	if cont == false {
+	if !cont {
 		return
 	}
 
@@ -198,7 +197,39 @@ func processMission(mission map[string]interface{}, missionsIn *[]Mission, missi
 
 }
 
-func processBounty(event map[string]interface{}, missions *[]Mission) {
+func processBounty(event map[string]interface{}) {
+	fmt.Println("bounty processing")
+	killFaction := event["VictimFaction"].(string)
+	TargetMissions := make(map[string]Mission)
+	for _, mis := range Missions {
+		if _, ok := TargetMissions[mis.Faction]; ok {
+			if TargetMissions[mis.Faction].Start.After(mis.Start) {
+				if mis.TargetFaction == killFaction && mis.Status == "Progress" {
+					TargetMissions[mis.Faction] = mis
+				}
+			}
+		} else {
+			if mis.TargetFaction == killFaction && mis.Status == "Progress" {
+				TargetMissions[mis.Faction] = mis
+			}
+		}
+	}
+	for _, mis := range TargetMissions {
+		for i, mis1 := range Missions {
+			if mis1.Id == mis.Id {
+				Missions[i].Kills += 1
+				if connected {
+					broadcast <- MissionMessage{"Bounty", Missions[i]}
+				}
+
+				break
+			}
+		}
+	}
+
+}
+
+/*func processBounty(event map[string]interface{}, missions *[]Mission) {
 	fmt.Println("bounty processing")
 	killFaction := event["VictimFaction"].(string)
 	//bountyTime, _ := time.Parse("2006-01-02T15:04:05Z", fmt.Sprintf("%v", (event)["timestamp"]))
@@ -212,11 +243,13 @@ func processBounty(event map[string]interface{}, missions *[]Mission) {
 		}
 		// now we know there's at least one mission
 		// find oldest active mission
-		var tempFacMissions []Mission
+		var tempFacMissions []Mission = nil
 		//remove redirected (i.e. complete) missions from consideration
 		for _, misTemp := range fact.Missions {
-			if misTemp.Status == "Progress" && misTemp.TargetFaction == killFaction {
-				tempFacMissions = append(tempFacMissions, misTemp)
+			if misTemp.Status == "Progress" {
+				if misTemp.TargetFaction == killFaction {
+					tempFacMissions = append(tempFacMissions, misTemp)
+				}
 			}
 		}
 		if len(tempFacMissions) < 1 {
@@ -232,16 +265,17 @@ func processBounty(event map[string]interface{}, missions *[]Mission) {
 		// if there are missions
 		if len(tempFacMissions) > 0 {
 			//add one to progress of oldest active mission
-			for i, mis := range *missions {
+			for i, _ := range *missions {
 				fmt.Println("Bounty Applicable")
-				if mis.Id == tempFacMissions[0].Id {
+				if (*missions)[i].Id == tempFacMissions[0].Id {
 					(*missions)[i].Kills += 1
 					if connected {
 						fmt.Println("Sending Bounty")
 						broadcast <- MissionMessage{"Bounty", (*missions)[i]}
 					}
+					break
 				}
 			}
 		}
 	}
-}
+}*/

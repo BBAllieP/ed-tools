@@ -26,7 +26,7 @@ export default function missionState(state = { ...initialState }, action) {
 		case actionTypes.MODIFY_MISSION:
 			//tempState = {...state};
 			returnFact = utils.changeMission(state, action.payload);
-			console.log(returnFact);
+			//console.log(returnFact);
 			return produce(state, draft=> {
 				draft[action.payload.Faction] = returnFact
 				})

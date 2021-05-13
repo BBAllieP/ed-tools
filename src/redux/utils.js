@@ -20,7 +20,7 @@ export const addMission = (state, mission) => {
 
 export const removeMission = (state, mission) => {
 	var factMissions = [...state[mission.Faction]];
-	console.log(factMissions);
+	//console.log(factMissions);
 	return factMissions.filter((mis) => {
 		if (mis.MissionID === mission.MissionID) {
 			return false;
@@ -33,7 +33,7 @@ export const removeMission = (state, mission) => {
 export const changeMission = (state, mission) => {
 	//var factMissions = [];
 	var factMissions = [...state[mission.Faction]];
-	console.log(factMissions);
+	//console.log(factMissions);
 	return factMissions.map((mis)=> {
 		if(mis.MissionID === mission.MissionID){
 			return {...mission};
