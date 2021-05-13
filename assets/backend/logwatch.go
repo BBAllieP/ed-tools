@@ -170,7 +170,7 @@ func processMission(mission map[string]interface{}, missionsIn *[]Mission, missi
 		(*missionsIn)[i].Reputation = fmt.Sprintf("%v", (mission)["Reputation"])
 		startTime, _ := time.Parse("2006-01-02T15:04:05Z", fmt.Sprintf("%v", (mission)["timestamp"]))
 		(*missionsIn)[i].Start = startTime
-		if len(clients) > 0 {
+		if connected {
 			broadcast <- MissionMessage{"Mission" + missionEvent, (*missionsIn)[i]}
 		}
 	case "Redirected":
@@ -180,12 +180,12 @@ func processMission(mission map[string]interface{}, missionsIn *[]Mission, missi
 		(*missionsIn)[i].DestinationSystem = fmt.Sprintf("%v", (mission)["NewDestinationSystem"])
 		(*missionsIn)[i].DestinationStation = fmt.Sprintf("%v", (mission)["NewDestinationStation"])
 		(*missionsIn)[i].Kills = (*missionsIn)[i].Needed
-		if len(clients) > 0 {
+		if connected {
 			broadcast <- MissionMessage{"Mission" + missionEvent, (*missionsIn)[i]}
 		}
 	default:
 		//Handle failed/abandoned case
-		if len(clients) > 0 && found {
+		if connected && found {
 			broadcast <- MissionMessage{"Mission" + missionEvent, (*missionsIn)[i]}
 		}
 		if len(*missionsIn) > 1 {
@@ -233,9 +233,11 @@ func processBounty(event map[string]interface{}, missions *[]Mission) {
 		if len(tempFacMissions) > 0 {
 			//add one to progress of oldest active mission
 			for i, mis := range *missions {
+				fmt.Println("Bounty Applicable")
 				if mis.Id == tempFacMissions[0].Id {
 					(*missions)[i].Kills += 1
-					if Connected {
+					if connected {
+						fmt.Println("Sending Bounty")
 						broadcast <- MissionMessage{"Bounty", (*missions)[i]}
 					}
 				}

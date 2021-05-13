@@ -10,8 +10,10 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-var clients = make(map[*websocket.Conn]bool) // connected clients
-var broadcast = make(chan MissionMessage)    // broadcast channel
+//var clients = make(map[*websocket.Conn]bool) // connected clients
+//var client *websocket.Conn
+var connected = false
+var broadcast = make(chan MissionMessage) // broadcast channel
 
 // We'll need to define an Upgrader
 // this will require a Read and Write buffer size
@@ -36,7 +38,8 @@ func reader(conn *websocket.Conn) {
 		err := conn.ReadJSON(&msg)
 		if err != nil {
 			log.Println(err)
-			return
+			//delete(clients, conn)
+			break
 		}
 		// print out that message for clarity
 		switch msg.Action {
@@ -56,18 +59,22 @@ func reader(conn *websocket.Conn) {
 
 	}
 }
-func writer() {
-	for {
-		msg := <-broadcast
-		for client := range clients {
-			fmt.Println("Sending Message")
+func writer(client *websocket.Conn) {
+	for msg := range broadcast {
+		//msg := <-broadcast
+		//for client := range clients {
+		fmt.Println("Sending Message")
+		if connected {
 			err := client.WriteJSON(msg)
 			if err != nil {
 				log.Printf("error: %v", err)
-				client.Close()
-				delete(clients, client)
+				//client.Close()
+				//delete(clients, client)
+				break
 			}
 		}
+
+		//}
 	}
 }
 
@@ -78,13 +85,18 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
 	// upgrade this connection to a WebSocket
 	// connection
 	clientConn, err := upgrader.Upgrade(w, r, nil)
+	//client = clientConn
+	connected = true
 	if err != nil {
 		log.Println(err)
 	}
-	clients[clientConn] = true
-	go writer()
+	defer clientConn.Close()
+	//defer client.Close()
+	//clients[clientConn] = true
+	go writer(clientConn)
+	//reader(clientConn)
 	reader(clientConn)
-
+	connected = false
 }
 func handleHome(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.Host)

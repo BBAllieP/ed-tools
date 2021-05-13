@@ -31,12 +31,12 @@ export const removeMission = (state, mission) => {
 };
 
 export const changeMission = (state, mission) => {
-	var tempFact = state[mission.Faction];
+	var tempFact = [...state[mission.Faction]];
 	var tempState = {};
-	tempState[mission.Faction] = tempFact;
-	for (var i; i < tempFact.length; i++) {
+	tempState[mission.Faction] = [...tempFact];
+	for (var i = 0; i < tempFact.length; i++) {
 		if (tempFact[i].Id === mission.Id) {
-			tempState[mission.Faction][i] = mission;
+			tempState[mission.Faction][i] = {...mission};
 		}
 	}
 	return tempState;
