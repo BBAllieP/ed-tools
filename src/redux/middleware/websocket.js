@@ -17,16 +17,18 @@ const socketMiddleware = () => {
 
 	const onMessage = (store) => (event) => {
 		const payload = JSON.parse(event.data);
-		//console.log("receiving server message");
+		console.log("receiving server message: " + payload.action);
 
 		switch (payload.action) {
 			case "MissionAccepted":
+				console.log("MissionAccepted");
 				store.dispatch(actions.addMission(payload.mission));
 				break;
 			case "MissionFailed":
 				store.dispatch(actions.removeMission(payload.mission));
 				break;
 			case "MissionAbandoned":
+				console.log("MissionAbandoned")
 				store.dispatch(actions.removeMission(payload.mission));
 				break;
 			case "MissionComplete":

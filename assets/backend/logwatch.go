@@ -51,12 +51,13 @@ func watchLogs(journals *[]Logfile, missions *[]Mission) {
 func readChangedFile(file string, journals *[]Logfile, missions *[]Mission) {
 	found := false
 	var index int
+	//var tempList []Logfile
 	for i, journal := range *journals {
 		//fmt.Println(journal)
 		if journal.path == file {
 			fmt.Println("found journal")
 			found = true
-			tempList = append(tempList, journal)
+			index = i
 			break
 		}
 	}
@@ -138,8 +139,8 @@ func processMission(mission map[string]interface{}, missionsIn *[]Mission, missi
 	var i int
 	//is mission in existing mission list
 	for ii, tempMis := range *missionsIn {
-		var misIdInt int
-		misIdInt = int((mission)["MissionID"].(float64))
+		//var misIdInt int
+		misIdInt := int((mission)["MissionID"].(float64))
 		if tempMis.Id == misIdInt {
 			cont = true
 			found = true
@@ -152,6 +153,7 @@ func processMission(mission map[string]interface{}, missionsIn *[]Mission, missi
 	}
 
 	// fill in mission details in main array
+	fmt.Println("Mission " + missionEvent)
 	switch missionEvent {
 	case "Accepted":
 		if !found {
@@ -168,8 +170,8 @@ func processMission(mission map[string]interface{}, missionsIn *[]Mission, missi
 		(*missionsIn)[i].Reputation = fmt.Sprintf("%v", (mission)["Reputation"])
 		startTime, _ := time.Parse("2006-01-02T15:04:05Z", fmt.Sprintf("%v", (mission)["timestamp"]))
 		(*missionsIn)[i].Start = startTime
-		if Connected {
-			MsgChan <- MissionMessage{"Mission" + missionEvent, (*missionsIn)[i]}
+		if len(clients) > 0 {
+			broadcast <- MissionMessage{"Mission" + missionEvent, (*missionsIn)[i]}
 		}
 	case "Redirected":
 		(*missionsIn)[i].Status = "Done"
@@ -178,14 +180,13 @@ func processMission(mission map[string]interface{}, missionsIn *[]Mission, missi
 		(*missionsIn)[i].DestinationSystem = fmt.Sprintf("%v", (mission)["NewDestinationSystem"])
 		(*missionsIn)[i].DestinationStation = fmt.Sprintf("%v", (mission)["NewDestinationStation"])
 		(*missionsIn)[i].Kills = (*missionsIn)[i].Needed
-		if Connected {
-			MsgChan <- MissionMessage{"Mission" + missionEvent, (*missionsIn)[i]}
+		if len(clients) > 0 {
+			broadcast <- MissionMessage{"Mission" + missionEvent, (*missionsIn)[i]}
 		}
 	default:
 		//Handle failed/abandoned case
-		if Connected && found {
-			tempMis := (*missionsIn)[i]
-			MsgChan <- MissionMessage{"Mission" + missionEvent, tempMis}
+		if len(clients) > 0 && found {
+			broadcast <- MissionMessage{"Mission" + missionEvent, (*missionsIn)[i]}
 		}
 		if len(*missionsIn) > 1 {
 			(*missionsIn) = append((*missionsIn)[:i], (*missionsIn)[i+1:]...)
@@ -198,6 +199,7 @@ func processMission(mission map[string]interface{}, missionsIn *[]Mission, missi
 }
 
 func processBounty(event map[string]interface{}, missions *[]Mission) {
+	fmt.Println("bounty processing")
 	killFaction := event["VictimFaction"].(string)
 	//bountyTime, _ := time.Parse("2006-01-02T15:04:05Z", fmt.Sprintf("%v", (event)["timestamp"]))
 	factions := bucketFactions(missions)
@@ -234,7 +236,7 @@ func processBounty(event map[string]interface{}, missions *[]Mission) {
 				if mis.Id == tempFacMissions[0].Id {
 					(*missions)[i].Kills += 1
 					if Connected {
-						MsgChan <- MissionMessage{"Bounty", (*missions)[i]}
+						broadcast <- MissionMessage{"Bounty", (*missions)[i]}
 					}
 				}
 			}

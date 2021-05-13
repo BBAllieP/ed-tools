@@ -22,5 +22,4 @@ func main() {
 	fmt.Println("Serving Router")
 	go watchLogs(&Journals, &Missions)
 	http.ListenAndServe(":8844", router)
-
 }

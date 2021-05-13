@@ -10,6 +10,9 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+var clients = make(map[*websocket.Conn]bool) // connected clients
+var broadcast = make(chan MissionMessage)    // broadcast channel
+
 // We'll need to define an Upgrader
 // this will require a Read and Write buffer size
 var upgrader = websocket.Upgrader{
@@ -53,6 +56,20 @@ func reader(conn *websocket.Conn) {
 
 	}
 }
+func writer() {
+	for {
+		msg := <-broadcast
+		for client := range clients {
+			fmt.Println("Sending Message")
+			err := client.WriteJSON(msg)
+			if err != nil {
+				log.Printf("error: %v", err)
+				client.Close()
+				delete(clients, client)
+			}
+		}
+	}
+}
 
 // define our WebSocket endpoint
 func serveWs(w http.ResponseWriter, r *http.Request) {
@@ -64,11 +81,9 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
-	Connected = true
-	go reader(clientConn)
-	for msg := range MsgChan {
-		clientConn.WriteJSON(msg)
-	}
+	clients[clientConn] = true
+	go writer()
+	reader(clientConn)
 
 }
 func handleHome(w http.ResponseWriter, r *http.Request) {
