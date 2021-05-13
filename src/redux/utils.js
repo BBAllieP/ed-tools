@@ -19,29 +19,28 @@ export const addMission = (state, mission) => {
 };
 
 export const removeMission = (state, mission) => {
-	var tempFact = {};
-	var tempFactMis = state[mission.Faction];
-	for (var i = 0; i < tempFactMis.length - 1; i++) {
-		if (tempFactMis[i].Id === mission.Id) {
-			tempFactMis.splice(i, 1);
-			tempFact[mission.Faction]= tempFactMis;
-			return tempFact;
+	var factMissions = [...state[mission.Faction]];
+	console.log(factMissions);
+	return factMissions.filter((mis) => {
+		if (mis.MissionID === mission.MissionID) {
+			return false;
+		} else {
+			return true;
 		}
-	}
+	})
 };
 
 export const changeMission = (state, mission) => {
 	//var factMissions = [];
 	var factMissions = [...state[mission.Faction]];
 	console.log(factMissions);
-	for (var i = 0; i < factMissions - 1; i++) {
-		if (factMissions[i].Id === mission.Id) {
-			factMissions[i] = {...mission};
-			break;
+	return factMissions.map((mis)=> {
+		if(mis.MissionID === mission.MissionID){
+			return {...mission};
+		} else {
+			return {...mis};
 		}
-	}
-	//console.log(tempState);
-	return factMissions;
+	})
 };
 
 export const translateFactions = (factions) => {

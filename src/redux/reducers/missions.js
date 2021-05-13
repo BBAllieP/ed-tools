@@ -1,5 +1,6 @@
 import * as actionTypes from "../actionTypes";
 import * as utils from "../utils";
+import produce from 'immer';
 
 const initialState = {};
 
@@ -26,8 +27,9 @@ export default function missionState(state = { ...initialState }, action) {
 			//tempState = {...state};
 			returnFact = utils.changeMission(state, action.payload);
 			console.log(returnFact);
-			return { ...state, [action.payload.Faction]: [...returnFact] };
-
+			return produce(state, draft=> {
+				draft[action.payload.Faction] = returnFact
+				})
 		case actionTypes.ADD_ALL_FACTION:
 			return { ...utils.translateFactions(action.payload) };
 		default:
