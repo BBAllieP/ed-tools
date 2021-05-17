@@ -89,8 +89,9 @@ func parseLog(initialLoad bool) {
 
 		var lineCount int
 		lineCount = 0
+		var event map[string]interface{}
 		for scanner.Scan() {
-			var event map[string]interface{}
+			event = nil
 			lineCount += 1
 			if lineCount <= journal.lastLine {
 				continue
@@ -104,7 +105,7 @@ func parseLog(initialLoad bool) {
 				}
 				missionEvent := fmt.Sprintf("%v", event["event"])[7:]
 				processMission(event, missionEvent)
-			} else if event["event"] == "Bounty" {
+			} else if event["event"] == "Bounty" && !initialLoad {
 				processBounty(event)
 			}
 		}
@@ -186,9 +187,11 @@ func processBounty(event map[string]interface{}) {
 		if mis.TargetFaction == killFaction && mis.Status == "Progress" {
 			if _, ok := TargetMissions[mis.Faction]; ok {
 				if TargetMissions[mis.Faction].Start.After(mis.Start) {
+					fmt.Println("bounty processing")
 					TargetMissions[mis.Faction] = mis
 				}
 			} else {
+				fmt.Println("bounty processing")
 				TargetMissions[mis.Faction] = mis
 			}
 		}
@@ -204,5 +207,6 @@ func processBounty(event map[string]interface{}) {
 			}
 		}
 	}
+	TargetMissions = nil
 
 }

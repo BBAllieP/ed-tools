@@ -8,7 +8,7 @@ init {
         each logfile has path and last read line
     }
     load mission data from all logfiles more recent than earliest mission
-
+    Don't load bounties
 }
 
 main {

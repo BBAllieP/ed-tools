@@ -162,6 +162,6 @@ func modAndAddMissions(resumed ResumedMissions, status string) []Mission {
 			missionArr = append(missionArr, newMission)
 		}
 	}
-	fmt.Println(len(missionArr))
+	//fmt.Println(len(missionArr))
 	return missionArr
 }
