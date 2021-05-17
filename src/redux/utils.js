@@ -19,9 +19,9 @@ export const addMission = (state, mission) => {
 };
 
 export const removeMission = (state, mission) => {
-	var factMissions = [...state[mission.Faction]];
+	//var factMissions = [...state[mission.Faction]];
 	//console.log(factMissions);
-	return factMissions.filter((mis) => {
+	return state[mission.Faction].filter((mis) => {
 		if (mis.MissionID === mission.MissionID) {
 			return false;
 		} else {

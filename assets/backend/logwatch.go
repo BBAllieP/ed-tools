@@ -77,12 +77,12 @@ func readChangedFile(file string, journals *[]Logfile, missions *[]Mission) {
 
 func parseLog(journals *[]Logfile, missions *[]Mission, initialLoad bool, index int) {
 	//defer writeCsv(missions)
-	last := len(*journals) - 1
+	last := len(Journals) - 1
 	var latestLog bool
 	if index >= 0 {
 		fmt.Println("newLine")
 	}
-	for i, journal := range *journals {
+	for i, journal := range Journals {
 		if index >= 0 && i != index {
 			continue
 		}
@@ -116,28 +116,28 @@ func parseLog(journals *[]Logfile, missions *[]Mission, initialLoad bool, index 
 				}
 				missionEvent := fmt.Sprintf("%v", event["event"])[7:]
 				if !latestLog || (latestLog && lineCount <= journal.lastLoad) {
-					go processMission(event, missions, missionEvent, false)
+					processMission(event, missionEvent, false)
 				} else {
-					go processMission(event, missions, missionEvent, true)
+					processMission(event, missionEvent, true)
 				}
 
 			} else if event["event"] == "Bounty" {
 				go processBounty(event)
 			}
 		}
-		(*journals)[i].lastLine = lineCount
+		Journals[i].lastLine = lineCount
 
 		file.Close()
 	}
 }
 
-func processMission(mission map[string]interface{}, missionsIn *[]Mission, missionEvent string, processNew bool) {
+func processMission(mission map[string]interface{}, missionEvent string, processNew bool) {
 	cont := processNew
 	//fmt.Println("processing mission")
 	found := false
 	var i int
 	//is mission in existing mission list
-	for ii, tempMis := range *missionsIn {
+	for ii, tempMis := range Missions {
 		//var misIdInt int
 		misIdInt := int((mission)["MissionID"].(float64))
 		if tempMis.Id == misIdInt {
@@ -156,41 +156,45 @@ func processMission(mission map[string]interface{}, missionsIn *[]Mission, missi
 	switch missionEvent {
 	case "Accepted":
 		if !found {
-			(*missionsIn) = append(*missionsIn, Mission{Id: int(mission["MissionID"].(float64)), Name: fmt.Sprintf("%v", mission["Name"]), IsWing: strings.Contains(fmt.Sprintf("%v", mission["Name"]), "Wing")})
-			i = len(*missionsIn) - 1
+			Missions = append(Missions, Mission{Id: int(mission["MissionID"].(float64)), Name: fmt.Sprintf("%v", mission["Name"]), IsWing: strings.Contains(fmt.Sprintf("%v", mission["Name"]), "Wing")})
+			i = len(Missions) - 1
 		}
-		(*missionsIn)[i].Status = "Progress"
-		(*missionsIn)[i].Faction = fmt.Sprintf("%v", (mission)["Faction"])
-		(*missionsIn)[i].TargetFaction = fmt.Sprintf("%v", (mission)["TargetFaction"])
-		(*missionsIn)[i].Needed = int((mission)["KillCount"].(float64))
-		(*missionsIn)[i].Value = int((mission)["Reward"].(float64))
-		(*missionsIn)[i].DestinationSystem = fmt.Sprintf("%v", (mission)["DestinationSystem"])
-		(*missionsIn)[i].DestinationStation = fmt.Sprintf("%v", (mission)["DestinationStation"])
-		(*missionsIn)[i].Reputation = fmt.Sprintf("%v", (mission)["Reputation"])
+		Missions[i].Status = "Progress"
+		Missions[i].Faction = fmt.Sprintf("%v", (mission)["Faction"])
+		Missions[i].TargetFaction = fmt.Sprintf("%v", (mission)["TargetFaction"])
+		Missions[i].Needed = int((mission)["KillCount"].(float64))
+		Missions[i].Value = int((mission)["Reward"].(float64))
+		Missions[i].DestinationSystem = fmt.Sprintf("%v", (mission)["DestinationSystem"])
+		Missions[i].DestinationStation = fmt.Sprintf("%v", (mission)["DestinationStation"])
+		Missions[i].Reputation = fmt.Sprintf("%v", (mission)["Reputation"])
 		startTime, _ := time.Parse("2006-01-02T15:04:05Z", fmt.Sprintf("%v", (mission)["timestamp"]))
-		(*missionsIn)[i].Start = startTime
+		Missions[i].Start = startTime
 		if connected {
-			broadcast <- MissionMessage{"Mission" + missionEvent, (*missionsIn)[i]}
+			broadcast <- MissionMessage{"Mission" + missionEvent, Missions[i]}
 		}
 	case "Redirected":
-		(*missionsIn)[i].Status = "Done"
+		Missions[i].Status = "Done"
 		endTime, _ := time.Parse("2006-01-02T15:04:05Z", fmt.Sprintf("%v", (mission)["timestamp"]))
-		(*missionsIn)[i].End = endTime
-		(*missionsIn)[i].DestinationSystem = fmt.Sprintf("%v", (mission)["NewDestinationSystem"])
-		(*missionsIn)[i].DestinationStation = fmt.Sprintf("%v", (mission)["NewDestinationStation"])
-		(*missionsIn)[i].Kills = (*missionsIn)[i].Needed
+		Missions[i].End = endTime
+		Missions[i].DestinationSystem = fmt.Sprintf("%v", (mission)["NewDestinationSystem"])
+		Missions[i].DestinationStation = fmt.Sprintf("%v", (mission)["NewDestinationStation"])
+		Missions[i].Kills = Missions[i].Needed
 		if connected {
-			broadcast <- MissionMessage{"Mission" + missionEvent, (*missionsIn)[i]}
+			broadcast <- MissionMessage{"Mission" + missionEvent, Missions[i]}
 		}
 	default:
 		//Handle failed/abandoned case
-		if connected && found {
-			broadcast <- MissionMessage{"Mission" + missionEvent, (*missionsIn)[i]}
-		}
-		if len(*missionsIn) > 1 {
-			(*missionsIn) = append((*missionsIn)[:i], (*missionsIn)[i+1:]...)
-		} else {
-			*missionsIn = nil
+		if found {
+			tempMis := Missions[i]
+			if connected {
+				broadcast <- MissionMessage{"Mission" + missionEvent, tempMis}
+			}
+			if len(Missions) > 1 {
+				Missions[i] = Missions[len(Missions)-2]
+				Missions = Missions[:len(Missions)-1]
+			} else {
+				Missions = nil
+			}
 		}
 
 	}

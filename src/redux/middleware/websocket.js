@@ -31,7 +31,7 @@ const socketMiddleware = () => {
 				console.log("MissionAbandoned")
 				store.dispatch(actions.removeMission(payload.mission));
 				break;
-			case "MissionComplete":
+			case "MissionCompleted":
 				store.dispatch(actions.removeMission(payload.mission));
 				break;
 			case "Bounty":

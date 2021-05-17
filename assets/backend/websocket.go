@@ -38,7 +38,6 @@ func reader(conn *websocket.Conn) {
 		err := conn.ReadJSON(&msg)
 		if err != nil {
 			log.Println(err)
-			//delete(clients, conn)
 			break
 		}
 		// print out that message for clarity
@@ -61,20 +60,15 @@ func reader(conn *websocket.Conn) {
 }
 func writer(client *websocket.Conn) {
 	for msg := range broadcast {
-		//msg := <-broadcast
-		//for client := range clients {
 		fmt.Println("Sending Message")
 		if connected {
 			err := client.WriteJSON(msg)
 			if err != nil {
-				log.Printf("error: %v", err)
-				//client.Close()
-				//delete(clients, client)
+				log.Printf("sending error: %v", err)
+				client.Close()
 				break
 			}
 		}
-
-		//}
 	}
 }
 
@@ -90,11 +84,8 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
-	defer clientConn.Close()
-	//defer client.Close()
-	//clients[clientConn] = true
+	//defer clientConn.Close()
 	go writer(clientConn)
-	//reader(clientConn)
 	reader(clientConn)
 	connected = false
 }

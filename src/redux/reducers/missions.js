@@ -9,11 +9,9 @@ export default function missionState(state = { ...initialState }, action) {
 	var returnFact;
 	switch (action.type) {
 		case actionTypes.ADD_MISSION:
-			tempState = { ...state };
-			returnFact = utils.addMission(tempState, action.payload);
-			tempState = { ...state, ...returnFact };
-			return tempState;
-
+			return produce(state, draft => {
+				draft[action.payload.Faction].push(action.payload)
+			})
 		case actionTypes.REMOVE_MISSION:
 			tempState = { ...state };
 			returnFact = utils.removeMission(tempState, action.payload);
