@@ -13,7 +13,7 @@ import (
 	"github.com/radovskyb/watcher"
 )
 
-func watchLogs(journals *[]Logfile, missions *[]Mission) {
+func watchLogs() {
 	logLocation := getLogLocation()
 	w := watcher.New()
 	w.SetMaxEvents(1)
@@ -28,7 +28,7 @@ func watchLogs(journals *[]Logfile, missions *[]Mission) {
 			select {
 			case event := <-w.Event:
 				log.Println("modified file:", event.Path)
-				readChangedFile(event.Path, journals, missions)
+				readChangedFile(event.Path)
 				//log.Println((*missions))
 
 			case err := <-w.Error:
@@ -47,55 +47,43 @@ func watchLogs(journals *[]Logfile, missions *[]Mission) {
 	<-done
 }
 
-func readChangedFile(file string, journals *[]Logfile, missions *[]Mission) {
+func readChangedFile(file string) {
 	found := false
-	var index int
+	//var index int
 	//var tempList []Logfile
-	for i, journal := range *journals {
+	for _, journal := range Journals {
 		//fmt.Println(journal)
 		if journal.path == file {
 			fmt.Println("found journal")
 			found = true
-			index = i
+			//index = i
 			break
 		}
 	}
 	if !found {
 		fmt.Println(file)
-		fmt.Println((*journals)[0].path)
+		fmt.Println(Journals[0].path)
 		info, err := os.Stat(file)
 		if err != nil {
 			log.Fatal(err)
 		}
 		newLog := Logfile{file, info.ModTime(), 0, 0}
-		(*journals) = append((*journals), newLog)
-		index = len((*journals)) - 1
+		Journals = append(Journals, newLog)
+		//index = len(Journals) - 1
 	}
-
-	parseLog(journals, missions, false, index)
+	parseLog(false)
 }
 
-func parseLog(journals *[]Logfile, missions *[]Mission, initialLoad bool, index int) {
-	//defer writeCsv(missions)
+func parseLog(initialLoad bool) {
 	last := len(Journals) - 1
-	var latestLog bool
-	if index >= 0 {
-		fmt.Println("newLine")
-	}
+	//var latestLog bool
 	for i, journal := range Journals {
-		if index >= 0 && i != index {
+		if !initialLoad && i < last {
 			continue
 		}
-
 		file, err := os.Open(journal.path)
 		if err != nil {
 			log.Fatal(err)
-		}
-		if i == last {
-			latestLog = true
-			fmt.Println("found latest")
-		} else {
-			latestLog = false
 		}
 		scanner := bufio.NewScanner(file)
 
@@ -115,14 +103,9 @@ func parseLog(journals *[]Logfile, missions *[]Mission, initialLoad bool, index 
 					continue
 				}
 				missionEvent := fmt.Sprintf("%v", event["event"])[7:]
-				if !latestLog || (latestLog && lineCount <= journal.lastLoad) {
-					processMission(event, missionEvent, false)
-				} else {
-					processMission(event, missionEvent, true)
-				}
-
+				processMission(event, missionEvent)
 			} else if event["event"] == "Bounty" {
-				go processBounty(event)
+				processBounty(event)
 			}
 		}
 		Journals[i].lastLine = lineCount
@@ -131,24 +114,17 @@ func parseLog(journals *[]Logfile, missions *[]Mission, initialLoad bool, index 
 	}
 }
 
-func processMission(mission map[string]interface{}, missionEvent string, processNew bool) {
-	cont := processNew
-	//fmt.Println("processing mission")
+func processMission(mission map[string]interface{}, missionEvent string) {
 	found := false
 	var i int
 	//is mission in existing mission list
 	for ii, tempMis := range Missions {
-		//var misIdInt int
 		misIdInt := int((mission)["MissionID"].(float64))
 		if tempMis.Id == misIdInt {
-			cont = true
 			found = true
 			i = ii
 			break
 		}
-	}
-	if !cont {
-		return
 	}
 
 	// fill in mission details in main array
@@ -163,6 +139,7 @@ func processMission(mission map[string]interface{}, missionEvent string, process
 		Missions[i].Faction = fmt.Sprintf("%v", (mission)["Faction"])
 		Missions[i].TargetFaction = fmt.Sprintf("%v", (mission)["TargetFaction"])
 		Missions[i].Needed = int((mission)["KillCount"].(float64))
+		Missions[i].Kills = 0
 		Missions[i].Value = int((mission)["Reward"].(float64))
 		Missions[i].DestinationSystem = fmt.Sprintf("%v", (mission)["DestinationSystem"])
 		Missions[i].DestinationStation = fmt.Sprintf("%v", (mission)["DestinationStation"])
@@ -190,8 +167,8 @@ func processMission(mission map[string]interface{}, missionEvent string, process
 				broadcast <- MissionMessage{"Mission" + missionEvent, tempMis}
 			}
 			if len(Missions) > 1 {
-				Missions[i] = Missions[len(Missions)-2]
-				Missions = Missions[:len(Missions)-1]
+				Missions[i] = Missions[len(Missions)-1]
+				Missions = Missions[:len(Missions)-2]
 			} else {
 				Missions = nil
 			}
@@ -206,14 +183,12 @@ func processBounty(event map[string]interface{}) {
 	killFaction := event["VictimFaction"].(string)
 	TargetMissions := make(map[string]Mission)
 	for _, mis := range Missions {
-		if _, ok := TargetMissions[mis.Faction]; ok {
-			if TargetMissions[mis.Faction].Start.After(mis.Start) {
-				if mis.TargetFaction == killFaction && mis.Status == "Progress" {
+		if mis.TargetFaction == killFaction && mis.Status == "Progress" {
+			if _, ok := TargetMissions[mis.Faction]; ok {
+				if TargetMissions[mis.Faction].Start.After(mis.Start) {
 					TargetMissions[mis.Faction] = mis
 				}
-			}
-		} else {
-			if mis.TargetFaction == killFaction && mis.Status == "Progress" {
+			} else {
 				TargetMissions[mis.Faction] = mis
 			}
 		}
@@ -225,61 +200,9 @@ func processBounty(event map[string]interface{}) {
 				if connected {
 					broadcast <- MissionMessage{"Bounty", Missions[i]}
 				}
-
 				break
 			}
 		}
 	}
 
 }
-
-/*func processBounty(event map[string]interface{}, missions *[]Mission) {
-	fmt.Println("bounty processing")
-	killFaction := event["VictimFaction"].(string)
-	//bountyTime, _ := time.Parse("2006-01-02T15:04:05Z", fmt.Sprintf("%v", (event)["timestamp"]))
-	factions := bucketFactions(missions)
-	if len(factions) < 1 {
-		return
-	}
-	for _, fact := range factions {
-		if len(fact.Missions) < 1 {
-			continue
-		}
-		// now we know there's at least one mission
-		// find oldest active mission
-		var tempFacMissions []Mission = nil
-		//remove redirected (i.e. complete) missions from consideration
-		for _, misTemp := range fact.Missions {
-			if misTemp.Status == "Progress" {
-				if misTemp.TargetFaction == killFaction {
-					tempFacMissions = append(tempFacMissions, misTemp)
-				}
-			}
-		}
-		if len(tempFacMissions) < 1 {
-			continue
-		}
-		//sort oldest to newest
-		if len(tempFacMissions) > 1 {
-			sort.SliceStable(tempFacMissions, func(i, j int) bool {
-				return tempFacMissions[i].Start.Before(tempFacMissions[j].Start)
-			})
-		}
-
-		// if there are missions
-		if len(tempFacMissions) > 0 {
-			//add one to progress of oldest active mission
-			for i, _ := range *missions {
-				fmt.Println("Bounty Applicable")
-				if (*missions)[i].Id == tempFacMissions[0].Id {
-					(*missions)[i].Kills += 1
-					if connected {
-						fmt.Println("Sending Bounty")
-						broadcast <- MissionMessage{"Bounty", (*missions)[i]}
-					}
-					break
-				}
-			}
-		}
-	}
-}*/

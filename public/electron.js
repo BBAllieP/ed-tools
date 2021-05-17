@@ -8,7 +8,7 @@ const url = require("url");
 const execFile = require("child_process").execFile;
 const path = require("path");
 var backendPath = path.join(process.resourcesPath, "assets", "backend", "bin", "backend-amd64.exe");
-import { autoUpdater } from "electron-updater";
+const { autoUpdater } = require("electron-updater");
 
 function runBackend(){
 	console.log("starting backend")
@@ -76,7 +76,8 @@ app.on("activate", () => {
 	if (mainWindow === null) {
 		createWindow();
 	}
-}
+});
+
 ipcMain.on('app_version', (event) => {
 	event.sender.send('app_version', { version: app.getVersion() });
 });
