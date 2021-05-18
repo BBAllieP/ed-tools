@@ -119,9 +119,9 @@ func processMission(mission map[string]interface{}, missionEvent string) {
 	found := false
 	var i int
 	//is mission in existing mission list
-	for ii, tempMis := range Missions {
+	for ii := range Missions {
 		misIdInt := int((mission)["MissionID"].(float64))
-		if tempMis.Id == misIdInt {
+		if Missions[ii].Id == misIdInt {
 			found = true
 			i = ii
 			break
@@ -162,7 +162,6 @@ func processMission(mission map[string]interface{}, missionEvent string) {
 				broadcast <- MissionMessage{"Mission" + missionEvent, Missions[i]}
 			}
 		}
-
 	default:
 		//Handle failed/abandoned case
 		if found {
@@ -171,8 +170,8 @@ func processMission(mission map[string]interface{}, missionEvent string) {
 				broadcast <- MissionMessage{"Mission" + missionEvent, tempMis}
 			}
 			if len(Missions) > 1 {
-				Missions[i] = Missions[len(Missions)-1]
-				Missions = Missions[:len(Missions)-2]
+				//Missions[i] = Missions[len(Missions)-1]
+				Missions = append(Missions[:i], Missions[i+1:]...)
 			} else {
 				Missions = nil
 			}

@@ -18,14 +18,15 @@ export default function missionState(state = { ...initialState }, action) {
 				
 			})
 		case actionTypes.REMOVE_MISSION:
-			tempState = { ...state };
-			returnFact = utils.removeMission(tempState, action.payload);
-			if (returnFact.length < 1) {
-				delete tempState[returnFact.key];
-				return tempState;
-			} else {
-				return { ...state, ...returnFact };
-			}
+			return produce(state, draft => {
+				if(state[action.payload.Faction].length <= 1){
+					delete draft[action.payload.Faction]
+				} else {
+					draft[action.payload.Faction]=state[action.payload.Faction].filter(mis=>{
+					return mis.MissionID === action.payload.MissionID
+					})
+				}
+			})
 		case actionTypes.MODIFY_MISSION:
 			//tempState = {...state};
 			returnFact = utils.changeMission(state, action.payload);
