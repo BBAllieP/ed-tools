@@ -10,7 +10,12 @@ export default function missionState(state = { ...initialState }, action) {
 	switch (action.type) {
 		case actionTypes.ADD_MISSION:
 			return produce(state, draft => {
-				draft[action.payload.Faction].push(action.payload)
+				if(action.payload.Faction in draft){
+					draft[action.payload.Faction].push(action.payload)
+				} else {
+					draft[action.payload.Faction] = [action.payload]
+				}
+				
 			})
 		case actionTypes.REMOVE_MISSION:
 			tempState = { ...state };

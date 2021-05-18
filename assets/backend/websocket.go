@@ -60,8 +60,9 @@ func reader(conn *websocket.Conn) {
 }
 func writer(client *websocket.Conn) {
 	for msg := range broadcast {
-		fmt.Println("Sending Message")
+
 		if connected {
+			fmt.Println("Sending Message")
 			err := client.WriteJSON(msg)
 			if err != nil {
 				log.Printf("sending error: %v", err)

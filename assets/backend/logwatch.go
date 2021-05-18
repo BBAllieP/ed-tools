@@ -77,23 +77,23 @@ func readChangedFile(file string) {
 func parseLog(initialLoad bool) {
 	last := len(Journals) - 1
 	//var latestLog bool
-	for i, journal := range Journals {
+	for i := range Journals {
 		if !initialLoad && i < last {
 			continue
 		}
-		file, err := os.Open(journal.path)
+		file, err := os.Open(Journals[i].path)
 		if err != nil {
 			log.Fatal(err)
 		}
 		scanner := bufio.NewScanner(file)
 
-		var lineCount int
-		lineCount = 0
+		//var lineCount int
+		lineCount := 0
 		var event map[string]interface{}
 		for scanner.Scan() {
 			event = nil
-			lineCount += 1
-			if lineCount <= journal.lastLine {
+			lineCount++
+			if lineCount <= Journals[i].lastLine {
 				continue
 			}
 
@@ -151,15 +151,18 @@ func processMission(mission map[string]interface{}, missionEvent string) {
 			broadcast <- MissionMessage{"Mission" + missionEvent, Missions[i]}
 		}
 	case "Redirected":
-		Missions[i].Status = "Done"
-		endTime, _ := time.Parse("2006-01-02T15:04:05Z", fmt.Sprintf("%v", (mission)["timestamp"]))
-		Missions[i].End = endTime
-		Missions[i].DestinationSystem = fmt.Sprintf("%v", (mission)["NewDestinationSystem"])
-		Missions[i].DestinationStation = fmt.Sprintf("%v", (mission)["NewDestinationStation"])
-		Missions[i].Kills = Missions[i].Needed
-		if connected {
-			broadcast <- MissionMessage{"Mission" + missionEvent, Missions[i]}
+		if found {
+			Missions[i].Status = "Done"
+			endTime, _ := time.Parse("2006-01-02T15:04:05Z", fmt.Sprintf("%v", (mission)["timestamp"]))
+			Missions[i].End = endTime
+			Missions[i].DestinationSystem = fmt.Sprintf("%v", (mission)["NewDestinationSystem"])
+			Missions[i].DestinationStation = fmt.Sprintf("%v", (mission)["NewDestinationStation"])
+			Missions[i].Kills = Missions[i].Needed
+			if connected {
+				broadcast <- MissionMessage{"Mission" + missionEvent, Missions[i]}
+			}
 		}
+
 	default:
 		//Handle failed/abandoned case
 		if found {
@@ -199,7 +202,7 @@ func processBounty(event map[string]interface{}) {
 	for _, mis := range TargetMissions {
 		for i, mis1 := range Missions {
 			if mis1.Id == mis.Id {
-				Missions[i].Kills += 1
+				Missions[i].Kills++
 				if connected {
 					broadcast <- MissionMessage{"Bounty", Missions[i]}
 				}
