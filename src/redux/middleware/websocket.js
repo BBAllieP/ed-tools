@@ -34,6 +34,9 @@ const socketMiddleware = () => {
 			case "MissionCompleted":
 				store.dispatch(actions.removeMission(payload.body));
 				break;
+			case "MissionRedirected":
+				store.dispatch(actions.modifyMission(payload.body));
+				break;
 			case "Bounty":
 				console.log(payload);
 				store.dispatch(actions.modifyMission(payload.body));

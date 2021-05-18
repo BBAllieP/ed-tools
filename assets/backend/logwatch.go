@@ -27,7 +27,7 @@ func watchLogs() {
 		for {
 			select {
 			case event := <-w.Event:
-				log.Println("modified file:", event.Path)
+				//log.Println("modified file:", event.Path)
 				readChangedFile(event.Path)
 				//log.Println((*missions))
 
@@ -54,15 +54,15 @@ func readChangedFile(file string) {
 	for i, journal := range Journals {
 		//fmt.Println(journal)
 		if journal.path == file {
-			fmt.Println("found journal")
+			//fmt.Println("found journal")
 			found = true
 			index = i
 			break
 		}
 	}
 	if !found {
-		fmt.Println(file)
-		fmt.Println(Journals[0].path)
+		//fmt.Println(file)
+		//fmt.Println(Journals[0].path)
 		info, err := os.Stat(file)
 		if err != nil {
 			log.Fatal(err)
