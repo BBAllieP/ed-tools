@@ -1,9 +1,9 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 
 const isDev = require("electron-is-dev");
-//if(isDev){
+if(isDev){
 	const { default: installExtension, REACT_DEVELOPER_TOOLS,REDUX_DEVTOOLS } = require('electron-devtools-installer');
-//}
+}
 const url = require("url");
 const execFile = require("child_process").execFile;
 const path = require("path");
@@ -33,7 +33,10 @@ function runBackend(){
 let mainWindow;
 
 function createWindow() {
-	mainWindow = new BrowserWindow({ width: 900, height: 680 });
+	mainWindow = new BrowserWindow({ width: 900, height: 680, webPreferences:{
+		nodeIntegration: true,
+		contextIsolation: false
+	}});
 	mainWindow.setMenu(null);
 	mainWindow.loadURL(
 		isDev
