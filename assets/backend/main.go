@@ -12,14 +12,15 @@ func init() {
 	getLogList()
 	fmt.Println("Loading Missions")
 	getResumedMissionList()
-	parseLog(true)
+	for ind := range Journals {
+		parseLog(true, ind)
+	}
 	fmt.Println("Missions Loaded")
 }
 
 func main() {
 	fmt.Println("ED-Tools Backend v0.0.0.1")
 	Connected = false
-	MsgChan = make(chan interface{})
 	//start websocket
 	router := setupRoutes()
 	fmt.Println("Serving Router")

@@ -49,14 +49,14 @@ func watchLogs() {
 
 func readChangedFile(file string) {
 	found := false
-	//var index int
+	var index int
 	//var tempList []Logfile
-	for _, journal := range Journals {
+	for i, journal := range Journals {
 		//fmt.Println(journal)
 		if journal.path == file {
 			fmt.Println("found journal")
 			found = true
-			//index = i
+			index = i
 			break
 		}
 	}
@@ -69,50 +69,50 @@ func readChangedFile(file string) {
 		}
 		newLog := Logfile{file, info.ModTime(), 0, 0}
 		Journals = append(Journals, newLog)
-		//index = len(Journals) - 1
+		index = len(Journals) - 1
 	}
-	parseLog(false)
+	parseLog(false, index)
 }
 
-func parseLog(initialLoad bool) {
-	last := len(Journals) - 1
+func parseLog(initialLoad bool, ind int) {
+	//last := len(Journals) - 1
 	//var latestLog bool
-	for i := range Journals {
-		if !initialLoad && i < last {
+	//for i := range Journals {
+	/*if !initialLoad && i < last {
+		continue
+	}*/
+	file, err := os.Open((Journals[ind]).path)
+	if err != nil {
+		log.Fatal(err)
+	}
+	scanner := bufio.NewScanner(file)
+
+	//var lineCount int
+	lineCount := 0
+	var event map[string]interface{}
+	for scanner.Scan() {
+		event = nil
+		lineCount++
+		if lineCount <= (Journals[ind]).lastLine {
 			continue
 		}
-		file, err := os.Open(Journals[i].path)
-		if err != nil {
-			log.Fatal(err)
-		}
-		scanner := bufio.NewScanner(file)
 
-		//var lineCount int
-		lineCount := 0
-		var event map[string]interface{}
-		for scanner.Scan() {
-			event = nil
-			lineCount++
-			if lineCount <= Journals[i].lastLine {
+		//parse each line and do something with it based on contents
+		json.Unmarshal([]byte(scanner.Text()), &event)
+		if strings.Contains(scanner.Text(), "Mission_Massacre") {
+			if event["event"] == "Missions" {
 				continue
 			}
-
-			//parse each line and do something with it based on contents
-			json.Unmarshal([]byte(scanner.Text()), &event)
-			if strings.Contains(scanner.Text(), "Mission_Massacre") {
-				if event["event"] == "Missions" {
-					continue
-				}
-				missionEvent := fmt.Sprintf("%v", event["event"])[7:]
-				processMission(event, missionEvent)
-			} else if event["event"] == "Bounty" && !initialLoad {
-				processBounty(event)
-			}
+			missionEvent := fmt.Sprintf("%v", event["event"])[7:]
+			processMission(event, missionEvent)
+		} else if event["event"] == "Bounty" {
+			processBounty(event)
 		}
-		Journals[i].lastLine = lineCount
-
-		file.Close()
 	}
+	(Journals[ind]).lastLine = lineCount
+
+	file.Close()
+	//}
 }
 
 func processMission(mission map[string]interface{}, missionEvent string) {

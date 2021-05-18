@@ -52,6 +52,9 @@ func reader(conn *websocket.Conn) {
 		case "getMissionById":
 			val, _ := strconv.Atoi(msg.Value)
 			conn.WriteJSON(getMissionByID(&Missions, val))
+		case "getJournals":
+			journMsg := JournalsMessage{"GetAllJournals", Journals}
+			conn.WriteJSON(journMsg)
 		default:
 			conn.WriteMessage(1, []byte("Unhandled Request"))
 		}

@@ -37,11 +37,9 @@ func getLogList() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	pattern, _ := regexp.Compile("Journal.*.log")
 	for _, journal := range logs {
-		match, err := regexp.MatchString("Journal.*.log", journal.Name())
-		if err != nil {
-			log.Fatal(err)
-		}
+		match := pattern.MatchString(journal.Name())
 		if match {
 			//Add logfile to slice of logfiles
 			var newLog Logfile
@@ -61,8 +59,8 @@ func getLogList() {
 
 func getLatestLog() int {
 	latest := 0
-	for i, journal := range Journals {
-		if journal.mod.After(Journals[latest].mod) {
+	for i := range Journals {
+		if Journals[i].mod.After(Journals[latest].mod) {
 			latest = i
 		}
 	}
@@ -71,7 +69,6 @@ func getLatestLog() int {
 
 func getResumedMissionList() {
 	statuses := []string{"Active", "Complete", "Failed"}
-	getLogList()
 	latestLogInd := getLatestLog()
 	file, err := os.Open(Journals[latestLogInd].path)
 	if err != nil {
@@ -124,11 +121,9 @@ func getResumedMissionList() {
 		return journList[i].mod.Before(journList[j].mod)
 	})
 	//set master list to sorted and filtered list
+	Journals = nil
 	Journals = journList
-	// parse journals for updates
 	Missions = allMissions
-	//parseLog(logList, missionList, true, -1)
-
 }
 
 //adds custom info to missions data and puts it all together

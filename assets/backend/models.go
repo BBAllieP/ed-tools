@@ -57,3 +57,7 @@ type FactionsMessage struct {
 	Action   string    `json:"action"`
 	Factions []Faction `json:"factions"`
 }
+type JournalsMessage struct {
+	Action string    `json:"action"`
+	Logs   []Logfile `json:"journals"`
+}
