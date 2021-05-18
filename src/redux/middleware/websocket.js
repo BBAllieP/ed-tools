@@ -22,21 +22,21 @@ const socketMiddleware = () => {
 		switch (payload.action) {
 			case "MissionAccepted":
 				console.log("MissionAccepted");
-				store.dispatch(actions.addMission(payload.mission));
+				store.dispatch(actions.addMission(payload.body));
 				break;
 			case "MissionFailed":
-				store.dispatch(actions.removeMission(payload.mission));
+				store.dispatch(actions.removeMission(payload.body));
 				break;
 			case "MissionAbandoned":
 				console.log("MissionAbandoned")
-				store.dispatch(actions.removeMission(payload.mission));
+				store.dispatch(actions.removeMission(payload.body));
 				break;
 			case "MissionCompleted":
-				store.dispatch(actions.removeMission(payload.mission));
+				store.dispatch(actions.removeMission(payload.body));
 				break;
 			case "Bounty":
 				console.log(payload);
-				store.dispatch(actions.modifyMission(payload.mission));
+				store.dispatch(actions.modifyMission(payload.body));
 				break;
 			case "GetAllFactions":
 				store.dispatch(actions.addAllFactions(payload.factions));

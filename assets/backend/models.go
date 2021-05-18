@@ -61,3 +61,7 @@ type JournalsMessage struct {
 	Action string    `json:"action"`
 	Logs   []Logfile `json:"journals"`
 }
+type Message struct {
+	Action string      `json:"action"`
+	Body   interface{} `json:"body"`
+}

@@ -147,7 +147,7 @@ func processMission(mission map[string]interface{}, missionEvent string) {
 		Missions[i].Reputation = fmt.Sprintf("%v", (mission)["Reputation"])
 		startTime, _ := time.Parse("2006-01-02T15:04:05Z", fmt.Sprintf("%v", (mission)["timestamp"]))
 		Missions[i].Start = startTime
-		if connected {
+		if Connected {
 			broadcast <- MissionMessage{"Mission" + missionEvent, Missions[i]}
 		}
 	case "Redirected":
@@ -158,7 +158,7 @@ func processMission(mission map[string]interface{}, missionEvent string) {
 			Missions[i].DestinationSystem = fmt.Sprintf("%v", (mission)["NewDestinationSystem"])
 			Missions[i].DestinationStation = fmt.Sprintf("%v", (mission)["NewDestinationStation"])
 			Missions[i].Kills = Missions[i].Needed
-			if connected {
+			if Connected {
 				broadcast <- MissionMessage{"Mission" + missionEvent, Missions[i]}
 			}
 		}
@@ -167,7 +167,7 @@ func processMission(mission map[string]interface{}, missionEvent string) {
 		//Handle failed/abandoned case
 		if found {
 			tempMis := Missions[i]
-			if connected {
+			if Connected {
 				broadcast <- MissionMessage{"Mission" + missionEvent, tempMis}
 			}
 			if len(Missions) > 1 {
@@ -183,18 +183,15 @@ func processMission(mission map[string]interface{}, missionEvent string) {
 }
 
 func processBounty(event map[string]interface{}) {
-	fmt.Println("bounty processing")
 	killFaction := event["VictimFaction"].(string)
 	TargetMissions := make(map[string]Mission)
 	for _, mis := range Missions {
 		if mis.TargetFaction == killFaction && mis.Status == "Progress" {
 			if _, ok := TargetMissions[mis.Faction]; ok {
 				if TargetMissions[mis.Faction].Start.After(mis.Start) {
-					fmt.Println("bounty processing")
 					TargetMissions[mis.Faction] = mis
 				}
 			} else {
-				fmt.Println("bounty processing")
 				TargetMissions[mis.Faction] = mis
 			}
 		}
@@ -203,7 +200,8 @@ func processBounty(event map[string]interface{}) {
 		for i, mis1 := range Missions {
 			if mis1.Id == mis.Id {
 				Missions[i].Kills++
-				if connected {
+				if Connected {
+					fmt.Println("bounty processing")
 					broadcast <- MissionMessage{"Bounty", Missions[i]}
 				}
 				break

@@ -12,7 +12,6 @@ import (
 
 //var clients = make(map[*websocket.Conn]bool) // connected clients
 //var client *websocket.Conn
-var connected = false
 var broadcast = make(chan MissionMessage) // broadcast channel
 
 // We'll need to define an Upgrader
@@ -26,6 +25,15 @@ var upgrader = websocket.Upgrader{
 	// development server to here.
 	// For now, we'll do no checking and just allow any connection
 	CheckOrigin: func(r *http.Request) bool { return true },
+}
+
+func Upgrade(w http.ResponseWriter, r *http.Request) (*websocket.Conn, error) {
+	ws, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		log.Println(err)
+		return ws, err
+	}
+	return ws, nil
 }
 
 // define a reader which will listen for
@@ -61,9 +69,9 @@ func reader(conn *websocket.Conn) {
 
 	}
 }
-func writer(client *websocket.Conn) {
-	for msg := range broadcast {
 
+/*func writer(client *websocket.Conn) {
+	for msg := range broadcast {
 		if connected {
 			fmt.Println("Sending Message")
 			err := client.WriteJSON(msg)
@@ -74,24 +82,35 @@ func writer(client *websocket.Conn) {
 			}
 		}
 	}
+}*/
+func writer(pool *Pool) {
+	for msg := range broadcast {
+		fmt.Println("Sending Message")
+		pool.Broadcast <- Message{msg.Action, msg.Mission}
+	}
 }
 
 // define our WebSocket endpoint
-func serveWs(w http.ResponseWriter, r *http.Request) {
+func serveWs(pool *Pool, w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.Host)
 
 	// upgrade this connection to a WebSocket
 	// connection
 	clientConn, err := upgrader.Upgrade(w, r, nil)
 	//client = clientConn
-	connected = true
 	if err != nil {
 		log.Println(err)
 	}
+	client := &Client{
+		Conn: clientConn,
+		Pool: pool,
+	}
+	pool.Register <- client
+	client.Read()
 	//defer clientConn.Close()
-	go writer(clientConn)
-	reader(clientConn)
-	connected = false
+	//go writer(clientConn)
+	//reader(clientConn)
+	//connected = false
 }
 func handleHome(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.Host)
@@ -101,7 +120,12 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 
 func setupRoutes() *mux.Router {
 	router := mux.NewRouter()
-	router.HandleFunc("/ws", serveWs)
+	pool := NewPool()
+	go pool.Start()
+	go writer(pool)
+	router.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+		serveWs(pool, w, r)
+	})
 	router.HandleFunc("/", handleHome)
 	// listen indefinitely for new messages coming
 	// through on our WebSocket connection
