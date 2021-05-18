@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -19,7 +20,7 @@ import (
 // 3) store the names of all of the logs we will need to parse - TODO
 // 4) parse all logs in chronological order to determine current state - TODO
 // 5) set the active log - TODO
-func getLogList(resultLogs *[]Logfile) {
+func getLogList() {
 	//var resultLogs []Logfile
 	var logLocation string
 	if runtime.GOOS == "windows" {
@@ -36,11 +37,9 @@ func getLogList(resultLogs *[]Logfile) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	pattern, _ := regexp.Compile("Journal.*.log")
 	for _, journal := range logs {
-		match, err := regexp.MatchString("Journal.*.log", journal.Name())
-		if err != nil {
-			log.Fatal(err)
-		}
+		match := pattern.MatchString(journal.Name())
 		if match {
 			//Add logfile to slice of logfiles
 			var newLog Logfile
@@ -52,27 +51,26 @@ func getLogList(resultLogs *[]Logfile) {
 			newLog.mod = info.ModTime()
 			newLog.lastLine = 0
 			newLog.lastLoad = 0
-			*resultLogs = append(*resultLogs, newLog)
+			Journals = append(Journals, newLog)
 		}
 	}
 	//return resultLogs
 }
 
-func getLatestLog(logList *[]Logfile) int {
+func getLatestLog() int {
 	latest := 0
-	for i, journal := range *logList {
-		if journal.mod.After((*logList)[i].mod) {
+	for i := range Journals {
+		if Journals[i].mod.After(Journals[latest].mod) {
 			latest = i
 		}
 	}
 	return latest
 }
 
-func getResumedMissionList(missionList *[]Mission, logList *[]Logfile) {
+func getResumedMissionList() {
 	statuses := []string{"Active", "Complete", "Failed"}
-	getLogList(logList)
-	latestLogInd := getLatestLog(logList)
-	file, err := os.Open((*logList)[latestLogInd].path)
+	latestLogInd := getLatestLog()
+	file, err := os.Open(Journals[latestLogInd].path)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -84,8 +82,9 @@ func getResumedMissionList(missionList *[]Mission, logList *[]Logfile) {
 		lineNo += 1
 		// Logic to find last mission resume line and assign it to variable
 		if strings.Contains(scanner.Text(), "\"event\":\"Missions\"") {
+			fmt.Println("found load line")
 			lastLine = scanner.Text()
-			(*logList)[latestLogInd].lastLoad = lineNo
+			Journals[latestLogInd].lastLoad = lineNo
 		}
 	}
 	//take resumed mission data and populate array with data
@@ -97,6 +96,7 @@ func getResumedMissionList(missionList *[]Mission, logList *[]Logfile) {
 	for _, misStatus := range statuses {
 		allMissions = append(allMissions, modAndAddMissions(resumed, misStatus)...)
 	}
+	//fmt.Println(allMissions)
 	//find oldest current mission
 	var oldestMis Mission
 	for cnt, mis := range allMissions {
@@ -108,13 +108,9 @@ func getResumedMissionList(missionList *[]Mission, logList *[]Logfile) {
 		}
 	}
 
-	sort.SliceStable((*logList), func(i, j int) bool {
-		return (*logList)[i].mod.Before((*logList)[j].mod)
-	})
 	//make list of journals more recent than that mission
 	var journList []Logfile
-	//var tempJourn Logfile
-	for _, journ := range *logList {
+	for _, journ := range Journals {
 		if journ.mod.After(oldestMis.Start.Add(time.Duration(24) * time.Hour * -1)) {
 			journList = append(journList, journ)
 		}
@@ -125,11 +121,9 @@ func getResumedMissionList(missionList *[]Mission, logList *[]Logfile) {
 		return journList[i].mod.Before(journList[j].mod)
 	})
 	//set master list to sorted and filtered list
-	*logList = journList
-	// parse journals for updates
-	*missionList = allMissions
-	parseLog(logList, missionList, true)
-
+	Journals = nil
+	Journals = journList
+	Missions = allMissions
 }
 
 //adds custom info to missions data and puts it all together

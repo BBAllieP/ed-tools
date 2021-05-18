@@ -10,6 +10,10 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+//var clients = make(map[*websocket.Conn]bool) // connected clients
+//var client *websocket.Conn
+var broadcast = make(chan MissionMessage) // broadcast channel
+
 // We'll need to define an Upgrader
 // this will require a Read and Write buffer size
 var upgrader = websocket.Upgrader{
@@ -23,6 +27,15 @@ var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool { return true },
 }
 
+func Upgrade(w http.ResponseWriter, r *http.Request) (*websocket.Conn, error) {
+	ws, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		log.Println(err)
+		return ws, err
+	}
+	return ws, nil
+}
+
 // define a reader which will listen for
 // new messages being sent to our WebSocket
 // endpoint
@@ -33,7 +46,7 @@ func reader(conn *websocket.Conn) {
 		err := conn.ReadJSON(&msg)
 		if err != nil {
 			log.Println(err)
-			return
+			break
 		}
 		// print out that message for clarity
 		switch msg.Action {
@@ -47,24 +60,57 @@ func reader(conn *websocket.Conn) {
 		case "getMissionById":
 			val, _ := strconv.Atoi(msg.Value)
 			conn.WriteJSON(getMissionByID(&Missions, val))
+		case "getJournals":
+			journMsg := JournalsMessage{"GetAllJournals", Journals}
+			conn.WriteJSON(journMsg)
 		default:
 			conn.WriteMessage(1, []byte("Unhandled Request"))
 		}
+
+	}
+}
+
+/*func writer(client *websocket.Conn) {
+	for msg := range broadcast {
+		if connected {
+			fmt.Println("Sending Message")
+			err := client.WriteJSON(msg)
+			if err != nil {
+				log.Printf("sending error: %v", err)
+				client.Close()
+				break
+			}
+		}
+	}
+}*/
+func writer(pool *Pool) {
+	for msg := range broadcast {
+		fmt.Println("Sending Message")
+		pool.Broadcast <- Message{msg.Action, msg.Mission}
 	}
 }
 
 // define our WebSocket endpoint
-func serveWs(w http.ResponseWriter, r *http.Request) {
+func serveWs(pool *Pool, w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.Host)
 
 	// upgrade this connection to a WebSocket
 	// connection
 	clientConn, err := upgrader.Upgrade(w, r, nil)
+	//client = clientConn
 	if err != nil {
 		log.Println(err)
 	}
-	Connected = true
-	go reader(clientConn)
+	client := &Client{
+		Conn: clientConn,
+		Pool: pool,
+	}
+	pool.Register <- client
+	client.Read()
+	//defer clientConn.Close()
+	//go writer(clientConn)
+	//reader(clientConn)
+	//connected = false
 }
 func handleHome(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.Host)
@@ -74,7 +120,12 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 
 func setupRoutes() *mux.Router {
 	router := mux.NewRouter()
-	router.HandleFunc("/ws", serveWs)
+	pool := NewPool()
+	go pool.Start()
+	go writer(pool)
+	router.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+		serveWs(pool, w, r)
+	})
 	router.HandleFunc("/", handleHome)
 	// listen indefinitely for new messages coming
 	// through on our WebSocket connection

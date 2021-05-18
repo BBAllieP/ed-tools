@@ -1,14 +1,14 @@
-const electron = require("electron");
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
+const { app, BrowserWindow, ipcMain } = require("electron");
+
 const isDev = require("electron-is-dev");
-if(isDev){
+//if(isDev){
 	const { default: installExtension, REACT_DEVELOPER_TOOLS,REDUX_DEVTOOLS } = require('electron-devtools-installer');
-}
+//}
 const url = require("url");
 const execFile = require("child_process").execFile;
 const path = require("path");
 var backendPath = path.join(process.resourcesPath, "assets", "backend", "bin", "backend-amd64.exe");
+const { autoUpdater } = require("electron-updater");
 
 function runBackend(){
 	console.log("starting backend")
@@ -34,18 +34,21 @@ let mainWindow;
 
 function createWindow() {
 	mainWindow = new BrowserWindow({ width: 900, height: 680 });
-	mainWindow.setMenu(null);
+	//mainWindow.setMenu(null);
 	mainWindow.loadURL(
 		isDev
 			? "http://localhost:3000"
 			: `file://${path.join(__dirname, "../build/index.html")}`
 	);
 	mainWindow.on("closed", () => (mainWindow = null));
+	mainWindow.once('ready-to-show', () => {
+		autoUpdater.checkForUpdatesAndNotify();
+	  });
 	
 }
 
 app.on("ready", ()=> {
-	runBackend();
+	//runBackend();
 	createWindow();
 
 });
@@ -73,4 +76,20 @@ app.on("activate", () => {
 	if (mainWindow === null) {
 		createWindow();
 	}
+});
+
+ipcMain.on('app_version', (event) => {
+	event.sender.send('app_version', { version: app.getVersion() });
+});
+
+autoUpdater.on('update-available', () => {
+	mainWindow.webContents.send('update_available');
+});
+  
+autoUpdater.on('update-downloaded', () => {
+	mainWindow.webContents.send('update_downloaded');
+});
+  
+ipcMain.on('restart_app', () => {
+	autoUpdater.quitAndInstall();
 });

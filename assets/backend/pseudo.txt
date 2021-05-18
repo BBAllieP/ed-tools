@@ -1,0 +1,17 @@
+init {
+    find most recent logfile
+    find most recent Missions event line and load startup missions
+    generate inital slice of Missions {
+        each mission has start calculated based on expiration
+    }
+    generate slice of Logfiles {
+        each logfile has path and last read line
+    }
+    load mission data from all logfiles more recent than earliest mission
+    Don't load bounties
+}
+
+main {
+    start webserver
+    start watching for logfile changes
+}

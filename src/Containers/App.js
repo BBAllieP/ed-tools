@@ -12,14 +12,15 @@ import Paper from "@material-ui/core/Paper";
 function App(props) {
 	useEffect(() => {
 		props.wsConnect("ws://127.0.0.1:8844/ws");
-		const interval = setInterval(()=>{
+		/*const interval = setInterval(()=>{
 				console.log("fetching update");
 				props.getAllFactions();
 			
-		}, 1000);
+		}, 1000);*/
+		
 		return function cleanup() {
 			props.wsDisconnect("ws://127.0.0.1:8844/ws");
-			clearInterval(interval);
+			//clearInterval(interval);
 		};
 	}, []);
 

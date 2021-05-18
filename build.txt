@@ -1,2 +1,3 @@
-GOOS=windows GOARCH=amd64 go build -o bin/backend-amd64.exe *.go
+GOOS=windows GOARCH=amd64 
+go build -o bin/backend-amd64.exe .
 
