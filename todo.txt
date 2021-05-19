@@ -10,18 +10,18 @@
      - build go to executable first
      - execute backend on electron load
 [x] test on live
-[BOO] get alpha testers and ensure it works in other people's computers
+[x] get alpha testers and ensure it works in other people's computers
      Thanks alpha testers! Looks like we have some bugs to work out and some new functionality to add:
-[] Refactor backend->frontend to only send updates when updated, not have frontend consistently polling for the whole data stack
-[] fix bug that double counts bounties
+[x] Refactor backend->frontend to only send updates when updated, not have frontend consistently polling for the whole data stack
+[x] fix bug that double counts bounties
 [] add snackbars when message received from backend (notistack)
 [] Make layout for smaller screens
 [] Make both current reward total and stack reward total visible in the circle progress
-[] fix backend crash bugs (new)
-[] Implement autoupdate in electron
+[x] fix backend crash bugs (new)
+[x] Implement autoupdate in electron
 
 *** MVP Ready
-[] add cute lil "under construction" pages for the tabs not yet working
+[x] add cute lil "under construction" pages for the tabs not yet working
 [] cleanup code base (lol never)
 [] maybe add alerts for when you start taking hull damage
 [] (far future) update a web API for potential mobile app later on
