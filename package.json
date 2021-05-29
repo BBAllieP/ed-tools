@@ -1,6 +1,6 @@
 {
 	"name": "ed-tools",
-	"version": "0.1.11",
+	"version": "0.1.12",
 	"private": true,
 	"main": "public/electron.js",
 	"homepage": "./",
