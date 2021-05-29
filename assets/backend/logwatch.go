@@ -118,9 +118,9 @@ func parseLog(initialLoad bool, ind int) {
 func processMission(mission map[string]interface{}, missionEvent string) {
 	found := false
 	var i int
+	misIdInt := int((mission)["MissionID"].(float64))
 	//is mission in existing mission list
 	for ii := range Missions {
-		misIdInt := int((mission)["MissionID"].(float64))
 		if Missions[ii].Id == misIdInt {
 			found = true
 			i = ii
@@ -133,7 +133,7 @@ func processMission(mission map[string]interface{}, missionEvent string) {
 	switch missionEvent {
 	case "Accepted":
 		if !found {
-			Missions = append(Missions, Mission{Id: int(mission["MissionID"].(float64)), Name: fmt.Sprintf("%v", mission["Name"]), IsWing: strings.Contains(fmt.Sprintf("%v", mission["Name"]), "Wing")})
+			Missions = append(Missions, Mission{Id: misIdInt, Name: fmt.Sprintf("%v", mission["Name"]), IsWing: strings.Contains(fmt.Sprintf("%v", mission["Name"]), "Wing")})
 			i = len(Missions) - 1
 		}
 		Missions[i].Status = "Progress"
