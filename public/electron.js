@@ -1,9 +1,15 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 
 const isDev = require("electron-is-dev");
-if(isDev){
-	const { default: installExtension, REACT_DEVELOPER_TOOLS,REDUX_DEVTOOLS } = require('electron-devtools-installer');
-}
+
+let installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS; // NEW!
+
+if (isDev) {
+  const devTools = require("electron-devtools-installer");
+  installExtension = devTools.default;
+  REACT_DEVELOPER_TOOLS = devTools.REACT_DEVELOPER_TOOLS;
+  REDUX_DEVTOOLS = devTools.REDUX_DEVTOOLS;
+} // NEW!
 const url = require("url");
 const execFile = require("child_process").execFile;
 const path = require("path");
@@ -51,7 +57,7 @@ function createWindow() {
 }
 
 app.on("ready", ()=> {
-	runBackend();
+	//runBackend();
 	createWindow();
 
 });

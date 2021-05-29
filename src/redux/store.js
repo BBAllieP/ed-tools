@@ -1,9 +1,9 @@
 import { createStore, applyMiddleware, compose } from "redux";
 import rootReducer from "./reducers";
 import wsMiddleware from "./middleware/websocket";
-const isDev = require('eletron-is-dev');
+//const isDev = window.require('electron-is-dev');
 
-const makeStore = () => {
+/*const makeStore = () => {
 	if (isDev){
 		return createStore(
 			rootReducer,
@@ -22,4 +22,12 @@ const makeStore = () => {
 	}
 }
 
-export default makeStore();
+export default makeStore();*/
+
+export default createStore(
+	rootReducer,
+	compose(
+		applyMiddleware(wsMiddleware),
+		window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+	)
+);
