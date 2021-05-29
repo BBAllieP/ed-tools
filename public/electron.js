@@ -43,7 +43,7 @@ function createWindow() {
 		nodeIntegration: true,
 		contextIsolation: false
 	}});
-	mainWindow.setMenu(null);
+	if(!isDev){mainWindow.setMenu(null);}
 	mainWindow.loadURL(
 		isDev
 			? "http://localhost:3000"
@@ -57,7 +57,7 @@ function createWindow() {
 }
 
 app.on("ready", ()=> {
-	//runBackend();
+	runBackend();
 	createWindow();
 
 });

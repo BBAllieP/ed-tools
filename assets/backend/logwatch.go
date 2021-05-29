@@ -104,7 +104,7 @@ func parseLog(initialLoad bool, ind int) {
 				continue
 			}
 			missionEvent := fmt.Sprintf("%v", event["event"])[7:]
-			processMission(event, missionEvent)
+			processMission(event, missionEvent, initialLoad)
 		} else if event["event"] == "Bounty" {
 			processBounty(event)
 		}
@@ -115,7 +115,7 @@ func parseLog(initialLoad bool, ind int) {
 	//}
 }
 
-func processMission(mission map[string]interface{}, missionEvent string) {
+func processMission(mission map[string]interface{}, missionEvent string, initialLoad bool) {
 	found := false
 	var i int
 	misIdInt := int((mission)["MissionID"].(float64))
@@ -132,23 +132,25 @@ func processMission(mission map[string]interface{}, missionEvent string) {
 	fmt.Println("Mission " + missionEvent)
 	switch missionEvent {
 	case "Accepted":
-		if !found {
+		if !found && !initialLoad {
 			Missions = append(Missions, Mission{Id: misIdInt, Name: fmt.Sprintf("%v", mission["Name"]), IsWing: strings.Contains(fmt.Sprintf("%v", mission["Name"]), "Wing")})
 			i = len(Missions) - 1
 		}
-		Missions[i].Status = "Progress"
-		Missions[i].Faction = fmt.Sprintf("%v", (mission)["Faction"])
-		Missions[i].TargetFaction = fmt.Sprintf("%v", (mission)["TargetFaction"])
-		Missions[i].Needed = int((mission)["KillCount"].(float64))
-		Missions[i].Kills = 0
-		Missions[i].Value = int((mission)["Reward"].(float64))
-		Missions[i].DestinationSystem = fmt.Sprintf("%v", (mission)["DestinationSystem"])
-		Missions[i].DestinationStation = fmt.Sprintf("%v", (mission)["DestinationStation"])
-		Missions[i].Reputation = fmt.Sprintf("%v", (mission)["Reputation"])
-		startTime, _ := time.Parse("2006-01-02T15:04:05Z", fmt.Sprintf("%v", (mission)["timestamp"]))
-		Missions[i].Start = startTime
-		if Connected {
-			broadcast <- MissionMessage{"Mission" + missionEvent, Missions[i]}
+		if !initialLoad {
+			Missions[i].Status = "Progress"
+			Missions[i].Faction = fmt.Sprintf("%v", (mission)["Faction"])
+			Missions[i].TargetFaction = fmt.Sprintf("%v", (mission)["TargetFaction"])
+			Missions[i].Needed = int((mission)["KillCount"].(float64))
+			Missions[i].Kills = 0
+			Missions[i].Value = int((mission)["Reward"].(float64))
+			Missions[i].DestinationSystem = fmt.Sprintf("%v", (mission)["DestinationSystem"])
+			Missions[i].DestinationStation = fmt.Sprintf("%v", (mission)["DestinationStation"])
+			Missions[i].Reputation = fmt.Sprintf("%v", (mission)["Reputation"])
+			startTime, _ := time.Parse("2006-01-02T15:04:05Z", fmt.Sprintf("%v", (mission)["timestamp"]))
+			Missions[i].Start = startTime
+			if Connected {
+				broadcast <- MissionMessage{"Mission" + missionEvent, Missions[i]}
+			}
 		}
 	case "Redirected":
 		if found {
@@ -158,7 +160,7 @@ func processMission(mission map[string]interface{}, missionEvent string) {
 			Missions[i].DestinationSystem = fmt.Sprintf("%v", (mission)["NewDestinationSystem"])
 			Missions[i].DestinationStation = fmt.Sprintf("%v", (mission)["NewDestinationStation"])
 			Missions[i].Kills = Missions[i].Needed
-			if Connected {
+			if Connected && !initialLoad {
 				broadcast <- MissionMessage{"Mission" + missionEvent, Missions[i]}
 			}
 		}
@@ -166,7 +168,7 @@ func processMission(mission map[string]interface{}, missionEvent string) {
 		//Handle failed/abandoned case
 		if found {
 			tempMis := Missions[i]
-			if Connected {
+			if Connected && !initialLoad {
 				broadcast <- MissionMessage{"Mission" + missionEvent, tempMis}
 			}
 			if len(Missions) > 1 {
