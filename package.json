@@ -1,6 +1,6 @@
 {
 	"name": "ed-tools",
-	"version": "0.1.1",
+	"version": "0.1.11",
 	"private": true,
 	"main": "public/electron.js",
 	"homepage": "./",
@@ -69,6 +69,11 @@
 	},
 	"build": {
 		"appId": "com.bballie.edtools",
+		"publish": [{
+			"provider": "github",
+			"owner": "bballiep",
+			"repo": "ed-tools"
+		}],
 		"files": [
 			"build/**/*",
 			"node_modules/**/*",

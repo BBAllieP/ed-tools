@@ -135,8 +135,9 @@ func processMission(mission map[string]interface{}, missionEvent string, initial
 		if !found && !initialLoad {
 			Missions = append(Missions, Mission{Id: misIdInt, Name: fmt.Sprintf("%v", mission["Name"]), IsWing: strings.Contains(fmt.Sprintf("%v", mission["Name"]), "Wing")})
 			i = len(Missions) - 1
+			found = true
 		}
-		if !initialLoad {
+		if found {
 			Missions[i].Status = "Progress"
 			Missions[i].Faction = fmt.Sprintf("%v", (mission)["Faction"])
 			Missions[i].TargetFaction = fmt.Sprintf("%v", (mission)["TargetFaction"])
