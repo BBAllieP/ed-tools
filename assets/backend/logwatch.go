@@ -75,19 +75,12 @@ func readChangedFile(file string) {
 }
 
 func parseLog(initialLoad bool, ind int) {
-	//last := len(Journals) - 1
-	//var latestLog bool
-	//for i := range Journals {
-	/*if !initialLoad && i < last {
-		continue
-	}*/
 	file, err := os.Open((Journals[ind]).path)
 	if err != nil {
 		log.Fatal(err)
 	}
 	scanner := bufio.NewScanner(file)
 
-	//var lineCount int
 	lineCount := 0
 	var event map[string]interface{}
 	for scanner.Scan() {

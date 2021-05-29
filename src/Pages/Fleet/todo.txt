@@ -1,0 +1,15 @@
+[] Figure out where to do local storage
+    os.UserCacheDir() // C:\Users\YourUser\AppData\Local + \<Your App Name>
+[] Parse all logs and get fleet info
+[] Write fleet info to CSV
+[] Parse ship and module info for updates
+[] Maybe also keep record of stored modules?
+[] Take in engineering as done to update ship
+[] Create UI to show cards per ship
+    [] Determine which stats to put on ship card
+        [] Jump range
+        [] Ship name and ident
+        [] Landing pad size
+        [] Custom tags (purpose, etc)
+    [] Add copy and export buttons
+    [] Import from Coriolis or EDSY to make shopping list
