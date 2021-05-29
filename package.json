@@ -1,5 +1,5 @@
 {
-	"name": "ed-tools",
+	"name": "ED Toolset",
 	"version": "0.1.12",
 	"private": true,
 	"main": "public/electron.js",
