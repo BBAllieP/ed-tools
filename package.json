@@ -1,6 +1,6 @@
 {
-	"name": "ED Toolset",
-	"version": "0.1.12",
+	"name": "ED-Toolset",
+	"version": "0.1.13",
 	"private": true,
 	"main": "public/electron.js",
 	"homepage": "./",

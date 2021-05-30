@@ -61,7 +61,16 @@ func getLatestLog() int {
 	latest := 0
 	for i := range Journals {
 		if Journals[i].mod.After(Journals[latest].mod) {
-			latest = i
+			// read the whole file at once
+			b, err := ioutil.ReadFile(Journals[i].path)
+			if err != nil {
+				panic(err)
+			}
+			s := string(b)
+			// //check whether s contains substring text
+			if strings.Contains(s, "\"event\":\"Missions\"") {
+				latest = i
+			}
 		}
 	}
 	return latest
