@@ -69,11 +69,13 @@
 	},
 	"build": {
 		"appId": "com.bballie.edtools",
-		"publish": [{
-			"provider": "github",
-			"owner": "bballiep",
-			"repo": "ed-tools"
-		}],
+		"publish": [
+			{
+				"provider": "github",
+				"owner": "bballiep",
+				"repo": "ed-tools"
+			}
+		],
 		"files": [
 			"build/**/*",
 			"node_modules/**/*",
