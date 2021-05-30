@@ -26,6 +26,7 @@ type Mission struct {
 	DestinationSystem  string
 	DestinationStation string
 	Reputation         string
+	TargetType         string `json:"TargetType_Localised"`
 }
 
 type Faction struct {

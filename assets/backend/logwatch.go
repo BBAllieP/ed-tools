@@ -111,7 +111,7 @@ func parseLog(initialLoad bool, ind int) {
 	(Journals[ind]).lastLine = lineCount
 
 	file.Close()
-	//}
+
 }
 
 func processMission(mission map[string]interface{}, missionEvent string, initialLoad bool) {
@@ -131,7 +131,8 @@ func processMission(mission map[string]interface{}, missionEvent string, initial
 	fmt.Println("Mission " + missionEvent)
 	switch missionEvent {
 	case "Accepted":
-		if !found && !initialLoad {
+		//if !found && !initialLoad {
+		if !found {
 			Missions = append(Missions, Mission{Id: misIdInt, Name: fmt.Sprintf("%v", mission["Name"]), IsWing: strings.Contains(fmt.Sprintf("%v", mission["Name"]), "Wing")})
 			i = len(Missions) - 1
 			found = true
@@ -140,6 +141,7 @@ func processMission(mission map[string]interface{}, missionEvent string, initial
 			Missions[i].Status = "Progress"
 			Missions[i].Faction = fmt.Sprintf("%v", (mission)["Faction"])
 			Missions[i].TargetFaction = fmt.Sprintf("%v", (mission)["TargetFaction"])
+			Missions[i].TargetType = fmt.Sprintf("%v", (mission)["TargetType_Localised"])
 			Missions[i].Needed = int((mission)["KillCount"].(float64))
 			Missions[i].Kills = 0
 			Missions[i].Value = int((mission)["Reward"].(float64))
@@ -186,11 +188,10 @@ func processMission(mission map[string]interface{}, missionEvent string, initial
 func processBounty(event map[string]interface{}) {
 	killFaction := event["VictimFaction"].(string)
 	bountyTime, _ := time.Parse("2006-01-02T15:04:05Z", fmt.Sprintf("%v", event["timestamp"]))
-	fmt.Println(bountyTime)
 	TargetMissions := make(map[string]Mission)
 	for _, mis := range Missions {
 		if mis.Start.Before(bountyTime) {
-			if mis.TargetFaction == killFaction && mis.Status == "Progress" {
+			if mis.TargetFaction == killFaction && mis.Status == "Progress" && mis.TargetType == "Pirates" {
 				if _, ok := TargetMissions[mis.Faction]; ok {
 					if TargetMissions[mis.Faction].Start.After(mis.Start) {
 						TargetMissions[mis.Faction] = mis
