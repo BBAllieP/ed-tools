@@ -29,6 +29,7 @@ func getLogList() {
 			log.Fatal(err)
 		}
 		logLocation = uhome + "\\Saved Games\\Frontier Developments\\Elite Dangerous"
+		//logLocation = "../tempLogs"
 	} else {
 		logLocation = "../data/Elite Dangerous"
 	}
