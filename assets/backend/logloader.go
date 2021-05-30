@@ -24,12 +24,12 @@ func getLogList() {
 	//var resultLogs []Logfile
 	var logLocation string
 	if runtime.GOOS == "windows" {
-		/*uhome, err := os.UserHomeDir()
+		uhome, err := os.UserHomeDir()
 		if err != nil {
 			log.Fatal(err)
 		}
-		logLocation = uhome + "\\Saved Games\\Frontier Developments\\Elite Dangerous"*/
-		logLocation = "../tempLogs"
+		logLocation = uhome + "\\Saved Games\\Frontier Developments\\Elite Dangerous"
+		//logLocation = "../tempLogs"
 	} else {
 		logLocation = "../data/Elite Dangerous"
 	}

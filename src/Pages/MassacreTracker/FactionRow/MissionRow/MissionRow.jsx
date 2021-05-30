@@ -7,7 +7,7 @@ const MissionRow = (props) => {
 			<TableCell>
 				{props.props.DestinationSystem} / {props.props.DestinationStation}
 			</TableCell>
-			<TableCell>{props.props.TargetFaction}</TableCell>
+			<TableCell>{props.props.TargetFaction} {props.props.TargetType_Localised}</TableCell>
 			<TableCell>{props.props.Kills + " / " + props.props.Count}</TableCell>
 			<TableCell>{props.props.IsWing ? "True" : "False"}</TableCell>
 			<TableCell>{props.props.Status}</TableCell>
