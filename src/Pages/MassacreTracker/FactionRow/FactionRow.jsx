@@ -125,8 +125,7 @@ const FactionRow = (props) => {
 					</Avatar>
 				}
 				title={props.factName}
-				subheader=''
-				titleTypographyProps={{ variant: "h4" }}
+				titleTypographyProps={{ variant: "h5" }}
 			/>
 			<CardContent>
 				<Grid container spacing={1}>
@@ -151,7 +150,6 @@ const FactionRow = (props) => {
 						</IconButton>
 					</Grid>
 				</Grid>
-			</CardContent>
 			<Collapse in={open} timeout='auto' unmountOnExit>
 				<Box margin={1}>
 					<Table size='small'>
@@ -173,6 +171,7 @@ const FactionRow = (props) => {
 					</Table>
 				</Box>
 			</Collapse>
+		</CardContent>	
 		</Card>
 	);
 };

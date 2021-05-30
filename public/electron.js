@@ -13,7 +13,8 @@ if (isDev) {
 const url = require("url");
 const execFile = require("child_process").execFile;
 const path = require("path");
-var backendPath = path.join(process.resourcesPath, "assets", "backend", "bin", "backend-amd64.exe");
+const backendPath = path.join(process.resourcesPath, "assets", "backend", "bin", "backend-amd64.exe");
+
 const { autoUpdater } = require("electron-updater");
 
 function runBackend(){
@@ -57,7 +58,7 @@ function createWindow() {
 }
 
 app.on("ready", ()=> {
-	runBackend();
+	if(!isDev){runBackend()};
 	createWindow();
 
 });

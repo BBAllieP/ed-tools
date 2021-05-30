@@ -6,7 +6,7 @@ const ProgressBar = (props) => {
 			value={props.kills}
 			total={props.total}
 			indicating
-			progress='ratio'
+			progress='value'
 			success={props.kills === props.total}
 			size='big'
 		/>
