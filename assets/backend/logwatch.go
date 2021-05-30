@@ -96,8 +96,14 @@ func parseLog(initialLoad bool, ind int) {
 			if event["event"] == "Missions" {
 				continue
 			}
-			missionEvent := fmt.Sprintf("%v", event["event"])[7:]
-			processMission(event, missionEvent, initialLoad)
+			if lineCount >= Journals[ind].lastLoad {
+				missionEvent := fmt.Sprintf("%v", event["event"])[7:]
+				processMission(event, missionEvent, false)
+			} else {
+				missionEvent := fmt.Sprintf("%v", event["event"])[7:]
+				processMission(event, missionEvent, initialLoad)
+			}
+
 		} else if event["event"] == "Bounty" {
 			processBounty(event)
 		}

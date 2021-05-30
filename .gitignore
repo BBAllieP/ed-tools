@@ -8,6 +8,7 @@
 # testing
 /coverage
 /assets/data/Elite Dangerous
+/assets/tempLogs
 # production
 /build
 /dist
