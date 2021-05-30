@@ -185,17 +185,22 @@ func processMission(mission map[string]interface{}, missionEvent string, initial
 
 func processBounty(event map[string]interface{}) {
 	killFaction := event["VictimFaction"].(string)
+	bountyTime, _ := time.Parse("2006-01-02T15:04:05Z", fmt.Sprintf("%v", event["timestamp"]))
+	fmt.Println(bountyTime)
 	TargetMissions := make(map[string]Mission)
 	for _, mis := range Missions {
-		if mis.TargetFaction == killFaction && mis.Status == "Progress" {
-			if _, ok := TargetMissions[mis.Faction]; ok {
-				if TargetMissions[mis.Faction].Start.After(mis.Start) {
+		if mis.Start.Before(bountyTime) {
+			if mis.TargetFaction == killFaction && mis.Status == "Progress" {
+				if _, ok := TargetMissions[mis.Faction]; ok {
+					if TargetMissions[mis.Faction].Start.After(mis.Start) {
+						TargetMissions[mis.Faction] = mis
+					}
+				} else {
 					TargetMissions[mis.Faction] = mis
 				}
-			} else {
-				TargetMissions[mis.Faction] = mis
 			}
 		}
+
 	}
 	for _, mis := range TargetMissions {
 		for i, mis1 := range Missions {
