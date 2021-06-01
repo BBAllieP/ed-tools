@@ -1,5 +1,11 @@
 package main
 
+import (
+	"fmt"
+	"io/ioutil"
+	"strings"
+)
+
 func Find(slice []string, val string) (int, bool) {
 	for i, item := range slice {
 		if item == val {
@@ -56,3 +62,29 @@ func getMissionByID(missions *[]Mission, id int) Mission {
 	}
 	ioutil.WriteFile("output.csv", buff.Bytes(), 0644)
 }*/
+func getGameMode(path string) string {
+	b, err := ioutil.ReadFile(path)
+	if err != nil {
+		panic(err)
+	}
+	s := string(b)
+	if strings.Contains(s, "\"Odyssey\":false") {
+		return "horizons"
+	} else if strings.Contains(s, "\"Odyssey\":true") {
+		return "odyssey"
+	}
+	return ""
+}
+
+func initSequence() {
+	Initialized = false
+	getLogList()
+	fmt.Println("Loading Missions")
+	getResumedMissionList()
+	for ind := range Journals {
+		parseLog(true, ind)
+	}
+	cleanupMissions()
+	fmt.Println("Missions Loaded")
+	Initialized = true
+}

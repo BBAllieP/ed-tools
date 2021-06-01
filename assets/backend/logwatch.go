@@ -20,15 +20,21 @@ func watchLogs() {
 
 	//defer w.Close()
 	w.FilterOps(watcher.Write)
-	r := regexp.MustCompile("Journal.*.log")
+	r := regexp.MustCompile("(Journal).*(log)")
 	w.AddFilterHook(watcher.RegexFilterHook(r, false))
 	done := make(chan bool)
 	go func() {
 		for {
 			select {
 			case event := <-w.Event:
-				//log.Println("modified file:", event.Path)
-				readChangedFile(event.Path)
+				/*fmt.Printf("%T\n", event)
+				evt, _ := json.Marshal(event)
+				fmt.Println(string(evt))*/
+				if strings.Contains(event.Path, ".log") {
+					readChangedFile(event.Path)
+				}
+				//log.Println("modified file:", event)
+
 				//log.Println((*missions))
 
 			case err := <-w.Error:
@@ -62,36 +68,48 @@ func readChangedFile(file string) {
 	}
 	if !found {
 		//fmt.Println(file)
-		//fmt.Println(Journals[0].path)
+		fmt.Println("Writing New Journal")
 		info, err := os.Stat(file)
 		if err != nil {
 			log.Fatal(err)
 		}
-		newLog := Logfile{file, info.ModTime(), 0, 0}
+		newLog := Logfile{file, info.ModTime(), 0, 0, getGameMode(file)}
 		Journals = append(Journals, newLog)
 		index = len(Journals) - 1
+		fmt.Println(index)
+		fmt.Println(Journals[index].path)
 	}
 	parseLog(false, index)
 }
 
 func parseLog(initialLoad bool, ind int) {
 	file, err := os.Open((Journals[ind]).path)
+	gameMode := Journals[ind].Game_version
 	if err != nil {
 		log.Fatal(err)
 	}
 	scanner := bufio.NewScanner(file)
 
 	lineCount := 0
+	tempJourn := Journals[ind]
 	var event map[string]interface{}
 	for scanner.Scan() {
 		event = nil
 		lineCount++
-		if lineCount <= (Journals[ind]).lastLine {
+		if lineCount <= (tempJourn).lastLine {
 			continue
 		}
 
 		//parse each line and do something with it based on contents
 		json.Unmarshal([]byte(scanner.Text()), &event)
+		if event["event"] == "Missions" && Initialized {
+			initSequence()
+			if Connected {
+				factMsg := FactionsMessage{"GetAllFactions", bucketFactions(&Missions)}
+				broadcast <- factMsg
+			}
+			break
+		}
 		if strings.Contains(scanner.Text(), "Mission_Massacre") {
 			if event["event"] == "Missions" {
 				continue
@@ -105,10 +123,15 @@ func parseLog(initialLoad bool, ind int) {
 			}
 
 		} else if event["event"] == "Bounty" {
-			processBounty(event)
+			processBounty(event, gameMode)
 		}
 	}
-	(Journals[ind]).lastLine = lineCount
+	for i := range Journals {
+		if Journals[i].path == tempJourn.path {
+			Journals[i].lastLine = lineCount
+			break
+		}
+	}
 
 	file.Close()
 
@@ -150,7 +173,7 @@ func processMission(mission map[string]interface{}, missionEvent string, initial
 			Missions[i].Reputation = fmt.Sprintf("%v", (mission)["Reputation"])
 			startTime, _ := time.Parse("2006-01-02T15:04:05Z", fmt.Sprintf("%v", (mission)["timestamp"]))
 			Missions[i].Start = startTime
-			if Connected {
+			if Connected && Initialized {
 				broadcast <- MissionMessage{"Mission" + missionEvent, Missions[i]}
 			}
 		}
@@ -162,7 +185,7 @@ func processMission(mission map[string]interface{}, missionEvent string, initial
 			Missions[i].DestinationSystem = fmt.Sprintf("%v", (mission)["NewDestinationSystem"])
 			Missions[i].DestinationStation = fmt.Sprintf("%v", (mission)["NewDestinationStation"])
 			Missions[i].Kills = Missions[i].Needed
-			if Connected && !initialLoad {
+			if Connected && !initialLoad && Initialized {
 				broadcast <- MissionMessage{"Mission" + missionEvent, Missions[i]}
 			}
 		}
@@ -170,7 +193,7 @@ func processMission(mission map[string]interface{}, missionEvent string, initial
 		//Handle failed/abandoned case
 		if found {
 			tempMis := Missions[i]
-			if Connected && !initialLoad {
+			if Connected && !initialLoad && Initialized {
 				broadcast <- MissionMessage{"Mission" + missionEvent, tempMis}
 			}
 			if len(Missions) > 1 {
@@ -185,13 +208,13 @@ func processMission(mission map[string]interface{}, missionEvent string, initial
 
 }
 
-func processBounty(event map[string]interface{}) {
+func processBounty(event map[string]interface{}, mode string) {
 	killFaction := event["VictimFaction"].(string)
 	bountyTime, _ := time.Parse("2006-01-02T15:04:05Z", fmt.Sprintf("%v", event["timestamp"]))
 	TargetMissions := make(map[string]Mission)
 	for _, mis := range Missions {
 		if mis.Start.Before(bountyTime) {
-			if mis.TargetFaction == killFaction && mis.Status == "Progress" && mis.TargetType == "Pirates" {
+			if mis.TargetFaction == killFaction && mis.Status == "Progress" && mis.TargetType == "Pirates" && mis.SourceMode == mode {
 				if _, ok := TargetMissions[mis.Faction]; ok {
 					if TargetMissions[mis.Faction].Start.After(mis.Start) {
 						TargetMissions[mis.Faction] = mis
@@ -207,7 +230,7 @@ func processBounty(event map[string]interface{}) {
 		for i, mis1 := range Missions {
 			if mis1.Id == mis.Id {
 				Missions[i].Kills++
-				if Connected {
+				if Connected && Initialized {
 					fmt.Println("bounty processing")
 					broadcast <- MissionMessage{"Bounty", Missions[i]}
 				}

@@ -26,3 +26,5 @@ var MsgChan chan interface{}
 var ClientConn *websocket.Conn
 
 var Connected bool
+
+var CurrentGameMode string

@@ -6,16 +6,23 @@ import (
 )
 
 var Missions []Mission
+var LoadMissions []Mission
 var Journals []Logfile
+var Initialized bool
 
 func init() {
+	Initialized = false
+	fmt.Println("Loading Logs")
 	getLogList()
 	fmt.Println("Loading Missions")
 	getResumedMissionList()
+	fmt.Println("InitialMissions Found")
 	for ind := range Journals {
 		parseLog(true, ind)
 	}
+	cleanupMissions()
 	fmt.Println("Missions Loaded")
+	Initialized = true
 }
 
 func main() {

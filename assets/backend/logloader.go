@@ -52,6 +52,7 @@ func getLogList() {
 			newLog.mod = info.ModTime()
 			newLog.lastLine = 0
 			newLog.lastLoad = 0
+			newLog.Game_version = ""
 			Journals = append(Journals, newLog)
 		}
 	}
@@ -68,10 +69,16 @@ func getLatestLog() int {
 				panic(err)
 			}
 			s := string(b)
+			if strings.Contains(s, "\"Odyssey\":false") {
+				Journals[i].Game_version = "horizons"
+			} else if strings.Contains(s, "\"Odyssey\":true") {
+				Journals[i].Game_version = "odyssey"
+			}
 			// //check whether s contains substring text
 			if strings.Contains(s, "\"event\":\"Missions\"") {
 				latest = i
 			}
+			CurrentGameMode = Journals[i].Game_version
 		}
 	}
 	return latest
@@ -97,6 +104,7 @@ func getResumedMissionList() {
 			Journals[latestLogInd].lastLoad = lineNo
 		}
 	}
+
 	//take resumed mission data and populate array with data
 
 	var resumed ResumedMissions
@@ -104,9 +112,9 @@ func getResumedMissionList() {
 
 	json.Unmarshal([]byte(lastLine), &resumed)
 	for _, misStatus := range statuses {
-		allMissions = append(allMissions, modAndAddMissions(resumed, misStatus)...)
+		allMissions = append(allMissions, modAndAddMissions(resumed, misStatus, Journals[latestLogInd].Game_version)...)
 	}
-	//fmt.Println(allMissions)
+
 	//find oldest current mission
 	var oldestMis Mission
 	for cnt, mis := range allMissions {
@@ -126,18 +134,22 @@ func getResumedMissionList() {
 		}
 		//tempJourn = journ
 	}
+
 	// sort journals in chron order
 	sort.SliceStable(journList, func(i, j int) bool {
 		return journList[i].mod.Before(journList[j].mod)
 	})
+
 	//set master list to sorted and filtered list
 	Journals = nil
 	Journals = journList
+	LoadMissions = allMissions
 	Missions = allMissions
+	fmt.Println("mark")
 }
 
 //adds custom info to missions data and puts it all together
-func modAndAddMissions(resumed ResumedMissions, status string) []Mission {
+func modAndAddMissions(resumed ResumedMissions, status string, mode string) []Mission {
 	var missionArr []Mission
 	var newMission Mission
 	var missionsIn []Mission
@@ -153,6 +165,7 @@ func modAndAddMissions(resumed ResumedMissions, status string) []Mission {
 	for _, mis := range missionsIn {
 		if strings.Contains(mis.Name, "Massacre") {
 			newMission = mis
+			newMission.SourceMode = mode
 			if strings.Contains(mis.Name, "Wing") {
 				newMission.IsWing = true
 				newMission.Start = resumed.Timestamp.Add(time.Duration(604800) * time.Second * -1).Add(time.Duration(mis.Expires) * time.Second)
@@ -169,4 +182,17 @@ func modAndAddMissions(resumed ResumedMissions, status string) []Mission {
 	}
 	//fmt.Println(len(missionArr))
 	return missionArr
+}
+
+func cleanupMissions() {
+	var missionArr []Mission
+	for i := range Missions {
+		for j := range LoadMissions {
+			if Missions[i].Id == LoadMissions[j].Id {
+				missionArr = append(missionArr, Missions[i])
+				continue
+			}
+		}
+	}
+	Missions = missionArr
 }

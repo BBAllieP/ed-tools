@@ -12,7 +12,7 @@ import (
 
 //var clients = make(map[*websocket.Conn]bool) // connected clients
 //var client *websocket.Conn
-var broadcast = make(chan MissionMessage) // broadcast channel
+var broadcast = make(chan interface{}) // broadcast channel
 
 // We'll need to define an Upgrader
 // this will require a Read and Write buffer size
@@ -86,7 +86,7 @@ func reader(conn *websocket.Conn) {
 func writer(pool *Pool) {
 	for msg := range broadcast {
 		fmt.Println("Sending Message")
-		pool.Broadcast <- Message{msg.Action, msg.Mission}
+		pool.Broadcast <- msg
 	}
 }
 

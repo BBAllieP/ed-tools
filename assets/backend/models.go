@@ -3,10 +3,11 @@ package main
 import "time"
 
 type Logfile struct {
-	path     string
-	mod      time.Time
-	lastLine int
-	lastLoad int
+	path         string
+	mod          time.Time
+	lastLine     int
+	lastLoad     int
+	Game_version string
 }
 
 type Mission struct {
@@ -27,6 +28,7 @@ type Mission struct {
 	DestinationStation string
 	Reputation         string
 	TargetType         string `json:"TargetType_Localised"`
+	SourceMode         string
 }
 
 type Faction struct {
