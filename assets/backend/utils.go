@@ -78,6 +78,9 @@ func getGameMode(path string) string {
 
 func initSequence() {
 	Initialized = false
+	Missions = nil
+	LoadMissions = nil
+	Journals = nil
 	getLogList()
 	fmt.Println("Loading Missions")
 	getResumedMissionList()

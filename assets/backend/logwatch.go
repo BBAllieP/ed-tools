@@ -59,7 +59,7 @@ func readChangedFile(file string) {
 	//var tempList []Logfile
 	for i, journal := range Journals {
 		//fmt.Println(journal)
-		if journal.path == file {
+		if journal.Path == file {
 			//fmt.Println("found journal")
 			found = true
 			index = i
@@ -76,14 +76,14 @@ func readChangedFile(file string) {
 		newLog := Logfile{file, info.ModTime(), 0, 0, getGameMode(file)}
 		Journals = append(Journals, newLog)
 		index = len(Journals) - 1
-		fmt.Println(index)
-		fmt.Println(Journals[index].path)
+		//fmt.Println(index)
+		//fmt.Println(Journals[index].Path)
 	}
 	parseLog(false, index)
 }
 
 func parseLog(initialLoad bool, ind int) {
-	file, err := os.Open((Journals[ind]).path)
+	file, err := os.Open((Journals[ind]).Path)
 	gameMode := Journals[ind].Game_version
 	if err != nil {
 		log.Fatal(err)
@@ -96,7 +96,7 @@ func parseLog(initialLoad bool, ind int) {
 	for scanner.Scan() {
 		event = nil
 		lineCount++
-		if lineCount <= (tempJourn).lastLine {
+		if lineCount <= (tempJourn).LastLine {
 			continue
 		}
 
@@ -114,12 +114,12 @@ func parseLog(initialLoad bool, ind int) {
 			if event["event"] == "Missions" {
 				continue
 			}
-			if lineCount >= Journals[ind].lastLoad {
+			if lineCount >= Journals[ind].LastLoad {
 				missionEvent := fmt.Sprintf("%v", event["event"])[7:]
-				processMission(event, missionEvent, false)
+				processMission(event, missionEvent, false, gameMode)
 			} else {
 				missionEvent := fmt.Sprintf("%v", event["event"])[7:]
-				processMission(event, missionEvent, initialLoad)
+				processMission(event, missionEvent, initialLoad, gameMode)
 			}
 
 		} else if event["event"] == "Bounty" {
@@ -127,8 +127,8 @@ func parseLog(initialLoad bool, ind int) {
 		}
 	}
 	for i := range Journals {
-		if Journals[i].path == tempJourn.path {
-			Journals[i].lastLine = lineCount
+		if Journals[i].Path == tempJourn.Path {
+			Journals[i].LastLine = lineCount
 			break
 		}
 	}
@@ -137,7 +137,7 @@ func parseLog(initialLoad bool, ind int) {
 
 }
 
-func processMission(mission map[string]interface{}, missionEvent string, initialLoad bool) {
+func processMission(mission map[string]interface{}, missionEvent string, initialLoad bool, gameMode string) {
 	found := false
 	var i int
 	misIdInt := int((mission)["MissionID"].(float64))
@@ -156,7 +156,7 @@ func processMission(mission map[string]interface{}, missionEvent string, initial
 	case "Accepted":
 		//if !found && !initialLoad {
 		if !found {
-			Missions = append(Missions, Mission{Id: misIdInt, Name: fmt.Sprintf("%v", mission["Name"]), IsWing: strings.Contains(fmt.Sprintf("%v", mission["Name"]), "Wing")})
+			Missions = append(Missions, Mission{Id: misIdInt, Kills: 0, Name: fmt.Sprintf("%v", mission["Name"]), IsWing: strings.Contains(fmt.Sprintf("%v", mission["Name"]), "Wing"), SourceMode: gameMode})
 			i = len(Missions) - 1
 			found = true
 		}
@@ -210,20 +210,20 @@ func processMission(mission map[string]interface{}, missionEvent string, initial
 
 func processBounty(event map[string]interface{}, mode string) {
 	killFaction := event["VictimFaction"].(string)
-	bountyTime, _ := time.Parse("2006-01-02T15:04:05Z", fmt.Sprintf("%v", event["timestamp"]))
+	//bountyTime, _ := time.Parse("2006-01-02T15:04:05Z", fmt.Sprintf("%v", event["timestamp"]))
 	TargetMissions := make(map[string]Mission)
 	for _, mis := range Missions {
-		if mis.Start.Before(bountyTime) {
-			if mis.TargetFaction == killFaction && mis.Status == "Progress" && mis.TargetType == "Pirates" && mis.SourceMode == mode {
-				if _, ok := TargetMissions[mis.Faction]; ok {
-					if TargetMissions[mis.Faction].Start.After(mis.Start) {
-						TargetMissions[mis.Faction] = mis
-					}
-				} else {
+		//if mis.Start.Before(bountyTime) {
+		if mis.TargetFaction == killFaction && mis.Status == "Progress" && mis.TargetType == "Pirates" && mis.SourceMode == mode {
+			if _, ok := TargetMissions[mis.Faction]; ok {
+				if TargetMissions[mis.Faction].Start.After(mis.Start) {
 					TargetMissions[mis.Faction] = mis
 				}
+			} else {
+				TargetMissions[mis.Faction] = mis
 			}
 		}
+		//}
 
 	}
 	for _, mis := range TargetMissions {
@@ -231,7 +231,7 @@ func processBounty(event map[string]interface{}, mode string) {
 			if mis1.Id == mis.Id {
 				Missions[i].Kills++
 				if Connected && Initialized {
-					fmt.Println("bounty processing")
+					//fmt.Println("bounty processing")
 					broadcast <- MissionMessage{"Bounty", Missions[i]}
 				}
 				break

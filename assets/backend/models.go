@@ -3,10 +3,10 @@ package main
 import "time"
 
 type Logfile struct {
-	path         string
-	mod          time.Time
-	lastLine     int
-	lastLoad     int
+	Path         string    `json:"path""`
+	Mod          time.Time `json:"mod""`
+	LastLine     int
+	LastLoad     int
 	Game_version string
 }
 

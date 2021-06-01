@@ -48,11 +48,11 @@ func getLogList() {
 			if err != nil {
 				log.Fatal(err)
 			}
-			newLog.path = logLocation + "/" + journal.Name()
-			newLog.mod = info.ModTime()
-			newLog.lastLine = 0
-			newLog.lastLoad = 0
-			newLog.Game_version = ""
+			newLog.Path = logLocation + "/" + journal.Name()
+			newLog.Mod = info.ModTime()
+			newLog.LastLine = 0
+			newLog.LastLoad = 0
+			newLog.Game_version = getGameMode(logLocation + "/" + journal.Name())
 			Journals = append(Journals, newLog)
 		}
 	}
@@ -62,18 +62,18 @@ func getLogList() {
 func getLatestLog() int {
 	latest := 0
 	for i := range Journals {
-		if Journals[i].mod.After(Journals[latest].mod) {
-			// read the whole file at once
-			b, err := ioutil.ReadFile(Journals[i].path)
-			if err != nil {
-				panic(err)
-			}
-			s := string(b)
-			if strings.Contains(s, "\"Odyssey\":false") {
-				Journals[i].Game_version = "horizons"
-			} else if strings.Contains(s, "\"Odyssey\":true") {
-				Journals[i].Game_version = "odyssey"
-			}
+		// read the whole file at once
+		b, err := ioutil.ReadFile(Journals[i].Path)
+		if err != nil {
+			panic(err)
+		}
+		s := string(b)
+		if strings.Contains(s, "\"Odyssey\":false") {
+			Journals[i].Game_version = "horizons"
+		} else if strings.Contains(s, "\"Odyssey\":true") {
+			Journals[i].Game_version = "odyssey"
+		}
+		if Journals[i].Mod.After(Journals[latest].Mod) {
 			// //check whether s contains substring text
 			if strings.Contains(s, "\"event\":\"Missions\"") {
 				latest = i
@@ -87,7 +87,7 @@ func getLatestLog() int {
 func getResumedMissionList() {
 	statuses := []string{"Active", "Complete", "Failed"}
 	latestLogInd := getLatestLog()
-	file, err := os.Open(Journals[latestLogInd].path)
+	file, err := os.Open(Journals[latestLogInd].Path)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -101,7 +101,7 @@ func getResumedMissionList() {
 		if strings.Contains(scanner.Text(), "\"event\":\"Missions\"") {
 			fmt.Println("found load line")
 			lastLine = scanner.Text()
-			Journals[latestLogInd].lastLoad = lineNo
+			Journals[latestLogInd].LastLoad = lineNo
 		}
 	}
 
@@ -129,7 +129,7 @@ func getResumedMissionList() {
 	//make list of journals more recent than that mission
 	var journList []Logfile
 	for _, journ := range Journals {
-		if journ.mod.After(oldestMis.Start.Add(time.Duration(24) * time.Hour * -1)) {
+		if journ.Mod.After(oldestMis.Start.Add(time.Duration(24) * time.Hour * -1)) {
 			journList = append(journList, journ)
 		}
 		//tempJourn = journ
@@ -137,7 +137,7 @@ func getResumedMissionList() {
 
 	// sort journals in chron order
 	sort.SliceStable(journList, func(i, j int) bool {
-		return journList[i].mod.Before(journList[j].mod)
+		return journList[i].Mod.Before(journList[j].Mod)
 	})
 
 	//set master list to sorted and filtered list
@@ -145,7 +145,6 @@ func getResumedMissionList() {
 	Journals = journList
 	LoadMissions = allMissions
 	Missions = allMissions
-	fmt.Println("mark")
 }
 
 //adds custom info to missions data and puts it all together
