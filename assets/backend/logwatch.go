@@ -99,7 +99,7 @@ func parseLog(initialLoad bool, ind int) {
 		if lineCount <= (tempJourn).LastLine {
 			continue
 		}
-		if lineCount > tempJourn.LastLoad && initialLoad {
+		if lineCount > tempJourn.LastLoad && initialLoad && ind == len(Journals)-1 {
 			break
 		}
 
