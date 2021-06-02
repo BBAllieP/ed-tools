@@ -21,6 +21,7 @@ func init() {
 		parseLog(true, ind)
 	}
 	cleanupMissions()
+	parseLog(false, len(Journals)-1)
 	fmt.Println("Missions Loaded")
 	Initialized = true
 }

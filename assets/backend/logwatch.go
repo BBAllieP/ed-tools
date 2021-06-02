@@ -99,10 +99,14 @@ func parseLog(initialLoad bool, ind int) {
 		if lineCount <= (tempJourn).LastLine {
 			continue
 		}
+		if lineCount > tempJourn.LastLoad && initialLoad {
+			break
+		}
 
 		//parse each line and do something with it based on contents
 		json.Unmarshal([]byte(scanner.Text()), &event)
 		if event["event"] == "Missions" && Initialized && CurrentGameMode != gameMode {
+			fmt.Println("reloading")
 			initSequence()
 			if Connected {
 				factMsg := FactionsMessage{"GetAllFactions", bucketFactions(&Missions)}
