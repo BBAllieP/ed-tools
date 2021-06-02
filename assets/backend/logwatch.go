@@ -102,7 +102,7 @@ func parseLog(initialLoad bool, ind int) {
 
 		//parse each line and do something with it based on contents
 		json.Unmarshal([]byte(scanner.Text()), &event)
-		if event["event"] == "Missions" && Initialized {
+		if event["event"] == "Missions" && Initialized && CurrentGameMode != gameMode {
 			initSequence()
 			if Connected {
 				factMsg := FactionsMessage{"GetAllFactions", bucketFactions(&Missions)}
