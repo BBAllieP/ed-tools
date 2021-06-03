@@ -88,7 +88,7 @@ func (pool *Pool) Start() {
 				}
 			}
 		}
-		if len(pool.Clients) > 0 && !Connected {
+		if len(pool.Clients) > 0 {
 			Connected = true
 		} else {
 			Connected = false

@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"strconv"
 
 	"github.com/gorilla/mux"
 	"github.com/gorilla/websocket"
@@ -36,56 +35,9 @@ func Upgrade(w http.ResponseWriter, r *http.Request) (*websocket.Conn, error) {
 	return ws, nil
 }
 
-// define a reader which will listen for
-// new messages being sent to our WebSocket
-// endpoint
-func reader(conn *websocket.Conn) {
-	for {
-		// read in a message
-		msg := ServerMessage{}
-		err := conn.ReadJSON(&msg)
-		if err != nil {
-			log.Println(err)
-			break
-		}
-		// print out that message for clarity
-		switch msg.Action {
-		case "getMissions":
-			misMsg := MissionsMessage{"GetAllMissions", Missions}
-			conn.WriteJSON(misMsg)
-		case "getFactions":
-			fmt.Println("Factions Requested")
-			factMsg := FactionsMessage{"GetAllFactions", bucketFactions(&Missions)}
-			conn.WriteJSON(factMsg)
-		case "getMissionById":
-			val, _ := strconv.Atoi(msg.Value)
-			conn.WriteJSON(getMissionByID(&Missions, val))
-		case "getJournals":
-			journMsg := JournalsMessage{"GetAllJournals", Journals}
-			conn.WriteJSON(journMsg)
-		default:
-			conn.WriteMessage(1, []byte("Unhandled Request"))
-		}
-
-	}
-}
-
-/*func writer(client *websocket.Conn) {
-	for msg := range broadcast {
-		if connected {
-			fmt.Println("Sending Message")
-			err := client.WriteJSON(msg)
-			if err != nil {
-				log.Printf("sending error: %v", err)
-				client.Close()
-				break
-			}
-		}
-	}
-}*/
 func writer(pool *Pool) {
 	for msg := range broadcast {
-		fmt.Println("Sending Message")
+		//fmt.Println("Sending Message")
 		pool.Broadcast <- msg
 	}
 }
@@ -97,7 +49,6 @@ func serveWs(pool *Pool, w http.ResponseWriter, r *http.Request) {
 	// upgrade this connection to a WebSocket
 	// connection
 	clientConn, err := upgrader.Upgrade(w, r, nil)
-	//client = clientConn
 	if err != nil {
 		log.Println(err)
 	}
@@ -107,10 +58,6 @@ func serveWs(pool *Pool, w http.ResponseWriter, r *http.Request) {
 	}
 	pool.Register <- client
 	client.Read()
-	//defer clientConn.Close()
-	//go writer(clientConn)
-	//reader(clientConn)
-	//connected = false
 }
 func handleHome(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.Host)
