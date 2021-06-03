@@ -1,16 +1,6 @@
-import {React, useState, useMemo} from "react";
-import {Container, Fab, Typography, Paper, Dialog, DialogActions, DialogTitle, DialogContent, DialogContentText} from '@material-ui/core';
-import {Add} from '@material-ui/icons';
+import {React, useMemo} from "react";
 import {useDropzone} from 'react-dropzone';
 
-const fabStyle = {
-    margin: 0,
-    top: 'auto',
-    right: 20,
-    bottom: 20,
-    left: 'auto',
-    position: 'fixed',
-}
 const baseStyle = {
     flex: 1,
     display: 'flex',
@@ -39,8 +29,7 @@ const baseStyle = {
     borderColor: '#ff1744'
   };
 
-
-const RoutePlanner = () => {
+  const DragDrop = () => {
     const {
         getRootProps,
         getInputProps,
@@ -60,30 +49,12 @@ const RoutePlanner = () => {
         isDragReject,
         isDragAccept
       ]);
-    const [loadShown,showLoad] = useState(false);
-    const handleModal = () => {
-        showLoad(!loadShown)
-    }
-    return(
-    <Container>
-        <Dialog open={loadShown} onClose={handleModal}>
-            <DialogTitle>Load Route</DialogTitle>
-            <DialogContent>
-                <DialogContentText>
-                    Drag and drop or select route csv here
-                </DialogContentText>
-                <div {...getRootProps({style})}>
+      return (
+        <div {...getRootProps({style})}>
         <input {...getInputProps()} />
         {!isDragActive && (<p>Drop or load route csv here</p>)}
         </div>
-            </DialogContent>
-        </Dialog>
-        <Fab style={fabStyle} color='primary' onClick={handleModal}>
-            <Add />
-        </Fab>
-    </Container>
-    ) 
-}
-   
+      )
+  }
 
-export default RoutePlanner;
+  export default DragDrop;
