@@ -79,6 +79,7 @@ func readChangedFile(file string) {
 		//fmt.Println(index)
 		//fmt.Println(Journals[index].Path)
 	}
+	fmt.Println("log updated")
 	parseLog(false, index)
 }
 
@@ -123,6 +124,7 @@ func parseLog(initialLoad bool, ind int) {
 			}
 
 		} else if event["event"] == "Bounty" {
+			fmt.Println("Processing Bounty")
 			processBounty(event, gameMode)
 		}
 	}
@@ -215,6 +217,7 @@ func processBounty(event map[string]interface{}, mode string) {
 	for _, mis := range Missions {
 		//if mis.Start.Before(bountyTime) {
 		if mis.TargetFaction == killFaction && mis.Status == "Progress" && mis.TargetType == "Pirates" && mis.SourceMode == mode {
+
 			if _, ok := TargetMissions[mis.Faction]; ok {
 				if TargetMissions[mis.Faction].Start.After(mis.Start) {
 					TargetMissions[mis.Faction] = mis
@@ -226,12 +229,13 @@ func processBounty(event map[string]interface{}, mode string) {
 		//}
 
 	}
+	//fmt.Println(TargetMissions)
 	for _, mis := range TargetMissions {
 		for i, mis1 := range Missions {
 			if mis1.Id == mis.Id {
 				Missions[i].Kills++
 				if Connected && Initialized {
-					//fmt.Println("bounty processing")
+					fmt.Println("bounty sending")
 					broadcast <- MissionMessage{"Bounty", Missions[i]}
 				}
 				break
