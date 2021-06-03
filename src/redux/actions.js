@@ -4,6 +4,11 @@ export const toggleMenu = () => ({
 	type: actions.TOGGLE_MENU,
 });
 
+export const toggleTheme = () => ({
+	type: actions.TOGGLE_THEME,
+});
+
+
 export const addMission = (payload) => ({
 	type: actions.ADD_MISSION,
 	payload: payload,

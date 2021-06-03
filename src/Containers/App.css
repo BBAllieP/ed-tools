@@ -1,5 +1,8 @@
 .App {
   text-align: center;
+  display: "flex";
+  align-items: "stretch";
+  height: "100vh";
 }
 
 .App-logo {
@@ -22,6 +25,9 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+.PaperStretch {
+  flex: 1 1 auto;
 }
 
 .App-link {

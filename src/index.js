@@ -6,23 +6,12 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import "semantic-ui-css/semantic.min.css";
-const theme = createMuiTheme({
-	palette: {
-		primary: {
-			main: "#4f4f4f",
-		},
-		secondary: {
-			main: "#919191",
-		},
-	},
-});
+
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(
 	<Provider store={store}>
-		<ThemeProvider theme={theme}>
-			<App />
-		</ThemeProvider>
+			<App height="100%"/>
 	</Provider>,
 	rootElement
 );

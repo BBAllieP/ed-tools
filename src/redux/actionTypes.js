@@ -1,4 +1,5 @@
 export const TOGGLE_MENU = "TOGGLE_MENU";
+export const TOGGLE_THEME = "TOGGLE_THEME";
 export const WS_CONNECT = "WS_CONNECT";
 export const WS_DISCONNECT = "WS_DISCONNECT";
 export const WS_CONNECTING = "WS_CONNECTING";
