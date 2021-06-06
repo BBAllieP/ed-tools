@@ -33,3 +33,8 @@ export const getAllFactions = () => ({
 	type: actions.GET_ALL_FACTION,
 	payload: null,
 });
+
+export const acceptRoute = (payload) => ({
+	type: actions.ACCEPT_ROUTE,
+	payload: payload,
+})

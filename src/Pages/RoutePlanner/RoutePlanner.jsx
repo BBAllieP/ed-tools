@@ -2,6 +2,7 @@ import {React, useState, useMemo} from "react";
 import {Container, Fab, Typography, Paper, Dialog, DialogActions, DialogTitle, DialogContent, DialogContentText} from '@material-ui/core';
 import {Add} from '@material-ui/icons';
 import {useDropzone} from 'react-dropzone';
+import { acceptRoute } from "../../redux/actions";
 
 const fabStyle = {
     margin: 0,
@@ -48,6 +49,8 @@ const RoutePlanner = () => {
         isDragAccept,
         isDragReject
       } = useDropzone({
+        onDrop: files => props.acceptRoute(files),
+        maxFiles: 1,
         accept: 'text/csv'
       });
       const style = useMemo(() => ({
@@ -73,9 +76,9 @@ const RoutePlanner = () => {
                     Drag and drop or select route csv here
                 </DialogContentText>
                 <div {...getRootProps({style})}>
-        <input {...getInputProps()} />
-        {!isDragActive && (<p>Drop or load route csv here</p>)}
-        </div>
+                  <input {...getInputProps()} />
+                  {!isDragActive && (<p>Drop or load route csv here</p>)}
+                </div>
             </DialogContent>
         </Dialog>
         <Fab style={fabStyle} color='primary' onClick={handleModal}>
@@ -84,6 +87,9 @@ const RoutePlanner = () => {
     </Container>
     ) 
 }
-   
 
-export default RoutePlanner;
+const mapDispatchToProps = {
+	getAllFactions,
+};
+
+export default connect(, mapDispatchToProps)(RoutePlanner);
