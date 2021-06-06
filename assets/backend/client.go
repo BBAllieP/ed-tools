@@ -38,6 +38,8 @@ func (c *Client) Read() {
 		case "getJournals":
 			journMsg := JournalsMessage{"GetAllJournals", Journals}
 			c.Pool.Broadcast <- journMsg
+		case "acceptRoute":
+			acceptRoute(msg.Value)
 		default:
 			c.Pool.Broadcast <- Message{"1", []byte("Unhandled Request")}
 		}

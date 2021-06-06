@@ -1,7 +1,9 @@
-import {React, useState, useMemo} from "react";
+import {React, useState, useMemo, useCallback} from "react";
 import {Container, Fab, Typography, Paper, Dialog, DialogActions, DialogTitle, DialogContent, DialogContentText} from '@material-ui/core';
 import {Add} from '@material-ui/icons';
 import {useDropzone} from 'react-dropzone';
+
+import { connect } from "react-redux";
 import { acceptRoute } from "../../redux/actions";
 
 const fabStyle = {
@@ -41,17 +43,23 @@ const baseStyle = {
   };
 
 
-const RoutePlanner = () => {
+const RoutePlanner = (props) => {
     const {
+        acceptedFiles,
+        rejectedFiles,
         getRootProps,
         getInputProps,
         isDragActive,
         isDragAccept,
         isDragReject
       } = useDropzone({
-        onDrop: files => props.acceptRoute(files),
-        maxFiles: 1,
-        accept: 'text/csv'
+        onDrop: files => {
+          console.log(files);
+          props.acceptRoute(files[0].path)
+          handleModal();
+        },  
+        multiple: false,
+        accept: 'text/csv, application/vnd.ms-excel, .csv'
       });
       const style = useMemo(() => ({
         ...baseStyle,
@@ -89,7 +97,11 @@ const RoutePlanner = () => {
 }
 
 const mapDispatchToProps = {
-	getAllFactions,
+	acceptRoute
 };
-
-export default connect(, mapDispatchToProps)(RoutePlanner);
+const mapStateToProps = (state) => {
+	return { missionState: { ...state.missions }, 
+	socketState: { ...state.websocketReducer } 
+	}; 
+};
+export default connect(mapStateToProps, mapDispatchToProps)(RoutePlanner);

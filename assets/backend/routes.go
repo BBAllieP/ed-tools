@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 type System struct {
 	Name    string
 	Bodies  []Body
@@ -16,4 +18,12 @@ type Route struct {
 	Path         string
 	Type         string
 	Destinations []System
+}
+
+func acceptRoute(routePath string) {
+	fmt.Println(routePath)
+	// copy route to appdata storage
+	// load route into memory
+	// write csv of current routes
+	//send route to client to update state
 }
