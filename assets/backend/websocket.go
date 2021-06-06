@@ -23,7 +23,17 @@ var upgrader = websocket.Upgrader{
 	// this will allow us to make requests from our React
 	// development server to here.
 	// For now, we'll do no checking and just allow any connection
-	CheckOrigin: func(r *http.Request) bool { return true },
+	CheckOrigin: func(r *http.Request) bool {
+		origin := r.Header.Get("Origin")
+		goodOrigins := []string{"http://localhosst:3000", "file://"}
+		for _, check := range goodOrigins {
+			if origin == check {
+				return true
+			}
+		}
+		return false
+		//return true
+	},
 }
 
 func Upgrade(w http.ResponseWriter, r *http.Request) (*websocket.Conn, error) {
@@ -44,7 +54,7 @@ func writer(pool *Pool) {
 
 // define our WebSocket endpoint
 func serveWs(pool *Pool, w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.Host)
+	fmt.Println(r.Header.Get("Origin"))
 
 	// upgrade this connection to a WebSocket
 	// connection
