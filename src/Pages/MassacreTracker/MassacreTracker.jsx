@@ -1,14 +1,21 @@
 import React, {useEffect} from "react";
-import { Typography, Grid } from "@material-ui/core";
+import { Typography, Grid, Container, Fab } from "@material-ui/core";
 import FactionRow from "./FactionRow";
 import { connect } from "react-redux";
 import { getAllFactions } from "../../redux/actions";
-
+import RefreshIcon from '@material-ui/icons/Refresh';
 import {useInterval} from "../../utils/genericUtils";
 import { makeMil } from "../../utils/numUtils";
 import CircleProgress from "./CircleProgress";
 import ProgressBar from "./ProgressBar";
-
+const fabStyle = {
+    margin: 0,
+    top: 'auto',
+    right: 20,
+    bottom: 20,
+    left: 'auto',
+    position: 'fixed',
+}
 const MassacreTracker = (props) => {
 
 	useEffect(()=>{
@@ -68,6 +75,7 @@ const MassacreTracker = (props) => {
 		return countMissions;
 	};
 	return (
+		<Container>
 		<Grid container spacing={3}>
 			<Grid item xs={12} />
 			<Grid item xs={4}>
@@ -131,6 +139,10 @@ const MassacreTracker = (props) => {
 					})}
 			</Grid>
 		</Grid>
+		<Fab style={fabStyle} color='primary' onClick={props.getAllFactions}>
+			<RefreshIcon />
+		</Fab>
+		</Container>
 	);
 };
 const mapStateToProps = (state) => {
