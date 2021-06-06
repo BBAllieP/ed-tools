@@ -84,6 +84,14 @@ const socketMiddleware = () => {
 					})
 				);
 				break;
+			case actionTypes.ACCEPT_ROUTE:
+				socket.send(
+					JSON.stringify({
+						action: "acceptRoute",
+						value: action.payload
+					})
+				);
+				break;
 			default:
 				//console.log("the next action:", action);
 				return next(action);
