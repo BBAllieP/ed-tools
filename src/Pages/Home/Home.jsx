@@ -2,6 +2,8 @@ import React from "react";
 import { Typography, Grid, Divider, Link } from "@material-ui/core";
 import path from 'path';
 import logo from "../../assets/icon.png";
+import {BeerIco} from "./ico";
+const { shell } = window.require('electron'); 
 
 const Home = () => (
 	<Grid container spacing={3} direction='column' justify='space-evenly'>
@@ -25,9 +27,10 @@ const Home = () => (
 			</Grid>
 			<Grid item xs={12} container justify='flex-end' spacing={2}>
 				<Typography variant='button'>
-					<Link href='https://ko-fi.com/bballiep' target='_blank'>
-						Buy me a beer
+					<Link onClick={()=> shell.openExternal('https://ko-fi.com/bballiep')} target='_blank'gi>
+						Buy me a beer <BeerIco />
 					</Link>
+					
 				</Typography>
 			</Grid>
 		</Grid>
