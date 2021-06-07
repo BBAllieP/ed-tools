@@ -1,10 +1,7 @@
-import {React, useState, useMemo, useCallback} from "react";
-import {Container, Fab, Typography, Paper, Dialog, DialogActions, DialogTitle, DialogContent, DialogContentText} from '@material-ui/core';
+import {React, useState} from "react";
+import {Container, Fab} from '@material-ui/core';
 import {Add} from '@material-ui/icons';
-import {useDropzone} from 'react-dropzone';
-
-import { connect } from "react-redux";
-import { acceptRoute } from "../../redux/actions";
+import LoadModal from './LoadModal';
 
 const fabStyle = {
     margin: 0,
@@ -14,81 +11,18 @@ const fabStyle = {
     left: 'auto',
     position: 'fixed',
 }
-const baseStyle = {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: '20px',
-    borderWidth: 2,
-    borderRadius: 2,
-    borderColor: '#eeeeee',
-    borderStyle: 'dashed',
-    backgroundColor: '#fafafa',
-    color: '#bdbdbd',
-    outline: 'none',
-    transition: 'border .24s ease-in-out'
-  };
-  
-  const activeStyle = {
-    borderColor: '#2196f3'
-  };
-  
-  const acceptStyle = {
-    borderColor: '#00e676'
-  };
-  
-  const rejectStyle = {
-    borderColor: '#ff1744'
-  };
 
 
-const RoutePlanner = (props) => {
-    const {
-        acceptedFiles,
-        rejectedFiles,
-        getRootProps,
-        getInputProps,
-        isDragActive,
-        isDragAccept,
-        isDragReject
-      } = useDropzone({
-        onDrop: files => {
-          console.log(files);
-          props.acceptRoute(files[0].path)
-          handleModal();
-        },  
-        multiple: false,
-        accept: 'text/csv, application/vnd.ms-excel, .csv'
-      });
-      const style = useMemo(() => ({
-        ...baseStyle,
-        ...(isDragActive ? activeStyle : {}),
-        ...(isDragAccept ? acceptStyle : {}),
-        ...(isDragReject ? rejectStyle : {})
-      }), [
-        isDragActive,
-        isDragReject,
-        isDragAccept
-      ]);
+
+const RoutePlanner = () => {
     const [loadShown,showLoad] = useState(false);
     const handleModal = () => {
         showLoad(!loadShown)
     }
     return(
     <Container>
-        <Dialog open={loadShown} onClose={handleModal}>
-            <DialogTitle>Load Route</DialogTitle>
-            <DialogContent>
-                <DialogContentText>
-                    Drag and drop or select route csv here
-                </DialogContentText>
-                <div {...getRootProps({style})}>
-                  <input {...getInputProps()} />
-                  {!isDragActive && (<p>Drop or load route csv here</p>)}
-                </div>
-            </DialogContent>
-        </Dialog>
+        <LoadModal shown={loadShown} toggle={handleModal} />
+            
         <Fab style={fabStyle} color='primary' onClick={handleModal}>
             <Add />
         </Fab>
@@ -96,12 +30,5 @@ const RoutePlanner = (props) => {
     ) 
 }
 
-const mapDispatchToProps = {
-	acceptRoute
-};
-const mapStateToProps = (state) => {
-	return { missionState: { ...state.missions }, 
-	socketState: { ...state.websocketReducer } 
-	}; 
-};
-export default connect(mapStateToProps, mapDispatchToProps)(RoutePlanner);
+
+export default RoutePlanner;
