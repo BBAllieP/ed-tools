@@ -1,8 +1,12 @@
 package main
 
 import (
+	"crypto/sha1"
 	"fmt"
+	"io"
 	"io/ioutil"
+	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -91,4 +95,37 @@ func initSequence() {
 	parseLog(false, len(Journals)-1)
 	fmt.Println("Missions Loaded")
 	Initialized = true
+}
+func File(src, dst string) error {
+	var err error
+	var srcfd *os.File
+	var dstfd *os.File
+	var srcinfo os.FileInfo
+
+	if srcfd, err = os.Open(src); err != nil {
+		return err
+	}
+	defer srcfd.Close()
+	if err := os.MkdirAll(filepath.Dir(dst), 0770); err != nil {
+		return err
+	}
+	if dstfd, err = os.Create(dst); err != nil {
+		return err
+	}
+	defer dstfd.Close()
+
+	if _, err = io.Copy(dstfd, srcfd); err != nil {
+		return err
+	}
+	if srcinfo, err = os.Stat(src); err != nil {
+		return err
+	}
+	return os.Chmod(dst, srcinfo.Mode())
+}
+
+func makeHash(input string) string {
+	h := sha1.New()
+	h.Write([]byte(input))
+	bs := h.Sum(nil)
+	return fmt.Sprintf("%x", bs)
 }
