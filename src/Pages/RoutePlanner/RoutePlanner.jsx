@@ -22,7 +22,6 @@ const RoutePlanner = () => {
     return(
     <Container>
         <LoadModal shown={loadShown} toggle={handleModal} />
-            
         <Fab style={fabStyle} color='primary' onClick={handleModal}>
             <Add />
         </Fab>

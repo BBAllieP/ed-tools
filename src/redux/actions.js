@@ -37,4 +37,14 @@ export const getAllFactions = () => ({
 export const acceptRoute = (payload) => ({
 	type: actions.ACCEPT_ROUTE,
 	payload: payload,
-})
+});
+
+export const addAllRoutes = (payload) => ({
+	type: actions.ADD_ALL_ROUTES,
+	payload: payload,
+});
+
+export const addRoute = (payload) => ({
+	type: actions.ADD_ROUTE,
+	payload: payload,
+});

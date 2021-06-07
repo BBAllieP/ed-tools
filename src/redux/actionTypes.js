@@ -11,3 +11,5 @@ export const MODIFY_MISSION = "MODIFY_MISSION";
 export const GET_ALL_FACTION = "GET_ALL_FACTION";
 export const ADD_ALL_FACTION = "ADD_ALL_FACTION";
 export const ACCEPT_ROUTE  = "ACCEPT_ROUTE";
+export const ADD_ALL_ROUTES = "ADD_ALL_ROUTES";
+export const ADD_ROUTE = "ADD_ROUTE";
