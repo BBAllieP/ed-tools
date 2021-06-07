@@ -25,7 +25,7 @@ var upgrader = websocket.Upgrader{
 	// For now, we'll do no checking and just allow any connection
 	CheckOrigin: func(r *http.Request) bool {
 		origin := r.Header.Get("Origin")
-		goodOrigins := []string{"http://localhost:3000", "file://"}
+		goodOrigins := []string{"http://localhost:3000", "file://", "chrome-extension://omalebghpgejjiaoknljcfmglgbpocdp"}
 		for _, check := range goodOrigins {
 			if origin == check {
 				return true
