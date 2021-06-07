@@ -146,7 +146,7 @@ func acceptRoute(routePath string) {
 	_ = ioutil.WriteFile(getStorageDir()+"\\routes\\routes.json", file, 0644)
 	//send route to client to update state
 	if Connected {
-		broadcast <- Message{Action: "sendRoute", Body: Routes}
+		broadcast <- Message{Action: "AddRoute", Body: tempRoute}
 	}
 }
 
@@ -157,4 +157,7 @@ func LoadRoutes() {
 		_ = json.Unmarshal([]byte(file), &Routes)
 	}
 	fmt.Println("Routes Loaded")
+	if Connected {
+		broadcast <- Message{Action: "SendRoutes", Body: Routes}
+	}
 }
