@@ -99,6 +99,14 @@ const socketMiddleware = () => {
 					})
 				);
 				break;
+			case actionTypes.SET_ACTIVE_ROUTE:
+				socket.send(
+					JSON.stringify({
+						action: "setActiveRoute",
+						value: action.payload
+					})
+				);
+				break;
 			default:
 				//console.log("the next action:", action);
 				return next(action);

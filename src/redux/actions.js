@@ -48,3 +48,8 @@ export const addRoute = (payload) => ({
 	type: actions.ADD_ROUTE,
 	payload: payload,
 });
+
+export const setActiveRoute = (payload) => ({
+	type: actions.SET_ACTIVE_ROUTE,
+	payload: payload
+});
