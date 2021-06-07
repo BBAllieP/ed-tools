@@ -25,6 +25,8 @@ func init() {
 	parseLog(false, len(Journals)-1)
 	fmt.Println("Missions Loaded")
 	Initialized = true
+	fmt.Println("LoadingRoutes")
+	go LoadRoutes()
 }
 
 func main() {

@@ -38,6 +38,9 @@ func (c *Client) Read() {
 		case "getJournals":
 			journMsg := JournalsMessage{"GetAllJournals", Journals}
 			c.Pool.Broadcast <- journMsg
+		case "getRoutes":
+			routeMsg := Message{"GetRoutes", Routes}
+			c.Pool.Broadcast <- routeMsg
 		case "acceptRoute":
 			acceptRoute(msg.Value)
 		default:

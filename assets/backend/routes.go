@@ -149,3 +149,12 @@ func acceptRoute(routePath string) {
 		broadcast <- Message{Action: "sendRoute", Body: Routes}
 	}
 }
+
+func LoadRoutes() {
+	loadFile := getStorageDir() + "\\routes\\routes.json"
+	if _, err := os.Stat(loadFile); err == nil {
+		file, _ := ioutil.ReadFile(loadFile)
+		_ = json.Unmarshal([]byte(file), &Routes)
+	}
+	fmt.Println("Routes Loaded")
+}
