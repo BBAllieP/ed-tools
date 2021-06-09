@@ -107,7 +107,7 @@ func acceptRoute(routePath string) {
 		//process neutron
 		case "neutron":
 			var neutron bool
-			if record[4] == "Yes" {
+			if record[3] == "Yes" {
 				neutron = true
 			} else {
 				neutron = false

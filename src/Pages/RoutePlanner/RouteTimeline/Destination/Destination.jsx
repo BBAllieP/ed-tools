@@ -13,13 +13,16 @@ import StarImg from '../../../../assets/sun.png';
 import NeutImg from '../../../../assets/neutron-star.png';
 
 import { makeStyles } from '@material-ui/core/styles';
+import _ from 'lodash';
+
 
 const useStyles = makeStyles({
     dest: {
       display: 'flex',
       flexDirection: 'row',
-      justifyContent: 'flex-start',
-      alignItems: "center"
+      justifyContent: 'center',
+      alignItems: "baseline",
+      width: "fit-content",
     },
   });
 
@@ -48,7 +51,7 @@ const useStyles = makeStyles({
 const Destination = (props) => {
     const classes = useStyles();
     return (
-        <TimelineItem>
+        <TimelineItem style={{display: "flex", flexFlow: "row nowrap", alignItems: "center"}}>
             <TimelineOppositeContent style={{display: "flex", justifyContent: "flex-end"}}>
                 <Card style={{width: "fit-content"}}>
                     <CardHeader title={props.dest.Name} action={
@@ -60,11 +63,13 @@ const Destination = (props) => {
             </TimelineOppositeContent>
             <TimelineSeparator>
                 <TimelineDot>
-                    <img alt="star" style={{height: "3em"}} src={props.dest.NeutronStar ? NeutImg : StarImg} />
+                    {props.dest.NeutronStar ?  
+                    <img alt="star" style={{height: "3em", borderRadius: "50%", width:"3em"}} src={NeutImg} /> : 
+                    <img alt="star" style={{height: "3em", width:"3em"}} src={StarImg} />}
                 </TimelineDot>
                 <TimelineConnector />
             </TimelineSeparator>
-            <TimelineContent>
+            {_.isEmpty(props.dest) ?  <TimelineContent>
                 <Paper className={classes.dest}>
                     {props.dest.Bodies.map((body, i)=> {
                         return (
@@ -77,7 +82,8 @@ const Destination = (props) => {
                         );
                     })}
                 </Paper>
-            </TimelineContent>
+            </TimelineContent>: null}
+           
         </TimelineItem>
     )
 }
