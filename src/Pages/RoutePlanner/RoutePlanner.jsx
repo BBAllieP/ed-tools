@@ -41,6 +41,7 @@ const RoutePlanner = (props) => {
 
 const mapStateToProps = (state) => {
 	return {routes: state.routes.currentRoute}
+}
 const mapDispatchToProps = {
 	getRoutes,
 };

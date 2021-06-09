@@ -7,7 +7,7 @@ import Header from "../Components/Header";
 import Menu from "../Components/Menu";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import MenuItems from "../Pages/MenuItems";
-import {Paper, Grid} from "@material-ui/core";
+import {Paper, Grid, Container} from "@material-ui/core";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -37,20 +37,27 @@ const useStyles = makeStyles(theme => ({
 	root: {
 	  display: "flex",
 	  flexFlow: "column",
-	  height: "100vh"
+	  height: "100vh",
+	  alignItems: "stretch"
 	},
 	paper: {
-		flexGrow: 1,
 		width: "100%",
 		height: "100vh",
-		textAlign: "center",
 		display: "flex",
+		//overflow: "hidden",
+		textAlign: "center",
 		flexDirection: "column",
-		overflow: "hidden"
+		justifyContent: "stretch",
 	},
 	toolbar: theme.mixins.toolbar,
   }));
-
+/*     width: "100%",
+    height: "100vh",
+    display: "flex",
+    overflow: "hidden",
+    textAlign: "center",
+    flexDirection: "column",
+    justifyContent: "stretch", */
 function App(props) {
 	const classes = useStyles();
 	useEffect(() => {
@@ -65,16 +72,18 @@ function App(props) {
 			<Router>
 				<Header />
 				<Menu />
-				<Paper className={classes.paper}>
+				<Container className={classes.paper}>
 					<div className={classes.toolbar} />
-					<Switch >
+					<Switch style={{overflow: "auto", height: "100%",
+            paddingTop: "5px",
+            paddingBottom: "5px",}}>
 						{MenuItems.map((i, index) => (
 							<Route key={i} exact={i.isExact} path={i.route}>
 								{i.page}
 							</Route>
 						))}
 					</Switch>
-			</Paper>
+			</Container>
 			</Router>
 		</div>
 		</ThemeProvider>

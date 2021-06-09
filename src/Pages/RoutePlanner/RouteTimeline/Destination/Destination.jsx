@@ -6,7 +6,9 @@ import {
     TimelineContent,
     TimelineOppositeContent,
     TimelineDot} from '@material-ui/lab';
-import {Typography, Avatar, Paper} from '@material-ui/core';
+import {Typography,Container, Divider, Avatar, Paper, Card, CardHeader, IconButton} from '@material-ui/core';
+import CopyIcon from '@material-ui/icons/FileCopy';
+import ArrowIcon from '@material-ui/icons/ArrowForward';
 import StarImg from '../../../../assets/sun.png';
 import NeutImg from '../../../../assets/neutron-star.png';
 
@@ -15,7 +17,9 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles({
     dest: {
       display: 'flex',
-      flexDirection: 'horizontal'
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      alignItems: "center"
     },
   });
 
@@ -46,9 +50,13 @@ const Destination = (props) => {
     return (
         <TimelineItem>
             <TimelineOppositeContent>
-                <Typography variant="h5">
-                    {props.dest.Name}
-                </Typography>
+                <Card>
+                    <CardHeader title={props.dest.Name} action={
+                        <IconButton>
+                            <CopyIcon />
+                        </IconButton>
+                    } />
+                </Card>
             </TimelineOppositeContent>
             <TimelineSeparator>
                 <TimelineDot>
@@ -58,11 +66,14 @@ const Destination = (props) => {
             </TimelineSeparator>
             <TimelineContent>
                 <Paper className={classes.dest}>
-                    {props.dest.Bodies.map((body)=> {
+                    {props.dest.Bodies.map((body, i)=> {
                         return (
+                            <Container style={{display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "center", padding: 0, flexBasis: 0, margin:0}}>
                             <Avatar>
                                 {body.Name.substring(props.dest.Name.length)}
                             </Avatar>
+                            {i === props.dest.Bodies.length -1 ? null : <ArrowIcon />}
+                            </Container>
                         );
                     })}
                 </Paper>
