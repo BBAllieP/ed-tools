@@ -7,7 +7,7 @@ import Destination from './Destination';
 const RouteTimeline = (props) => {
     return (
         <Paper elevation={3} >
-            <Timeline>
+            <Timeline style={{display: "flex", alignContent:"center"}}>
                 {props.route.Destinations.map((dest) => {
                     return <Destination key={dest.Name} dest={dest} />
                 })}
