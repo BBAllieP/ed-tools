@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
 		width: "100%",
 		height: "100vh",
 		display: "flex",
-		//overflow: "hidden",
+		overflow: "overlay",
 		textAlign: "center",
 		flexDirection: "column",
 		justifyContent: "stretch",
@@ -74,9 +74,7 @@ function App(props) {
 				<Menu />
 				<Container className={classes.paper}>
 					<div className={classes.toolbar} />
-					<Switch style={{overflow: "auto", height: "100%",
-            paddingTop: "5px",
-            paddingBottom: "5px",}}>
+					<Switch>
 						{MenuItems.map((i, index) => (
 							<Route key={i} exact={i.isExact} path={i.route}>
 								{i.page}

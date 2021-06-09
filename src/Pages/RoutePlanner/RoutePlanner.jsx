@@ -28,7 +28,7 @@ const RoutePlanner = (props) => {
         props.getRoutes()
     },[])
     return(
-    <Container style={{height: "100vh"}}>
+    <Container>
         {_.isEmpty(props.routes) ? null : <RouteTimeline route={props.routes} />}
         <LoadModal shown={loadShown} toggle={handleModal} />
         <Fab style={fabStyle} color='primary' onClick={handleModal}>

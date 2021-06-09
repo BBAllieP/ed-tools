@@ -49,8 +49,8 @@ const Destination = (props) => {
     const classes = useStyles();
     return (
         <TimelineItem>
-            <TimelineOppositeContent>
-                <Card>
+            <TimelineOppositeContent style={{display: "flex", justifyContent: "flex-end"}}>
+                <Card style={{width: "fit-content"}}>
                     <CardHeader title={props.dest.Name} action={
                         <IconButton>
                             <CopyIcon />
