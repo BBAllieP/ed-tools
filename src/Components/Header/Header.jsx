@@ -22,7 +22,7 @@ const Header = (props) => {
 	};
 
 	return (
-		<AppBar position='relative' style={{ zIndex: 1400 }}>
+		<AppBar position='fixed' style={{ zIndex: 1400 }}>
 			<Toolbar>
 				<IconButton edge='start' aria-label='menu' onClick={props.toggleMenu}>
 					<MenuIcon />

@@ -42,8 +42,13 @@ const useStyles = makeStyles(theme => ({
 	paper: {
 		flexGrow: 1,
 		width: "100%",
+		height: "100vh",
 		textAlign: "center",
-	}
+		display: "flex",
+		flexDirection: "column",
+		overflow: "hidden"
+	},
+	toolbar: theme.mixins.toolbar,
   }));
 
 function App(props) {
@@ -61,13 +66,14 @@ function App(props) {
 				<Header />
 				<Menu />
 				<Paper className={classes.paper}>
-				<Switch>
-					{MenuItems.map((i, index) => (
-						<Route key={i} exact={i.isExact} path={i.route}>
-							{i.page}
-						</Route>
-					))}
-				</Switch>
+					<div className={classes.toolbar} />
+					<Switch >
+						{MenuItems.map((i, index) => (
+							<Route key={i} exact={i.isExact} path={i.route}>
+								{i.page}
+							</Route>
+						))}
+					</Switch>
 			</Paper>
 			</Router>
 		</div>

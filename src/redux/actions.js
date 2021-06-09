@@ -49,6 +49,11 @@ export const addRoute = (payload) => ({
 	payload: payload,
 });
 
+export const getRoutes = () => ({
+	type: actions.GET_ROUTES,
+	payload: null,
+});
+
 export const setActiveRoute = (payload) => ({
 	type: actions.SET_ACTIVE_ROUTE,
 	payload: payload

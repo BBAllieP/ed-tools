@@ -10,6 +10,15 @@ import {Typography, Avatar, Paper} from '@material-ui/core';
 import StarImg from '../../../../assets/sun.png';
 import NeutImg from '../../../../assets/neutron-star.png';
 
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+    dest: {
+      display: 'flex',
+      flexDirection: 'horizontal'
+    },
+  });
+
 
  /* Route Structure
  {
@@ -33,7 +42,7 @@ import NeutImg from '../../../../assets/neutron-star.png';
    }
 */   
 const Destination = (props) => {
-    console.log(props.dest);
+    const classes = useStyles();
     return (
         <TimelineItem>
             <TimelineOppositeContent>
@@ -43,12 +52,12 @@ const Destination = (props) => {
             </TimelineOppositeContent>
             <TimelineSeparator>
                 <TimelineDot>
-                    <Avatar src={props.dest.NeutronStar ? NeutImg : StarImg} />
+                    <img alt="star" style={{height: "3em"}} src={props.dest.NeutronStar ? NeutImg : StarImg} />
                 </TimelineDot>
                 <TimelineConnector />
             </TimelineSeparator>
             <TimelineContent>
-                <Paper>
+                <Paper className={classes.dest}>
                     {props.dest.Bodies.map((body)=> {
                         return (
                             <Avatar>

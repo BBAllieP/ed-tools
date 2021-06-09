@@ -1,16 +1,18 @@
 import React from "react";
 import { Timeline,
     } from '@material-ui/lab';
+import {Paper} from '@material-ui/core';
 import Destination from './Destination';
 
 const RouteTimeline = (props) => {
-    console.log(props.route);
     return (
-        <Timeline>
-            {props.route.Destinations.map((dest) => {
-                return <Destination dest={dest} />
-            })}
-        </Timeline>
+        <Paper elevation={3} style={{ height: "100%", overflow: 'auto'}}>
+            <Timeline>
+                {props.route.Destinations.map((dest) => {
+                    return <Destination key={dest.Name} dest={dest} />
+                })}
+            </Timeline>
+        </Paper>
     )
 }
 

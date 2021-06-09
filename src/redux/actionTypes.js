@@ -14,3 +14,4 @@ export const ACCEPT_ROUTE  = "ACCEPT_ROUTE";
 export const ADD_ALL_ROUTES = "ADD_ALL_ROUTES";
 export const ADD_ROUTE = "ADD_ROUTE";
 export const SET_ACTIVE_ROUTE = "SET_ACTIVE_ROUTE";
+export const GET_ROUTES = "GET_ROUTES";
