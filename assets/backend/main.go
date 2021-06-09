@@ -9,7 +9,7 @@ var Missions []Mission
 var LoadMissions []Mission
 var Journals []Logfile
 var Initialized bool
-var Routes []Route
+var CurrentRoute Route
 
 func init() {
 	Initialized = false

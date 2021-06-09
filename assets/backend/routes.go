@@ -44,20 +44,20 @@ type Route struct {
 func acceptRoute(routePath string) {
 	fmt.Println(routePath)
 	routeName := strings.Split(routePath, "\\")[len(strings.Split(routePath, "\\"))-1]
-	newLoc := getStorageDir() + "\\routes\\" + routeName
-	fmt.Println(newLoc)
-	// copy route to appdata storage
+	//newLoc := getStorageDir() + "\\routes\\" + routeName
+	//fmt.Println(newLoc)
+	/* copy route to appdata storage
 	err := File(routePath, newLoc)
 	if err != nil {
 		panic(err)
-	}
+	}*/
 
 	// generate routeID by hashing source name and date/time
 	routeId := makeHash(routePath + time.Now().String())
-	tempRoute := Route{routeId, routeName, newLoc, "", nil}
+	tempRoute := Route{routeId, routeName, routePath, "", nil}
 
 	// load route into memory
-	csvfile, err := os.Open(newLoc)
+	csvfile, err := os.Open(routePath)
 	if err != nil {
 		log.Fatalln("Couldn't open the csv file", err)
 	}
@@ -97,13 +97,6 @@ func acceptRoute(routePath string) {
 				tempDests = append(tempDests, tempDest)
 				tempDestSyst = record[0]
 			}
-			/*	Name              string
-				SubType           string
-				IsTerraformable   bool
-				DistanceToArrival int
-				ScanValue         int
-				MappingValue      int
-				Jumps             int*/
 			isTerra := record[3] == "Yes"
 			dist, _ := strconv.Atoi(record[4])
 			scanVal, _ := strconv.Atoi(record[5])
@@ -140,10 +133,10 @@ func acceptRoute(routePath string) {
 
 	}
 	tempRoute.Destinations = tempDests
-	Routes = append(Routes, tempRoute)
+	CurrentRoute = tempRoute
 	// write json of current routes
-	file, _ := json.MarshalIndent(Routes, "", " ")
-	_ = ioutil.WriteFile(getStorageDir()+"\\routes\\routes.json", file, 0644)
+	file, _ := json.MarshalIndent(CurrentRoute, "", " ")
+	_ = ioutil.WriteFile(getStorageDir()+"\\route.json", file, 0644)
 	//send route to client to update state
 	if Connected {
 		broadcast <- Message{Action: "AddRoute", Body: tempRoute}
@@ -151,13 +144,13 @@ func acceptRoute(routePath string) {
 }
 
 func LoadRoutes() {
-	loadFile := getStorageDir() + "\\routes\\routes.json"
+	loadFile := getStorageDir() + "\\route.json"
 	if _, err := os.Stat(loadFile); err == nil {
 		file, _ := ioutil.ReadFile(loadFile)
-		_ = json.Unmarshal([]byte(file), &Routes)
+		_ = json.Unmarshal([]byte(file), &CurrentRoute)
 	}
 	fmt.Println("Routes Loaded")
 	if Connected {
-		broadcast <- Message{Action: "SendRoutes", Body: Routes}
+		broadcast <- Message{Action: "SendRoutes", Body: CurrentRoute}
 	}
 }

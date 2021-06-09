@@ -2,6 +2,9 @@ import {React, useState} from "react";
 import {Container, Fab} from '@material-ui/core';
 import {Add} from '@material-ui/icons';
 import LoadModal from './LoadModal';
+import RouteTimeline from './RouteTimeline';
+import {connect} from 'react-redux';
+import _ from 'lodash';
 
 const fabStyle = {
     margin: 0,
@@ -14,13 +17,14 @@ const fabStyle = {
 
 
 
-const RoutePlanner = () => {
+const RoutePlanner = (props) => {
     const [loadShown,showLoad] = useState(false);
     const handleModal = () => {
         showLoad(!loadShown)
     }
     return(
     <Container>
+        {_.isEmpty(props.routes) ? null : <RouteTimeline route={props.routes} />}
         <LoadModal shown={loadShown} toggle={handleModal} />
         <Fab style={fabStyle} color='primary' onClick={handleModal}>
             <Add />
@@ -30,4 +34,9 @@ const RoutePlanner = () => {
 }
 
 
-export default RoutePlanner;
+const mapStateToProps = (state) => {
+	return {routes: state.routes.currentRoute}
+}
+
+
+export default connect(mapStateToProps)(RoutePlanner);
