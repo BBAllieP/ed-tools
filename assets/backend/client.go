@@ -43,6 +43,8 @@ func (c *Client) Read() {
 			c.Pool.Broadcast <- routeMsg
 		case "acceptRoute":
 			acceptRoute(msg.Value)
+		case "copyDestination":
+			CopyDest(msg.Value)
 		default:
 			c.Pool.Broadcast <- Message{"1", []byte("Unhandled Request")}
 		}
