@@ -1,4 +1,5 @@
 import React from "react";
+import {connect} from 'react-redux';
 import { 
     TimelineItem,
     TimelineSeparator,
@@ -6,14 +7,16 @@ import {
     TimelineContent,
     TimelineOppositeContent,
     TimelineDot} from '@material-ui/lab';
-import {Typography,Container, Divider, Avatar, Paper, Card, CardHeader, IconButton} from '@material-ui/core';
+import {Paper, Card, CardHeader, IconButton} from '@material-ui/core';
 import CopyIcon from '@material-ui/icons/FileCopy';
-import ArrowIcon from '@material-ui/icons/ArrowForward';
 import StarImg from '../../../../assets/sun.png';
 import NeutImg from '../../../../assets/neutron-star.png';
-
+import { sendCopy } from "../../../../redux/actions";
 import { makeStyles } from '@material-ui/core/styles';
+import Body from './Body';
+import CheckIcon from '@material-ui/icons/Check';
 import _ from 'lodash';
+import { green } from '@material-ui/core/colors';
 
 
 const useStyles = makeStyles({
@@ -24,6 +27,12 @@ const useStyles = makeStyles({
       alignItems: "baseline",
       width: "fit-content",
     },
+    buttonSuccess: {
+        backgroundColor: green[500],
+        '&:hover': {
+          backgroundColor: green[700],
+        },
+      },
   });
 
 
@@ -50,13 +59,14 @@ const useStyles = makeStyles({
 */   
 const Destination = (props) => {
     const classes = useStyles();
+    
     return (
-        <TimelineItem style={{display: "flex", flexFlow: "row nowrap", alignItems: "center"}}>
+        <TimelineItem style={{display: "flex", flexFlow: "row nowrap", alignItems: "center"}} id={props.idNo}>
             <TimelineOppositeContent style={{display: "flex", justifyContent: "flex-end"}}>
                 <Card style={{width: "fit-content"}}>
                     <CardHeader title={props.dest.Name} action={
-                        <IconButton>
-                            <CopyIcon />
+                        <IconButton className={props.dest.Copied &&  classes.buttonSuccess} style={{marginLeft: '.5em'}} onClick={()=>{props.sendCopy(props.dest.Name)}}>
+                            {props.dest.Copied ? <CheckIcon />:<CopyIcon />}
                         </IconButton>
                     } />
                 </Card>
@@ -69,24 +79,27 @@ const Destination = (props) => {
                 </TimelineDot>
                 <TimelineConnector />
             </TimelineSeparator>
-            {_.isEmpty(props.dest) ?  <TimelineContent>
+            
+            <TimelineContent>
                 <Paper className={classes.dest}>
                     {props.dest.Bodies.map((body, i)=> {
-                        return (
-                            <Container style={{display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "center", padding: 0, flexBasis: 0, margin:0}}>
-                            <Avatar>
-                                {body.Name.substring(props.dest.Name.length)}
-                            </Avatar>
-                            {i === props.dest.Bodies.length -1 ? null : <ArrowIcon />}
-                            </Container>
-                        );
+                        return <Body dest={props.dest} body={body} index={i} key={body.name}/>
                     })}
                 </Paper>
-            </TimelineContent>: null}
-           
+            </TimelineContent> 
         </TimelineItem>
     )
 }
 
+const mapStateToProps = (state) => {
+	return { routeState: { ...state.routes }
+	}; 
+};
+const mapDispatchToProps = (dispatch) => {
+    return {
+      // explicitly forwarding arguments
+      sendCopy: msg => dispatch(sendCopy(msg))
+    }
+  }
 
-export default Destination;
+export default connect(mapStateToProps, mapDispatchToProps)(Destination);

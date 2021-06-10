@@ -29,7 +29,7 @@ const RoutePlanner = (props) => {
     },[])
     return(
     <Container>
-        {_.isEmpty(props.routes) ? null : <RouteTimeline route={props.routes} />}
+        {_.isEmpty(props.routes.currentRoute) ? null : <RouteTimeline route={props.routes} />}
         <LoadModal shown={loadShown} toggle={handleModal} />
         <Fab style={fabStyle} color='primary' onClick={handleModal}>
             <Add />
@@ -40,7 +40,7 @@ const RoutePlanner = (props) => {
 
 
 const mapStateToProps = (state) => {
-	return {routes: state.routes.currentRoute}
+	return {routes: state.routes}
 }
 const mapDispatchToProps = {
 	getRoutes,

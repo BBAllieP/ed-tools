@@ -133,13 +133,23 @@ func parseLog(initialLoad bool, ind int) {
 				fmt.Println("Processing Bounty")
 				processBounty(event, gameMode)
 			case "FSDJump":
-				ProcessJump(event)
+				if Initialized {
+					ProcessJump(event)
+				}
 			case "SAAScanComplete":
-				ProcessScan(event)
+				if Initialized {
+					ProcessScan(event)
+				}
+
 			case "Scan":
-				ProcessScan(event)
+				if Initialized {
+					ProcessScan(event)
+				}
+
 			case "JetConeBoost":
-				ProcessBoost()
+				if Initialized {
+					ProcessBoost()
+				}
 			}
 		}
 	}

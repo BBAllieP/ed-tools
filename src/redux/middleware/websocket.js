@@ -143,6 +143,14 @@ const socketMiddleware = () => {
 					})
 				);
 				break;
+			case actionTypes.SEND_COPY:
+				socket.send(
+					JSON.stringify({
+						action: "copyDestination",
+						value: action.payload
+					})
+				);
+				break;
 			default:
 				//console.log("the next action:", action);
 				return next(action);

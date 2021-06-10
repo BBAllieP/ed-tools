@@ -87,3 +87,7 @@ export const setCopy = (payload) => ({
 	type: actions.SET_COPY,
 	payload: payload
 });
+export const sendCopy = (payload) => ({
+	type: actions.SEND_COPY,
+	payload: payload
+});
