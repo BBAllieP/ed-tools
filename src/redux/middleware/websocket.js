@@ -63,10 +63,31 @@ const socketMiddleware = () => {
 				console.log("Adding Route");
 				store.dispatch(actions.addRoute(payload.body));
 				break;
+			case "DeepScan":
+				store.dispatch(actions.deepScan(payload.body));
+				break;
+			case "LightScan":
+				store.dispatch(actions.lightScan(payload.body));
+				break;
+			case "SystemVisit":
+				store.dispatch(actions.systemVisit(payload.body));
+				break;
+			case "SuperCharge":
+				store.dispatch(actions.superCharge());
+				break;
+			case "UnsetCopy":
+				store.dispatch(actions.unsetCopy(payload.body));
+				break;
+			case "SetCopy":
+				store.dispatch(actions.setCopy(payload.body));
+				break;
 			default:
 				break;
 		}
 	};
+
+
+
 
 	// the middleware part of this function
 	return (store) => (next) => (action) => {

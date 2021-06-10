@@ -58,3 +58,32 @@ export const setActiveRoute = (payload) => ({
 	type: actions.SET_ACTIVE_ROUTE,
 	payload: payload
 });
+
+export const deepScan = (payload) => ({
+	type: actions.DEEP_SCAN,
+	payload: payload
+});
+
+export const lightScan = (payload) => ({
+	type: actions.LIGHT_SCAN,
+	payload: payload
+});
+export const systemVisit = (payload) => ({
+	type: actions.SYSTEM_VISIT,
+	payload: payload
+});
+
+export const superCharge = (payload) => ({
+	type: actions.SUPER_CHARGE,
+	payload: payload
+});
+
+export const unsetCopy = (payload) => ({
+	type: actions.UNSET_COPY,
+	payload: payload
+});
+
+export const setCopy = (payload) => ({
+	type: actions.SET_COPY,
+	payload: payload
+});
