@@ -14,12 +14,12 @@ const WhiteTextTypography = withStyles({
  
 const Body = (props) => {
     return (     
-        <Container style={{display:"flex", flexDirection:"row", alignItems:"baseline"}}>
-                    <Paper key={props.body.Name} style={{alignItems: "baseline"}}>
-                        <Grid container style={{display: "flex", alignItems: "baseline"}}>
-                            <Grid item xs={12} style={{position: "relative", display: "flex", flexDirection: "row", justifyContent: "flex-start", alignContent: "center", padding: 0, flexBasis: 0, margin:0}}>
+        <Container style={{display:"flex", flexDirection:"row", alignItems:"center"}}>
+                    <Paper key={props.body.Name} style={{alignItems: "center"}}>
+                        <Grid container style={{display: "flex", justifyContent: "center"}}>
+                            <Grid item xs={12} style={{position: "relative", justifyContent: "center", padding: 0, flexBasis: 0, margin:0}}>
                                 <img alt="body" src={MoonImg} style={{zIndex: 10, height: "4em", borderRadius: "50%", width:"4em", margin:"0px" }} />
-                                <WhiteTextTypography color="white" variant="h6" style={{position: "absolute",   top: "50%",  left: "50%",padding:"0px", transform: `translate(-50%, -50%)`, zIndex: 50}}>{props.body.Name.substring(props.dest.Name.length)}</WhiteTextTypography>
+                                <WhiteTextTypography variant="h6" style={{position: "absolute",   top: "50%",  left: "50%",padding:"0px", transform: `translate(-50%, -50%)`, zIndex: 50}}>{props.body.Name.substring(props.dest.Name.length)}</WhiteTextTypography>
                             </Grid>
                             <Grid item container xs={12} style={{width: "7em"}}>
                                 <Grid item xs={6}>

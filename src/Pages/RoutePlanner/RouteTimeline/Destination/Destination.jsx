@@ -20,6 +20,7 @@ import { green } from '@material-ui/core/colors';
 import {pulse} from 'react-animations';
 
 
+
 const useStyles = makeStyles({
     dest: {
       display: 'flex',
@@ -47,7 +48,7 @@ const Destination = (props) => {
             <TimelineOppositeContent style={{display: "flex", justifyContent: "flex-start", width:"25em"}}>
                 <Card style={{width: "fit-content"}}>
                     <CardHeader title={props.dest.Name} action={
-                        <IconButton className={props.dest.Copied &&  classes.buttonSuccess} style={{marginLeft: '.5em'}} onClick={()=>{props.sendCopy(props.dest.Name)}}>
+                        <IconButton className={`${props.dest.Copied && classes.buttonSuccess}`} style={{marginLeft: '.5em'}} onClick={()=>{props.sendCopy(props.dest.Name)}}>
                             {props.dest.Copied ? <CheckIcon />:<CopyIcon />}
                         </IconButton>
                     } />
@@ -65,7 +66,7 @@ const Destination = (props) => {
             <TimelineContent>
                 {props.routeType === "r2r" ? <Paper className={classes.dest}>
                     {props.dest.Bodies.map((body, i)=> {
-                        return <Body dest={props.dest} body={body} index={i} key={body.name}/>
+                        return <Body dest={props.dest} body={body} index={i} key={`${body.name}${i}`}/>
                     })}
                 </Paper> : null }
                 
