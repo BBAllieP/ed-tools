@@ -3,11 +3,11 @@ import { connect } from "react-redux";
 import { getAllFactions } from "../redux/actions";
 import { wsConnect, wsDisconnect } from "../redux/reducers/websocket";
 import { useEffect } from "react";
-import Header from "../Components/Header";
+import TitleBar from "../Components/TitleBar";
 import Menu from "../Components/Menu";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import MenuItems from "../Pages/MenuItems";
-import {Paper, Grid, Container} from "@material-ui/core";
+import {Paper, Grid, Container, CssBaseline} from "@material-ui/core";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -37,17 +37,15 @@ const useStyles = makeStyles(theme => ({
 	root: {
 	  display: "flex",
 	  flexFlow: "column",
-	  height: "100vh",
-	  alignItems: "stretch"
+	  height: "100%",
+	  minHeight: "100%",
+	  overflow: "hidden",
 	},
 	paper: {
 		width: "100%",
-		height: "100vh",
+		height: "100%",
 		display: "flex",
-		overflow: "overlay",
-		textAlign: "center",
-		flexDirection: "column",
-		justifyContent: "stretch",
+		flexDirection: "column"
 	},
 	toolbar: theme.mixins.toolbar,
   }));
@@ -60,11 +58,12 @@ function App(props) {
 	}, []);
 	return (
 		<ThemeProvider theme={props.uiState.darkTheme ? darkTheme : lightTheme}>
+		<CssBaseline />
 		<div className={classes.root}>
 			<Router>
-				<Header />
+				<TitleBar />
 				<Menu />
-				<Container className={classes.paper}>
+				<Container className={classes.paper} >
 					<div className={classes.toolbar} />
 					<Switch>
 						{MenuItems.map((i, index) => (
@@ -73,7 +72,7 @@ function App(props) {
 							</Route>
 						))}
 					</Switch>
-			</Container>
+				</Container>
 			</Router>
 		</div>
 		</ThemeProvider>

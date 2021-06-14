@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { toggleMenu } from "../../redux/actions.js";
 import { useLocation } from "react-router-dom";
 
-const Header = (props) => {
+const TitleBar = (props) => {
 	const curRoute = useLocation().pathname;
 	const getToolbarTitle = () => {
 		switch (curRoute) {
@@ -41,4 +41,4 @@ const mapDispatchToProps = {
 	toggleMenu,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(TitleBar);

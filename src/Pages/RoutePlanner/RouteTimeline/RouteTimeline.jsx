@@ -12,8 +12,8 @@ const RouteTimeline = (props) => {
       }, [props.route.step])
     console.log(props.route.step);
     return (
-        <Container bgcolor={palette.bgcolor}>
-            <Timeline style={{display: "flex", alignItems:"baseline"}}>
+        <Container bgcolor={palette.bgcolor} style={{overflow: "auto", flex:1}}>
+            <Timeline>
                 {props.route.currentRoute.Destinations.map((dest, i) => {
                     return <Destination key={dest.Name} dest={dest} idNo={i} />
                 })}

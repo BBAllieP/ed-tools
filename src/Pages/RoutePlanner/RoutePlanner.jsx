@@ -25,13 +25,13 @@ const RoutePlanner = (props) => {
         showLoad(!loadShown)
     }
     useEffect(()=>{
-        if(props.socketState.connected){
+		if(props.socketState.connected){
 			props.getRoutes();
 		}
-    },[])
+	},[]);
     return(
-    <Container>
-        {_.isEmpty(props.routes.currentRoute) ? null : <Container> <RouteHeader /> <RouteTimeline route={props.routes} /> </Container>}
+    <Container style={{height:"90%"}}>
+        {_.isEmpty(props.routes.currentRoute) ? null : <Container style={{height:"100%", display: "flex", flexDirection: "column"}}> <RouteHeader /> <RouteTimeline route={props.routes} /> </Container>}
         <LoadModal shown={loadShown} toggle={handleModal} />
         <Fab style={fabStyle} color='primary' onClick={handleModal}>
             <Add />
@@ -42,8 +42,9 @@ const RoutePlanner = (props) => {
 
 
 const mapStateToProps = (state) => {
-	return {routes: state.routes, 
-        socketState: { ...state.websocketReducer } }
+	return { routes: { ...state.routes }, 
+	socketState: { ...state.websocketReducer } 
+	}; 
 }
 const mapDispatchToProps = {
 	getRoutes,

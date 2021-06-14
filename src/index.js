@@ -10,7 +10,7 @@ import "semantic-ui-css/semantic.min.css";
 const rootElement = document.getElementById("root");
 ReactDOM.render(
 	<Provider store={store}>
-			<App height="100vh"/>
+			<App />
 	</Provider>,
 	rootElement
 );
