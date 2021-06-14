@@ -1,8 +1,9 @@
 import {React, useEffect} from "react";
 import { Timeline,
     } from '@material-ui/lab';
-import {Paper} from '@material-ui/core';
+import {Container, Box} from '@material-ui/core';
 import Destination from './Destination';
+import { palette } from '@material-ui/system';
 
 const RouteTimeline = (props) => {
     useEffect(()=>{
@@ -11,13 +12,13 @@ const RouteTimeline = (props) => {
       }, [props.route.step])
     console.log(props.route.step);
     return (
-        <Paper elevation={3} >
-            <Timeline style={{display: "flex", alignContent:"center"}}>
+        <Container bgcolor={palette.bgcolor}>
+            <Timeline style={{display: "flex", alignItems:"baseline"}}>
                 {props.route.currentRoute.Destinations.map((dest, i) => {
                     return <Destination key={dest.Name} dest={dest} idNo={i} />
                 })}
             </Timeline>
-        </Paper>
+        </Container>
     )
 }
 

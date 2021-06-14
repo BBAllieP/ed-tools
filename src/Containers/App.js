@@ -51,20 +51,12 @@ const useStyles = makeStyles(theme => ({
 	},
 	toolbar: theme.mixins.toolbar,
   }));
-/*     width: "100%",
-    height: "100vh",
-    display: "flex",
-    overflow: "hidden",
-    textAlign: "center",
-    flexDirection: "column",
-    justifyContent: "stretch", */
+
 function App(props) {
 	const classes = useStyles();
 	useEffect(() => {
 		props.wsConnect("ws://127.0.0.1:8844/ws");
-		return function cleanup() {
-			props.wsDisconnect("ws://127.0.0.1:8844/ws");
-		};
+
 	}, []);
 	return (
 		<ThemeProvider theme={props.uiState.darkTheme ? darkTheme : lightTheme}>

@@ -4,7 +4,7 @@ import {Add} from '@material-ui/icons';
 import LoadModal from './LoadModal';
 import RouteTimeline from './RouteTimeline';
 import {connect} from 'react-redux';
-
+import RouteHeader from './RouteHeader';
 import { getRoutes } from "../../redux/actions";
 import _ from 'lodash';
 
@@ -25,11 +25,13 @@ const RoutePlanner = (props) => {
         showLoad(!loadShown)
     }
     useEffect(()=>{
-        props.getRoutes()
+        if(props.socketState.connected){
+			props.getRoutes();
+		}
     },[])
     return(
     <Container>
-        {_.isEmpty(props.routes.currentRoute) ? null : <RouteTimeline route={props.routes} />}
+        {_.isEmpty(props.routes.currentRoute) ? null : <Container> <RouteHeader /> <RouteTimeline route={props.routes} /> </Container>}
         <LoadModal shown={loadShown} toggle={handleModal} />
         <Fab style={fabStyle} color='primary' onClick={handleModal}>
             <Add />
@@ -40,7 +42,8 @@ const RoutePlanner = (props) => {
 
 
 const mapStateToProps = (state) => {
-	return {routes: state.routes}
+	return {routes: state.routes, 
+        socketState: { ...state.websocketReducer } }
 }
 const mapDispatchToProps = {
 	getRoutes,

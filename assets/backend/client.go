@@ -42,6 +42,7 @@ func (c *Client) Read() {
 			routeMsg := Message{"GetRoutes", CurrentRoute}
 			c.Pool.Broadcast <- routeMsg
 		case "acceptRoute":
+			fmt.Println("accepting route")
 			acceptRoute(msg.Value)
 		case "copyDestination":
 			CopyDest(msg.Value)

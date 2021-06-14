@@ -14,18 +14,6 @@ const socketMiddleware = () => {
 	const onClose = (store) => () => {
 		store.dispatch(wsActions.wsDisconnected());
 	};
-	const socketConnect = (socket, store) => {
-		if (socket == null) {
-		// connect to the remote host
-		socket = new WebSocket("ws://127.0.0.1:8844/ws");
-		console.log("Socket Created");
-	
-		// websocket handlers
-		socket.onmessage = onMessage(store);
-		socket.onclose = onClose(store);
-		socket.onopen = onOpen(store);
-		}
-	}
 
 	const onMessage = (store) => (event) => {
 		const payload = JSON.parse(event.data);
@@ -116,8 +104,6 @@ const socketMiddleware = () => {
 				console.log("websocket closed");
 				break;
 			case actionTypes.GET_ALL_FACTION:
-				//console.log("sending a message", action.msg);
-				//socketConnect(socket, store);
 				socket.send(
 					JSON.stringify({
 						action: "getFactions",
@@ -126,7 +112,6 @@ const socketMiddleware = () => {
 				);
 				break;
 			case actionTypes.ACCEPT_ROUTE:
-				//socketConnect(socket, store);
 				socket.send(
 					JSON.stringify({
 						action: "acceptRoute",
@@ -135,7 +120,6 @@ const socketMiddleware = () => {
 				);
 				break;
 			case actionTypes.GET_ROUTES:
-				//socketConnect(socket, store);
 				socket.send(
 					JSON.stringify({
 						action: "getRoutes",
