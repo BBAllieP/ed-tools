@@ -1,6 +1,6 @@
 import "./App.css";
 import { connect } from "react-redux";
-import { getAllFactions } from "../redux/actions";
+import { getAllFactions, getRoutes } from "../redux/actions";
 import { wsConnect, wsDisconnect } from "../redux/reducers/websocket";
 import { useEffect } from "react";
 import TitleBar from "../Components/TitleBar";
@@ -56,6 +56,15 @@ function App(props) {
 		props.wsConnect("ws://127.0.0.1:8844/ws");
 
 	}, []);
+	useEffect(()=>{
+		if(props.socketState.connected){
+			//props.getAllFactions();
+			props.getRoutes();
+		} else {
+			props.wsConnect("ws://127.0.0.1:8844/ws");
+		}
+		
+	}, [props.socketState.connected])
 	return (
 		<ThemeProvider theme={props.uiState.darkTheme ? darkTheme : lightTheme}>
 		<CssBaseline />
@@ -83,6 +92,7 @@ const mapDispatchToProps = {
 	wsConnect: (host) => wsConnect(host),
 	wsDisconnect: (host) => wsDisconnect(host),
 	getAllFactions,
+	getRoutes,
 };
 const mapStateToProps = (state) => {
 	return { socketState: { ...state.websocketReducer }, uiState: {...state.ui} };

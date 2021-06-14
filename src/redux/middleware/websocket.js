@@ -9,6 +9,7 @@ const socketMiddleware = () => {
 		console.log("websocket open", event.target.url);
 		store.dispatch(wsActions.wsConnected(event.target.url));
 		store.dispatch(actions.getAllFactions());
+		store.dispatch(actions.getRoutes());
 	};
 
 	const onClose = (store) => () => {

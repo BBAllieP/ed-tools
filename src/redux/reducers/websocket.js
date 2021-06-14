@@ -15,6 +15,8 @@ export const websocketReducer = (
 			return { ...state, connected: true, host: action.host };
 		case "WS_DISCONNECT":
 			return {...state, connected: false, host: null};
+		case "WS_CONNECTED":
+			return {...state, connected: true, host: action.host};
 		default:
 			return state;
 	}

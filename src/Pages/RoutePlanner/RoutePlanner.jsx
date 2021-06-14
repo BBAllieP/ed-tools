@@ -24,11 +24,7 @@ const RoutePlanner = (props) => {
     const handleModal = () => {
         showLoad(!loadShown)
     }
-    useEffect(()=>{
-		if(props.socketState.connected){
-			props.getRoutes();
-		}
-	},[]);
+
     return(
     <Container style={{height:"90%"}}>
         {_.isEmpty(props.routes.currentRoute) ? null : <Container style={{height:"100%", display: "flex", flexDirection: "column"}}> <RouteHeader /> <RouteTimeline route={props.routes} /> </Container>}
