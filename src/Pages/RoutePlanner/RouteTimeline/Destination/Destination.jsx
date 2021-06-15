@@ -6,6 +6,7 @@ import {
     TimelineConnector,
     TimelineContent,
     TimelineOppositeContent,
+    Timeline,
     TimelineDot} from '@material-ui/lab';
 import {Paper, Card, CardHeader, IconButton} from '@material-ui/core';
 import CopyIcon from '@material-ui/icons/FileCopy';
@@ -44,9 +45,9 @@ const Destination = (props) => {
     const classes = useStyles();
     
     return (
-        <TimelineItem style={{display: "flex", flexFlow: "row nowrap", alignItems: "center"}} id={props.idNo}>
-            <TimelineOppositeContent style={{display: "flex", justifyContent: "flex-start", width:"25em"}}>
-                <Card style={{width: "fit-content"}}>
+        <TimelineItem style={{display: 'flex'}} id={props.idNo}>
+            <TimelineOppositeContent style={{}}>
+                <Card style={{}}>
                     <CardHeader title={props.dest.Name} action={
                         <IconButton className={`${props.dest.Copied && classes.buttonSuccess}`} style={{marginLeft: '.5em'}} onClick={()=>{props.sendCopy(props.dest.Name)}}>
                             {props.dest.Copied ? <CheckIcon />:<CopyIcon />}
@@ -56,18 +57,22 @@ const Destination = (props) => {
             </TimelineOppositeContent>
             <TimelineSeparator>
                 <TimelineDot>
-                    {props.dest.NeutronStar ?
+                    {props.dest.Visited ? <CheckIcon color='disabled' /> : props.dest.NeutronStar ?
                     <img alt="star" className={props.superCharged ? 'animate__animated animate__pulse animate__infinite' : null} style={{height: "3em", borderRadius: "50%", width:"3em"}} src={NeutImg} /> : 
                     <img alt="star" style={{height: "3em", width:"3em"}} src={StarImg} />}
+                    
                 </TimelineDot>
                 <TimelineConnector />
             </TimelineSeparator>
             
             <TimelineContent>
-                {props.routeType === "r2r" ? <Paper className={classes.dest}>
+                {props.routeType === "r2r" ? 
+                <Paper >
+                    <Timeline align='left'>
                     {props.dest.Bodies.map((body, i)=> {
-                        return <Body dest={props.dest} body={body} index={i} key={`${body.name}${i}`}/>
+                        return <Body dest={props.dest} body={body} last={i===props.dest.Bodies.length -1} key={`${body.name}${i}`}/>
                     })}
+                    </Timeline>
                 </Paper> : null }
                 
             </TimelineContent> 
