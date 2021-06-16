@@ -21,6 +21,7 @@ type System struct {
 	DistanceRemaining float64
 	NeutronStar       bool
 	Jumps             int
+	Refuel            bool
 	Bodies            []Body
 	Visited           bool
 	Copied            bool
@@ -69,7 +70,7 @@ func acceptRoute(routePath string) {
 	r := csv.NewReader(csvfile)
 	i := 0
 	// Iterate through the records
-	record, err := r.Read()
+	record, _ := r.Read()
 	switch headerVal := record[3]; headerVal {
 	case "Is Terraformable":
 		tempRoute.Type = "r2r"
@@ -77,6 +78,8 @@ func acceptRoute(routePath string) {
 		tempRoute.Type = "neutron"
 	case "Tritium in tank":
 		tempRoute.Type = "fc"
+	case "Fuel Left":
+		tempRoute.Type = "exact"
 	default:
 		break
 	}
@@ -98,7 +101,7 @@ func acceptRoute(routePath string) {
 		case "r2r":
 			if tempDestSyst != record[0] {
 				jumps, _ := strconv.Atoi(record[7])
-				tempDest := System{record[0], 0, 0, false, jumps, []Body{}, false, false}
+				tempDest := System{record[0], 0, 0, false, jumps, false, []Body{}, false, false}
 				tempDests = append(tempDests, tempDest)
 				tempDestSyst = record[0]
 			}
@@ -117,12 +120,34 @@ func acceptRoute(routePath string) {
 			} else {
 				neutron = false
 			}
+
 			dist, _ := strconv.ParseFloat(record[1], 64)
-			remain, _ := strconv.ParseFloat(record[1], 64)
+			remain, _ := strconv.ParseFloat(record[2], 64)
 			dist = dist / 1000000000000
 			remain = remain / 1000000000000
 			jumps, _ := strconv.Atoi(record[4])
-			tempDest := System{record[0], dist, remain, neutron, jumps, nil, false, false}
+			tempDest := System{record[0], dist, remain, neutron, jumps, false, nil, false, false}
+			tempDests = append(tempDests, tempDest)
+			break
+		case "exact":
+			var neutron bool
+			var refuel bool
+			if record[6] == "Yes" {
+				neutron = true
+			} else {
+				neutron = false
+			}
+			if record[5] == "Yes" {
+				refuel = true
+			} else {
+				refuel = false
+			}
+			dist, _ := strconv.ParseFloat(record[1], 64)
+			remain, _ := strconv.ParseFloat(record[2], 64)
+			dist = dist / 1000000000000
+			remain = remain / 1000000000000
+			//jumps, _ := strconv.Atoi(record[4])
+			tempDest := System{record[0], dist, remain, neutron, 0, refuel, nil, false, false}
 			tempDests = append(tempDests, tempDest)
 			break
 		//process fc
@@ -131,7 +156,7 @@ func acceptRoute(routePath string) {
 			remain, _ := strconv.ParseFloat(record[1], 64)
 			dist = dist / 1000000000000
 			remain = remain / 1000000000000
-			tempDest := System{record[0], dist, remain, false, 0, nil, false, false}
+			tempDest := System{record[0], dist, remain, false, 0, false, nil, false, false}
 			tempDests = append(tempDests, tempDest)
 			break
 		}

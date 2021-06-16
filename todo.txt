@@ -38,10 +38,28 @@ NEXT PROJECTS:
      [x] determine when a jump has happened and copy next destination
      [x] see if it's possible to see when a body has been scanned
      [x] auto-tally R2R gains
-     [] mark visited systems and bodies as complete after jump/scanned
-     [] handle fleet carrier
-     [] handle exact route plotter
-     [] test
+     [x] mark visited systems and bodies as complete after jump/scanned
+     [later] handle fleet carrier
+     [x] handle exact route plotter
+          [x] implement in backend
+          [x] double check that new route type doesnt break anything
+               [x] it did, fix issue loading new route
+          [x] implement refuel icon for exact route plotter
+     [...] test
+          [] refit DBX for long range exploring
+          [] 1 road to riches route
+               [] copy next destination working
+               [] copy next destination still works after using other system copy button
+               [] can still copy old destinations
+               [] system icons update after visited
+               [] body icons update after scanned
+               [] Total value updates after scan
+          [] 1 neutron plotter route
+               [] Supercharge works
+               [] a few jumps work with copy etc
+          [] 1 exact plotter route
+               [] make sure ship loadout exactly calculated for route calc
+               [] normal checks on copy etc
 []   Keybindings backup tool
      [] monitor keybinds folder for changes
      [] Alert user on keybinds change and prompt to backup

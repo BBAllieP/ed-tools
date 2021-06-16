@@ -36,9 +36,9 @@ const Body = (props) => {
         }
     },[props.body.DeepScanned])
     return (
-            <TimelineItem>
-                <TimelineOppositeContent style={{}}>
-                    <Typography variant='h5'>{props.body.SubType}</Typography>
+            <TimelineItem >
+                <TimelineOppositeContent style={{paddingLeft: '.5em', paddingRight: '.5em', justifyContent: 'center'}}>
+                    <Typography variant='h7'>{props.body.SubType}</Typography>
                 </TimelineOppositeContent>
                 <TimelineSeparator style={{}}>
                     <TimelineDot>
@@ -49,14 +49,14 @@ const Body = (props) => {
                 </TimelineSeparator>
                 <TimelineContent>
                     <Card>
-                        <CardHeader title={props.body.Name.substring(props.dest.Name.length)} action={
+                        <CardHeader subheader={props.body.Name.substring(props.dest.Name.length)} action={
                             <IconButton className={clsx(classes.expand, { [classes.expandOpen]: open,})}
                                     onClick={handleExpandClick}
                                     aria-expanded={open}
                                     aria-label="show more"
                                     disabled={props.body.DeepScanned}
                                     >
-                                <ExpandMoreIcon />
+                                {props.body.DeepScanned? <CheckIcon color='disabled' /> : <ExpandMoreIcon />}
                             </IconButton>
                         }>
                         </CardHeader>
