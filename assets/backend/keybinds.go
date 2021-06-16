@@ -49,7 +49,7 @@ func updateBinds() {
 				//file exists in both places, compare hash
 				found = true
 				if hash != b.Hash {
-					b.Changed = true
+					Keybinds[i].Changed = true
 				}
 				break
 			}
@@ -93,4 +93,13 @@ func BackupBind(name string) {
 		}
 	}
 	// if execution reaches here then bind to backup does not exist in struct
+	// add it? to decide later
+}
+
+func RestoreBackup(name string) {
+	storagePath := getStorageDir() + "\\binds\\" + name
+	err := File(storagePath, getBindsDir()+"\\"+name)
+	if err != nil {
+		panic(err)
+	}
 }
