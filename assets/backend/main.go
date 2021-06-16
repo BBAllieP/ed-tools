@@ -10,6 +10,7 @@ var LoadMissions []Mission
 var Journals []Logfile
 var Initialized bool
 var CurrentRoute Route
+var Keybinds []Keybind
 
 func init() {
 	Initialized = false

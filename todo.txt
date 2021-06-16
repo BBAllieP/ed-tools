@@ -61,8 +61,22 @@ NEXT PROJECTS:
                [] make sure ship loadout exactly calculated for route calc
                [] normal checks on copy etc
 []   Keybindings backup tool
-     [] monitor keybinds folder for changes
-     [] Alert user on keybinds change and prompt to backup
+     [] save each binds file to app directory
+     [] check for changes on app startup
+          [] store hash for each file in app directory
+          [] check contents of keybinds folder to see if they match app directory
+               [] copy any new files to app directory and calculate their hash
+               [] store JSON of id=hash, binds=file_location
+               [] calculate hash for keybinds files
+               [] compare hashes and names               
+               [] for mismatches, store results to prompt user that binds changed since last startup
+                    [] user chooses to revert to old binds or save new ones
+                         [] on revert copy from appdir to bindsdir
+                         [] on accept copy from binds to appdir and update hashes
+     [] monitor keybinds folder for changes during application run
+          [] use fsnotify or watcher to check if any changes are made
+          [] if change detected, prompt user to take action
+     [] frontend page
      [] Restore backup functionality
      [] Swap controller ID functionality (for setups using 2 of same controller)
      [] Manual edit functionality?

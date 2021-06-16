@@ -2,9 +2,11 @@ package main
 
 import (
 	"crypto/sha1"
+	"crypto/sha256"
 	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -128,4 +130,14 @@ func makeHash(input string) string {
 	h.Write([]byte(input))
 	bs := h.Sum(nil)
 	return fmt.Sprintf("%x", bs)
+}
+
+func fileHash(inPath string) string {
+	input := strings.NewReader(inPath)
+
+	hash := sha256.New()
+	if _, err := io.Copy(hash, input); err != nil {
+		log.Fatal(err)
+	}
+	return hash.Sum(nil)
 }
