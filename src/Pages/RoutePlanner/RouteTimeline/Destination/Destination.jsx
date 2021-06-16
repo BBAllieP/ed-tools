@@ -19,6 +19,7 @@ import CheckIcon from '@material-ui/icons/Check';
 import _ from 'lodash';
 import { green } from '@material-ui/core/colors';
 import LocalGasStationIcon from '@material-ui/icons/LocalGasStation';
+import 'animate.css';
 
 
 
@@ -58,9 +59,9 @@ const Destination = (props) => {
             </TimelineOppositeContent>
             <TimelineSeparator>
                 <Badge badgeContent={props.dest.Refuel && <LocalGasStationIcon />} overlap='circle'>
-                <TimelineDot>
+                <TimelineDot className={(props.superCharged && props.index === props.currentStep) ? 'animate__animated animate__pulse animate__infinite' : null}>
                     {props.dest.Visited ? <CheckIcon color='disabled' /> : props.dest.NeutronStar ?
-                    <img alt="star" className={props.superCharged ? 'animate__animated animate__pulse animate__infinite' : null} style={{height: "3em", borderRadius: "50%", width:"3em"}} src={NeutImg} /> : 
+                    <img alt="star"   style={{height: "3em", borderRadius: "50%", width:"3em"}} src={NeutImg} /> : 
                     <img alt="star" style={{height: "3em", width:"3em"}} src={StarImg} />}
                 </TimelineDot>
                 </Badge>
@@ -85,8 +86,10 @@ const Destination = (props) => {
 const mapStateToProps = (state, ownProps) => {
     const superCharged = state.routes.superCharged;
     const routeType = state.routes.currentRoute.Type;
+    const index = ownProps.idNo - 1;
+    const currentStep = state.routes.step;
     const dest = ownProps.dest;
-	return { superCharged, routeType, dest}
+	return { superCharged, routeType, dest, index, currentStep}
 };
 const mapDispatchToProps = (dispatch) => {
     return {

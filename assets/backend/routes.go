@@ -250,7 +250,9 @@ func ProcessJump(event map[string]interface{}) {
 			// Mark current position in route
 			CurrentRoute.DestIndex = i
 			// copy next destination to clipboard
-			CopyDest(CurrentRoute.Destinations[i+1].Name)
+			if i < len(CurrentRoute.Destinations)-1 {
+				CopyDest(CurrentRoute.Destinations[i+1].Name)
+			}
 			break
 		}
 	}

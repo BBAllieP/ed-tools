@@ -62,7 +62,7 @@ const socketMiddleware = () => {
 				store.dispatch(actions.systemVisit(payload.body));
 				break;
 			case "SuperCharge":
-				store.dispatch(actions.superCharge());
+				store.dispatch(actions.superCharge(payload.body));
 				break;
 			case "UnsetCopy":
 				store.dispatch(actions.unsetCopy(payload.body));

@@ -12,6 +12,8 @@ const RouteHeader = (props) => {
             return "Fleet Carrier";
         case "neutron":
             return "Neutron Plotter";
+        case "exact":
+            return "Galaxy Plotter";
         default:
             return "Unknown";
         }
