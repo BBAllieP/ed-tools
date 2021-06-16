@@ -61,15 +61,15 @@ NEXT PROJECTS:
                [] make sure ship loadout exactly calculated for route calc
                [] normal checks on copy etc
 []   Keybindings backup tool
-     [] save each binds file to app directory
-     [] check for changes on app startup
-          [] store hash for each file in app directory
-          [] check contents of keybinds folder to see if they match app directory
-               [] copy any new files to app directory and calculate their hash
-               [] store JSON of id=hash, binds=file_location
-               [] calculate hash for keybinds files
-               [] compare hashes and names               
-               [] for mismatches, store results to prompt user that binds changed since last startup
+     x[] save each binds file to app directory
+     [x] check for changes on app startup
+          [x] store hash for each file in app directory
+          [x] check contents of keybinds folder to see if they match app directory
+               [x] copy any new files to app directory and calculate their hash
+               [x] store JSON of id=hash, binds=file_location
+               [x] calculate hash for keybinds files
+               [x] compare hashes and names               
+               [...] for mismatches, store results to prompt user that binds changed since last startup
                     [] user chooses to revert to old binds or save new ones
                          [] on revert copy from appdir to bindsdir
                          [] on accept copy from binds to appdir and update hashes
