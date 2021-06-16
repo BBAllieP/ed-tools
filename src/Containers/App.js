@@ -59,7 +59,7 @@ function App(props) {
 	useEffect(()=>{
 		if(props.socketState.connected){
 			//props.getAllFactions();
-			props.getRoutes();
+			//props.getRoutes();
 		} else {
 			props.wsConnect("ws://127.0.0.1:8844/ws");
 		}
