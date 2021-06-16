@@ -27,7 +27,7 @@ const RoutePlanner = (props) => {
 
     return(
     <Container style={{height:"90%"}}>
-        {_.isEmpty(props.routes.currentRoute) ? null : <Container style={{height:"100%", display: "flex", flexDirection: "column"}}> <RouteHeader /> <RouteTimeline route={props.routes} /> </Container>}
+        {_.isEmpty(props.routes.currentRoute.Destinations) ? null : <Container style={{height:"100%", display: "flex", flexDirection: "column"}}> <RouteHeader /> <RouteTimeline route={props.routes} /> </Container>}
         <LoadModal shown={loadShown} toggle={handleModal} />
         <Fab style={fabStyle} color='primary' onClick={handleModal}>
             <Add />
