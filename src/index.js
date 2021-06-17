@@ -4,14 +4,13 @@ import "./index.css";
 import App from "./Containers/App";
 import { Provider } from "react-redux";
 import store from "./redux/store";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import "semantic-ui-css/semantic.min.css";
 
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(
 	<Provider store={store}>
-			<App height="100%"/>
+			<App />
 	</Provider>,
 	rootElement
 );

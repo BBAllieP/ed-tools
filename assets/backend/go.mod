@@ -3,6 +3,7 @@ module github.com/bballiep/ed-tools
 go 1.16
 
 require (
+	github.com/atotto/clipboard v0.1.4 // indirect
 	github.com/dnlo/struct2csv v0.0.0-20190928115744-2f584471b24e // indirect
 	github.com/fsnotify/fsnotify v1.4.9
 	github.com/gorilla/mux v1.8.0 // indirect

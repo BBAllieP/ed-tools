@@ -9,6 +9,7 @@ const socketMiddleware = () => {
 		console.log("websocket open", event.target.url);
 		store.dispatch(wsActions.wsConnected(event.target.url));
 		store.dispatch(actions.getAllFactions());
+		store.dispatch(actions.getRoutes());
 	};
 
 	const onClose = (store) => () => {
@@ -38,16 +39,44 @@ const socketMiddleware = () => {
 				store.dispatch(actions.modifyMission(payload.mission));
 				break;
 			case "Bounty":
-				console.log(payload);
 				store.dispatch(actions.modifyMission(payload.mission));
 				break;
 			case "GetAllFactions":
 				store.dispatch(actions.addAllFactions(payload.factions));
 				break;
+			case "GetRoutes":
+				console.log("getting routes")
+				store.dispatch(actions.addAllRoutes(payload.body));
+				break;
+			case "AddRoute":
+				console.log("Adding Route");
+				store.dispatch(actions.addRoute(payload.body));
+				break;
+			case "DeepScan":
+				store.dispatch(actions.deepScan(payload.body));
+				break;
+			case "LightScan":
+				store.dispatch(actions.lightScan(payload.body));
+				break;
+			case "SystemVisit":
+				store.dispatch(actions.systemVisit(payload.body));
+				break;
+			case "SuperCharge":
+				store.dispatch(actions.superCharge(payload.body));
+				break;
+			case "UnsetCopy":
+				store.dispatch(actions.unsetCopy(payload.body));
+				break;
+			case "SetCopy":
+				store.dispatch(actions.setCopy(payload.body));
+				break;
 			default:
 				break;
 		}
 	};
+
+
+
 
 	// the middleware part of this function
 	return (store) => (next) => (action) => {
@@ -76,11 +105,34 @@ const socketMiddleware = () => {
 				console.log("websocket closed");
 				break;
 			case actionTypes.GET_ALL_FACTION:
-				//console.log("sending a message", action.msg);
 				socket.send(
 					JSON.stringify({
 						action: "getFactions",
 						value: action.msg,
+					})
+				);
+				break;
+			case actionTypes.ACCEPT_ROUTE:
+				socket.send(
+					JSON.stringify({
+						action: "acceptRoute",
+						value: action.payload
+					})
+				);
+				break;
+			case actionTypes.GET_ROUTES:
+				socket.send(
+					JSON.stringify({
+						action: "getRoutes",
+						value: action.payload
+					})
+				);
+				break;
+			case actionTypes.SEND_COPY:
+				socket.send(
+					JSON.stringify({
+						action: "copyDestination",
+						value: action.payload
 					})
 				);
 				break;
@@ -90,5 +142,6 @@ const socketMiddleware = () => {
 		}
 	};
 };
+
 
 export default socketMiddleware();

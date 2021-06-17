@@ -38,6 +38,14 @@ func (c *Client) Read() {
 		case "getJournals":
 			journMsg := JournalsMessage{"GetAllJournals", Journals}
 			c.Pool.Broadcast <- journMsg
+		case "getRoutes":
+			routeMsg := Message{"GetRoutes", CurrentRoute}
+			c.Pool.Broadcast <- routeMsg
+		case "acceptRoute":
+			fmt.Println("accepting route")
+			acceptRoute(msg.Value)
+		case "copyDestination":
+			CopyDest(msg.Value)
 		default:
 			c.Pool.Broadcast <- Message{"1", []byte("Unhandled Request")}
 		}
@@ -83,7 +91,7 @@ func (pool *Pool) Start() {
 			fmt.Println("Sending message to all clients in Pool")
 			for client, _ := range pool.Clients {
 				if err := client.Conn.WriteJSON(message); err != nil {
-					fmt.Println(err)
+					fmt.Println("Error sending message: " + err.Error())
 					return
 				}
 			}

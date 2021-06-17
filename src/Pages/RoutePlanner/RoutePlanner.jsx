@@ -1,22 +1,50 @@
-import React from "react";
-import {Grid, Typography} from '@material-ui/core';
-import img from "../../assets/under_construction.jpg";
-const RoutePlanner = () => (
-    <Grid container spacing={3} direction='column' justify='space-evenly'>
-        <Grid item xs={12}>
-            <Typography variant='h2' component='h2' gutterBottom>
-                The Route Planner is Currently Under Construction
-            </Typography>
-        </Grid>
-        <Grid item xs={12}>
-            <img
-                src={img}
-                style={{
-                    marginTop: 20,
-                    height: "50vh",
-                }}
-            />
-        </Grid>
-    </Grid>
-);
-export default RoutePlanner;
+import {React, useState, useEffect} from "react";
+import {Container, Fab} from '@material-ui/core';
+import {Add} from '@material-ui/icons';
+import LoadModal from './LoadModal';
+import RouteTimeline from './RouteTimeline';
+import {connect} from 'react-redux';
+import RouteHeader from './RouteHeader';
+import { getRoutes } from "../../redux/actions";
+import _ from 'lodash';
+
+const fabStyle = {
+    margin: 0,
+    top: 'auto',
+    right: 20,
+    bottom: 20,
+    left: 'auto',
+    position: 'fixed',
+}
+
+
+
+const RoutePlanner = (props) => {
+    const [loadShown,showLoad] = useState(false);
+    const handleModal = () => {
+        showLoad(!loadShown)
+    }
+
+    return(
+    <Container style={{height:"90%"}}>
+        {_.isEmpty(props.routes.currentRoute.Destinations) ? null : <Container style={{height:"100%", display: "flex", flexDirection: "column"}}> <RouteHeader /> <RouteTimeline route={props.routes} /> </Container>}
+        <LoadModal shown={loadShown} toggle={handleModal} />
+        <Fab style={fabStyle} color='primary' onClick={handleModal}>
+            <Add />
+        </Fab>
+    </Container>
+    ) 
+}
+
+
+const mapStateToProps = (state) => {
+	return { routes: { ...state.routes }, 
+	socketState: { ...state.websocketReducer } 
+	}; 
+}
+const mapDispatchToProps = {
+	getRoutes,
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(RoutePlanner);

@@ -33,3 +33,61 @@ export const getAllFactions = () => ({
 	type: actions.GET_ALL_FACTION,
 	payload: null,
 });
+
+export const acceptRoute = (payload) => ({
+	type: actions.ACCEPT_ROUTE,
+	payload: payload,
+});
+
+export const addAllRoutes = (payload) => ({
+	type: actions.ADD_ALL_ROUTES,
+	payload: payload,
+});
+
+export const addRoute = (payload) => ({
+	type: actions.ADD_ROUTE,
+	payload: payload,
+});
+
+export const getRoutes = () => ({
+	type: actions.GET_ROUTES,
+	payload: null,
+});
+
+export const setActiveRoute = (payload) => ({
+	type: actions.SET_ACTIVE_ROUTE,
+	payload: payload
+});
+
+export const deepScan = (payload) => ({
+	type: actions.DEEP_SCAN,
+	payload: payload
+});
+
+export const lightScan = (payload) => ({
+	type: actions.LIGHT_SCAN,
+	payload: payload
+});
+export const systemVisit = (payload) => ({
+	type: actions.SYSTEM_VISIT,
+	payload: payload
+});
+
+export const superCharge = (payload) => ({
+	type: actions.SUPER_CHARGE,
+	payload: payload
+});
+
+export const unsetCopy = (payload) => ({
+	type: actions.UNSET_COPY,
+	payload: payload
+});
+
+export const setCopy = (payload) => ({
+	type: actions.SET_COPY,
+	payload: payload
+});
+export const sendCopy = (payload) => ({
+	type: actions.SEND_COPY,
+	payload: payload
+});

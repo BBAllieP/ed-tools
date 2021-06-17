@@ -127,9 +127,30 @@ func parseLog(initialLoad bool, ind int) {
 				processMission(event, missionEvent, initialLoad, gameMode)
 			}
 
-		} else if event["event"] == "Bounty" {
-			fmt.Println("Processing Bounty")
-			processBounty(event, gameMode)
+		} else {
+			switch event["event"] {
+			case "Bounty":
+				fmt.Println("Processing Bounty")
+				processBounty(event, gameMode)
+			case "FSDJump":
+				if Initialized {
+					ProcessJump(event)
+				}
+			case "SAAScanComplete":
+				if Initialized {
+					ProcessScan(event)
+				}
+
+			case "Scan":
+				if Initialized {
+					ProcessScan(event)
+				}
+
+			case "JetConeBoost":
+				if Initialized {
+					ProcessBoost()
+				}
+			}
 		}
 	}
 	for i := range Journals {

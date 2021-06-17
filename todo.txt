@@ -30,13 +30,42 @@
 NEXT PROJECTS:
 [] Import fleet from journal or allow from Inara
     - use this to make export/copy functionality for importing to other tools
-[] Build route planner helper:
-     - takes as input CSV export from spansh that can be dragged and dropped on window
-     - auto determine if FC route, R2R or neutron plotter
-     - copy to clipboard next step in route
-     - determine when a jump has happened and copy next destination
-     - see if it's possible to see when a body has been scanned
-     - auto-tally R2R gains
+    - need to figure out the actual API, the Journal doesn't log ship loadouts except on startup
+[...] Build route planner helper:
+     [x] takes as input CSV export from spansh that can be dragged and dropped on window
+     [x] auto determine if FC route, R2R or neutron plotter
+     [x] copy to clipboard next step in route
+     [x] determine when a jump has happened and copy next destination
+     [x] see if it's possible to see when a body has been scanned
+     [x] auto-tally R2R gains
+     [x] mark visited systems and bodies as complete after jump/scanned
+     [later] handle fleet carrier
+     [x] handle exact route plotter
+          [x] implement in backend
+          [x] double check that new route type doesnt break anything
+               [x] it did, fix issue loading new route
+          [x] implement refuel icon for exact route plotter
+     [...] test
+          [] refit DBX for long range exploring
+          [] 1 road to riches route
+               [] copy next destination working
+               [] copy next destination still works after using other system copy button
+               [] can still copy old destinations
+               [] system icons update after visited
+               [] body icons update after scanned
+               [] Total value updates after scan
+          [] 1 neutron plotter route
+               [] Supercharge works
+               [] a few jumps work with copy etc
+          [] 1 exact plotter route
+               [] make sure ship loadout exactly calculated for route calc
+               [] normal checks on copy etc
+[]   Keybindings backup tool
+     [] monitor keybinds folder for changes
+     [] Alert user on keybinds change and prompt to backup
+     [] Restore backup functionality
+     [] Swap controller ID functionality (for setups using 2 of same controller)
+     [] Manual edit functionality?
 [] Shield Calculator
      - Implement go shield calculator in backend
      - Customizable UI for shield calculator parameters

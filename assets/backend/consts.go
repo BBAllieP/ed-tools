@@ -28,3 +28,14 @@ var ClientConn *websocket.Conn
 var Connected bool
 
 var CurrentGameMode string
+
+var SuperCharged bool
+
+func getStorageDir() string {
+	dir, err := os.UserCacheDir()
+	if err != nil {
+		panic(err)
+	}
+	dir = dir + "\\ED-Tools"
+	return dir
+}
