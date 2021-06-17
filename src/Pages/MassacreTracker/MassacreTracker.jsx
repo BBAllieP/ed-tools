@@ -69,7 +69,7 @@ const MassacreTracker = (props) => {
 		return countMissions;
 	};
 	return (
-		<Container>
+		<Container style={{overflow:'auto'}}>
 		<Grid container spacing={3}>
 			<Grid item xs={12} />
 			<Grid item xs={4}>
