@@ -38,7 +38,7 @@ const Body = (props) => {
     return (
             <TimelineItem >
                 <TimelineOppositeContent style={{paddingLeft: '.5em', paddingRight: '.5em', justifyContent: 'center'}}>
-                    <Typography variant='h7'>{props.body.SubType}</Typography>
+                    <Typography variant='h6'>{props.body.SubType}</Typography>
                 </TimelineOppositeContent>
                 <TimelineSeparator style={{}}>
                     <TimelineDot>

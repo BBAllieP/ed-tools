@@ -69,7 +69,7 @@ const RouteHeader = (props) => {
                     <Grid item xs={6}><Typography variant='h5'>Jumps Completed</Typography></Grid>
                     <Grid item xs={6}><Typography variant='h5'>{props.step}</Typography></Grid>
                     <Grid item xs={6}><Typography variant='h5'>Jumps Remaining</Typography></Grid>
-                    <Grid item xs={6}><Typography variant='h5'>{props.currentRoute.Destinations.length - props.step}</Typography></Grid>
+                    <Grid item xs={6}><Typography variant='h5'>{props.route.Destinations.length - props.step}</Typography></Grid>
                 </Grid>}
         </Grid>
     );

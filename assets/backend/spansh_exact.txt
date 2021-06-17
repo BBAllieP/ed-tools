@@ -1,0 +1,340 @@
+curl 'https://spansh.co.uk/api/systems/field_values/system_names?q=cr' \
+  -H 'authority: spansh.co.uk' \
+  -H 'sec-ch-ua: " Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"' \
+  -H 'accept: application/json, text/javascript, */*; q=0.01' \
+  -H 'x-requested-with: XMLHttpRequest' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'referer: https://spansh.co.uk/exact-plotter' \
+  -H 'accept-language: en-US,en;q=0.9,nl;q=0.8' \
+  -H 'cookie: _ga=GA1.3.592541615.1615041017; _gid=GA1.3.278180876.1623853733; mojolicious=eyJiaW5kX3Nlc3Npb25fdG9faXAuaXAiOiIzMS4yMDEuNjEuMjM2IiwiZXhwaXJlcyI6MTYyNDAyNTAzM30---b8c948b41d6cd8d3030d1aa95b4a3b80b6c04bcc; _gat=1' \
+  --compressed ;
+curl 'https://spansh.co.uk/api/systems/field_values/system_names?q=cro' \
+  -H 'authority: spansh.co.uk' \
+  -H 'sec-ch-ua: " Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"' \
+  -H 'accept: application/json, text/javascript, */*; q=0.01' \
+  -H 'x-requested-with: XMLHttpRequest' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'referer: https://spansh.co.uk/exact-plotter' \
+  -H 'accept-language: en-US,en;q=0.9,nl;q=0.8' \
+  -H 'cookie: _ga=GA1.3.592541615.1615041017; _gid=GA1.3.278180876.1623853733; _gat=1; mojolicious=eyJiaW5kX3Nlc3Npb25fdG9faXAuaXAiOiIzMS4yMDEuNjEuMjM2IiwiZXhwaXJlcyI6MTYyNDAyNTA1NX0---a0b0dce6df0e81985a0d17e5225dc319f137b5d0' \
+  --compressed ;
+curl 'https://spansh.co.uk/api/systems/field_values/system_names?q=croa' \
+  -H 'authority: spansh.co.uk' \
+  -H 'sec-ch-ua: " Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"' \
+  -H 'accept: application/json, text/javascript, */*; q=0.01' \
+  -H 'x-requested-with: XMLHttpRequest' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'referer: https://spansh.co.uk/exact-plotter' \
+  -H 'accept-language: en-US,en;q=0.9,nl;q=0.8' \
+  -H 'cookie: _ga=GA1.3.592541615.1615041017; _gid=GA1.3.278180876.1623853733; _gat=1; mojolicious=eyJiaW5kX3Nlc3Npb25fdG9faXAuaXAiOiIzMS4yMDEuNjEuMjM2IiwiZXhwaXJlcyI6MTYyNDAyNTA1NX0---a0b0dce6df0e81985a0d17e5225dc319f137b5d0' \
+  --compressed ;
+curl 'https://spansh.co.uk/api/systems/field_values/system_names?q=croat' \
+  -H 'authority: spansh.co.uk' \
+  -H 'sec-ch-ua: " Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"' \
+  -H 'accept: application/json, text/javascript, */*; q=0.01' \
+  -H 'x-requested-with: XMLHttpRequest' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'referer: https://spansh.co.uk/exact-plotter' \
+  -H 'accept-language: en-US,en;q=0.9,nl;q=0.8' \
+  -H 'cookie: _ga=GA1.3.592541615.1615041017; _gid=GA1.3.278180876.1623853733; _gat=1; mojolicious=eyJiaW5kX3Nlc3Npb25fdG9faXAuaXAiOiIzMS4yMDEuNjEuMjM2IiwiZXhwaXJlcyI6MTYyNDAyNTA1NX0---a0b0dce6df0e81985a0d17e5225dc319f137b5d0' \
+  --compressed ;
+curl 'https://spansh.co.uk/api/systems/field_values/system_names?q=ba' \
+  -H 'authority: spansh.co.uk' \
+  -H 'sec-ch-ua: " Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"' \
+  -H 'accept: application/json, text/javascript, */*; q=0.01' \
+  -H 'x-requested-with: XMLHttpRequest' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'referer: https://spansh.co.uk/exact-plotter' \
+  -H 'accept-language: en-US,en;q=0.9,nl;q=0.8' \
+  -H 'cookie: _ga=GA1.3.592541615.1615041017; _gid=GA1.3.278180876.1623853733; _gat=1; mojolicious=eyJiaW5kX3Nlc3Npb25fdG9faXAuaXAiOiIzMS4yMDEuNjEuMjM2IiwiZXhwaXJlcyI6MTYyNDAyNTA1NX0---a0b0dce6df0e81985a0d17e5225dc319f137b5d0' \
+  --compressed ;
+curl 'https://spansh.co.uk/api/systems/field_values/system_names?q=ban' \
+  -H 'authority: spansh.co.uk' \
+  -H 'sec-ch-ua: " Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"' \
+  -H 'accept: application/json, text/javascript, */*; q=0.01' \
+  -H 'x-requested-with: XMLHttpRequest' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'referer: https://spansh.co.uk/exact-plotter' \
+  -H 'accept-language: en-US,en;q=0.9,nl;q=0.8' \
+  -H 'cookie: _ga=GA1.3.592541615.1615041017; _gid=GA1.3.278180876.1623853733; _gat=1; mojolicious=eyJiaW5kX3Nlc3Npb25fdG9faXAuaXAiOiIzMS4yMDEuNjEuMjM2IiwiZXhwaXJlcyI6MTYyNDAyNTA2MX0---f6abebd49ea713c56344376b01bc0392c2784244' \
+  --compressed ;
+curl 'https://spansh.co.uk/api/systems/field_values/system_names?q=banm' \
+  -H 'authority: spansh.co.uk' \
+  -H 'sec-ch-ua: " Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"' \
+  -H 'accept: application/json, text/javascript, */*; q=0.01' \
+  -H 'x-requested-with: XMLHttpRequest' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'referer: https://spansh.co.uk/exact-plotter' \
+  -H 'accept-language: en-US,en;q=0.9,nl;q=0.8' \
+  -H 'cookie: _ga=GA1.3.592541615.1615041017; _gid=GA1.3.278180876.1623853733; _gat=1; mojolicious=eyJiaW5kX3Nlc3Npb25fdG9faXAuaXAiOiIzMS4yMDEuNjEuMjM2IiwiZXhwaXJlcyI6MTYyNDAyNTA2MX0---f6abebd49ea713c56344376b01bc0392c2784244' \
+  --compressed ;
+curl 'https://spansh.co.uk/api/systems/field_values/system_names?q=banmd' \
+  -H 'authority: spansh.co.uk' \
+  -H 'sec-ch-ua: " Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"' \
+  -H 'accept: application/json, text/javascript, */*; q=0.01' \
+  -H 'x-requested-with: XMLHttpRequest' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'referer: https://spansh.co.uk/exact-plotter' \
+  -H 'accept-language: en-US,en;q=0.9,nl;q=0.8' \
+  -H 'cookie: _ga=GA1.3.592541615.1615041017; _gid=GA1.3.278180876.1623853733; _gat=1; mojolicious=eyJiaW5kX3Nlc3Npb25fdG9faXAuaXAiOiIzMS4yMDEuNjEuMjM2IiwiZXhwaXJlcyI6MTYyNDAyNTA2MX0---f6abebd49ea713c56344376b01bc0392c2784244' \
+  --compressed ;
+curl 'https://spansh.co.uk/api/systems/field_values/system_names?q=banm' \
+  -H 'authority: spansh.co.uk' \
+  -H 'sec-ch-ua: " Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"' \
+  -H 'accept: application/json, text/javascript, */*; q=0.01' \
+  -H 'x-requested-with: XMLHttpRequest' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'referer: https://spansh.co.uk/exact-plotter' \
+  -H 'accept-language: en-US,en;q=0.9,nl;q=0.8' \
+  -H 'cookie: _ga=GA1.3.592541615.1615041017; _gid=GA1.3.278180876.1623853733; _gat=1; mojolicious=eyJiaW5kX3Nlc3Npb25fdG9faXAuaXAiOiIzMS4yMDEuNjEuMjM2IiwiZXhwaXJlcyI6MTYyNDAyNTA2Mn0---703eeec5c282ab733b0a46feb09e871913207462' \
+  --compressed ;
+curl 'https://spansh.co.uk/api/systems/field_values/system_names?q=ban' \
+  -H 'authority: spansh.co.uk' \
+  -H 'sec-ch-ua: " Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"' \
+  -H 'accept: application/json, text/javascript, */*; q=0.01' \
+  -H 'x-requested-with: XMLHttpRequest' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'referer: https://spansh.co.uk/exact-plotter' \
+  -H 'accept-language: en-US,en;q=0.9,nl;q=0.8' \
+  -H 'cookie: _ga=GA1.3.592541615.1615041017; _gid=GA1.3.278180876.1623853733; _gat=1; mojolicious=eyJiaW5kX3Nlc3Npb25fdG9faXAuaXAiOiIzMS4yMDEuNjEuMjM2IiwiZXhwaXJlcyI6MTYyNDAyNTA2M30---ac6bb0aed7d9c669bcc1fb3c642cd7c1185ab1dc' \
+  --compressed ;
+curl 'https://spansh.co.uk/api/systems/field_values/system_names?q=band' \
+  -H 'authority: spansh.co.uk' \
+  -H 'sec-ch-ua: " Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"' \
+  -H 'accept: application/json, text/javascript, */*; q=0.01' \
+  -H 'x-requested-with: XMLHttpRequest' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'referer: https://spansh.co.uk/exact-plotter' \
+  -H 'accept-language: en-US,en;q=0.9,nl;q=0.8' \
+  -H 'cookie: _ga=GA1.3.592541615.1615041017; _gid=GA1.3.278180876.1623853733; _gat=1; mojolicious=eyJiaW5kX3Nlc3Npb25fdG9faXAuaXAiOiIzMS4yMDEuNjEuMjM2IiwiZXhwaXJlcyI6MTYyNDAyNTA2M30---ac6bb0aed7d9c669bcc1fb3c642cd7c1185ab1dc' \
+  --compressed ;
+curl 'https://spansh.co.uk/api/systems/field_values/system_names?q=bandi' \
+  -H 'authority: spansh.co.uk' \
+  -H 'sec-ch-ua: " Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"' \
+  -H 'accept: application/json, text/javascript, */*; q=0.01' \
+  -H 'x-requested-with: XMLHttpRequest' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'referer: https://spansh.co.uk/exact-plotter' \
+  -H 'accept-language: en-US,en;q=0.9,nl;q=0.8' \
+  -H 'cookie: _ga=GA1.3.592541615.1615041017; _gid=GA1.3.278180876.1623853733; _gat=1; mojolicious=eyJiaW5kX3Nlc3Npb25fdG9faXAuaXAiOiIzMS4yMDEuNjEuMjM2IiwiZXhwaXJlcyI6MTYyNDAyNTA2M30---ac6bb0aed7d9c669bcc1fb3c642cd7c1185ab1dc' \
+  --compressed ;
+curl 'https://spansh.co.uk/api/systems/field_values/system_names?q=band' \
+  -H 'authority: spansh.co.uk' \
+  -H 'sec-ch-ua: " Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"' \
+  -H 'accept: application/json, text/javascript, */*; q=0.01' \
+  -H 'x-requested-with: XMLHttpRequest' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'referer: https://spansh.co.uk/exact-plotter' \
+  -H 'accept-language: en-US,en;q=0.9,nl;q=0.8' \
+  -H 'cookie: _ga=GA1.3.592541615.1615041017; _gid=GA1.3.278180876.1623853733; _gat=1; mojolicious=eyJiaW5kX3Nlc3Npb25fdG9faXAuaXAiOiIzMS4yMDEuNjEuMjM2IiwiZXhwaXJlcyI6MTYyNDAyNTA2M30---ac6bb0aed7d9c669bcc1fb3c642cd7c1185ab1dc' \
+  --compressed ;
+curl 'https://spansh.co.uk/api/systems/field_values/system_names?q=bandj' \
+  -H 'authority: spansh.co.uk' \
+  -H 'sec-ch-ua: " Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"' \
+  -H 'accept: application/json, text/javascript, */*; q=0.01' \
+  -H 'x-requested-with: XMLHttpRequest' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'referer: https://spansh.co.uk/exact-plotter' \
+  -H 'accept-language: en-US,en;q=0.9,nl;q=0.8' \
+  -H 'cookie: _ga=GA1.3.592541615.1615041017; _gid=GA1.3.278180876.1623853733; _gat=1; mojolicious=eyJiaW5kX3Nlc3Npb25fdG9faXAuaXAiOiIzMS4yMDEuNjEuMjM2IiwiZXhwaXJlcyI6MTYyNDAyNTA2M30---ac6bb0aed7d9c669bcc1fb3c642cd7c1185ab1dc' \
+  --compressed ;
+curl 'https://spansh.co.uk/api/systems/field_values/system_names?q=bandji' \
+  -H 'authority: spansh.co.uk' \
+  -H 'sec-ch-ua: " Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"' \
+  -H 'accept: application/json, text/javascript, */*; q=0.01' \
+  -H 'x-requested-with: XMLHttpRequest' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'referer: https://spansh.co.uk/exact-plotter' \
+  -H 'accept-language: en-US,en;q=0.9,nl;q=0.8' \
+  -H 'cookie: _ga=GA1.3.592541615.1615041017; _gid=GA1.3.278180876.1623853733; _gat=1; mojolicious=eyJiaW5kX3Nlc3Npb25fdG9faXAuaXAiOiIzMS4yMDEuNjEuMjM2IiwiZXhwaXJlcyI6MTYyNDAyNTA2NH0---ae85a6d1b837b8f1715f8d8091cfa7e0fc322b84' \
+  --compressed ;
+curl 'https://spansh.co.uk/api/generic/route' \
+  -H 'authority: spansh.co.uk' \
+  -H 'sec-ch-ua: " Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"' \
+  -H 'accept: */*' \
+  -H 'x-requested-with: XMLHttpRequest' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36' \
+  -H 'content-type: application/x-www-form-urlencoded; charset=UTF-8' \
+  -H 'origin: https://spansh.co.uk' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'referer: https://spansh.co.uk/exact-plotter' \
+  -H 'accept-language: en-US,en;q=0.9,nl;q=0.8' \
+  -H 'cookie: _ga=GA1.3.592541615.1615041017; _gid=GA1.3.278180876.1623853733; _gat=1; mojolicious=eyJiaW5kX3Nlc3Npb25fdG9faXAuaXAiOiIzMS4yMDEuNjEuMjM2IiwiZXhwaXJlcyI6MTYyNDAyNTA2NH0---ae85a6d1b837b8f1715f8d8091cfa7e0fc322b84' \
+  --data-raw 'source=Croatigae&destination=Bandjigali&is_supercharged=0&use_supercharge=1&use_injections=0&exclude_secondary=0&fuel_power=2.45&fuel_multiplier=0.012&optimal_mass=1627.5&base_mass=318.62&tank_size=32&internal_tank_size=0.52&max_fuel_per_jump=5&range_boost=9.25&ship_build=%5B%7B%22header%22%3A%7B%22appName%22%3A%22EDSY%22%2C%22appVersion%22%3A37546%2C%22appURL%22%3A%22https%3A%2F%2Fedsy.org%2F%23%2FL%3DFi8RKz70H4C0S00%2C%2CmpUCzYW5FPCjwWF2v%2C9p31-A7MXP2SOAMgWOKuVAdsG-5G_W0AqqW68QB4Sm68Q4r_W0BK4W68QBcgXI1H9%2C%2C4_wWIb7-330WKnWz03wX23B7Q4W7Fd2jwWK3FX1IMW8Hx0nGY87a0nFY8BD%2C%2CCP_D10D%22%7D%2C%22data%22%3A%7B%22event%22%3A%22Loadout%22%2C%22Ship%22%3A%22diamondbackxl%22%2C%22ShipName%22%3A%22%22%2C%22ShipIdent%22%3A%22CP-10D%22%2C%22HullValue%22%3A1373307%2C%22ModulesValue%22%3A7603732%2C%22UnladenMass%22%3A318.1%2C%22CargoCapacity%22%3A4%2C%22MaxJumpRange%22%3A68.336134%2C%22FuelCapacity%22%3A%7B%22Main%22%3A32%2C%22Reserve%22%3A0.52%7D%2C%22Rebuy%22%3A448851%2C%22Modules%22%3A%5B%7B%22Slot%22%3A%22CargoHatch%22%2C%22Item%22%3A%22modularcargobaydoor%22%2C%22On%22%3Atrue%2C%22Priority%22%3A0%7D%2C%7B%22Slot%22%3A%22TinyHardpoint3%22%2C%22Item%22%3A%22hpt_plasmapointdefence_turret_tiny%22%2C%22On%22%3Atrue%2C%22Priority%22%3A0%2C%22Value%22%3A15765%7D%2C%7B%22Slot%22%3A%22TinyHardpoint4%22%2C%22Item%22%3A%22hpt_heatsinklauncher_turret_tiny%22%2C%22On%22%3Atrue%2C%22Priority%22%3A0%2C%22Value%22%3A2975%7D%2C%7B%22Slot%22%3A%22Armour%22%2C%22Item%22%3A%22diamondbackxl_armour_grade1%22%2C%22On%22%3Atrue%2C%22Priority%22%3A1%2C%22Value%22%3A0%7D%2C%7B%22Slot%22%3A%22PowerPlant%22%2C%22Item%22%3A%22int_powerplant_size4_class3%22%2C%22On%22%3Atrue%2C%22Priority%22%3A1%2C%22Value%22%3A160137%7D%2C%7B%22Slot%22%3A%22MainEngines%22%2C%22Item%22%3A%22int_engine_size4_class5%22%2C%22On%22%3Atrue%2C%22Priority%22%3A0%2C%22Value%22%3A1368568%7D%2C%7B%22Slot%22%3A%22FrameShiftDrive%22%2C%22Item%22%3A%22int_hyperdrive_size5_class5%22%2C%22On%22%3Atrue%2C%22Priority%22%3A0%2C%22Value%22%3A0%2C%22Engineering%22%3A%7B%22BlueprintName%22%3A%22FSD_LongRange%22%2C%22Level%22%3A5%2C%22Quality%22%3A1%2C%22Modifiers%22%3A%5B%7B%22Label%22%3A%22Mass%22%2C%22Value%22%3A26%2C%22OriginalValue%22%3A20%7D%2C%7B%22Label%22%3A%22Integrity%22%2C%22Value%22%3A102%2C%22OriginalValue%22%3A120%7D%2C%7B%22Label%22%3A%22PowerDraw%22%2C%22Value%22%3A0.69%2C%22OriginalValue%22%3A0.6%7D%2C%7B%22Label%22%3A%22FSDOptimalMass%22%2C%22Value%22%3A1627.5%2C%22OriginalValue%22%3A1050%7D%5D%7D%7D%2C%7B%22Slot%22%3A%22LifeSupport%22%2C%22Item%22%3A%22int_lifesupport_size3_class2%22%2C%22On%22%3Atrue%2C%22Priority%22%3A0%2C%22Value%22%3A8614%7D%2C%7B%22Slot%22%3A%22PowerDistributor%22%2C%22Item%22%3A%22int_powerdistributor_size3_class2%22%2C%22On%22%3Atrue%2C%22Priority%22%3A0%2C%22Value%22%3A8614%2C%22Engineering%22%3A%7B%22BlueprintName%22%3A%22PowerDistributor_PriorityEngines%22%2C%22Level%22%3A3%2C%22Quality%22%3A1%2C%22ExperimentalEffect%22%3A%22special_powerdistributor_fast%22%2C%22Modifiers%22%3A%5B%7B%22Label%22%3A%22WeaponsCapacity%22%2C%22Value%22%3A15.7248%2C%22OriginalValue%22%3A18%7D%2C%7B%22Label%22%3A%22WeaponsRecharge%22%2C%22Value%22%3A2.11848%2C%22OriginalValue%22%3A2.1%7D%2C%7B%22Label%22%3A%22EnginesCapacity%22%2C%22Value%22%3A18.816%2C%22OriginalValue%22%3A14%7D%2C%7B%22Label%22%3A%22EnginesRecharge%22%2C%22Value%22%3A1.352%2C%22OriginalValue%22%3A1%7D%2C%7B%22Label%22%3A%22SystemsCapacity%22%2C%22Value%22%3A12.2304%2C%22OriginalValue%22%3A14%7D%2C%7B%22Label%22%3A%22SystemsRecharge%22%2C%22Value%22%3A0.9464%2C%22OriginalValue%22%3A1%7D%5D%7D%7D%2C%7B%22Slot%22%3A%22Radar%22%2C%22Item%22%3A%22int_sensors_size3_class2%22%2C%22On%22%3Atrue%2C%22Priority%22%3A0%2C%22Value%22%3A8614%7D%2C%7B%22Slot%22%3A%22FuelTank%22%2C%22Item%22%3A%22int_fueltank_size5_class3%22%2C%22On%22%3Atrue%2C%22Priority%22%3A1%2C%22Value%22%3A83090%7D%2C%7B%22Slot%22%3A%22Slot01_Size4%22%2C%22Item%22%3A%22int_fuelscoop_size4_class5%22%2C%22On%22%3Atrue%2C%22Priority%22%3A0%2C%22Value%22%3A2433010%7D%2C%7B%22Slot%22%3A%22Slot02_Size4%22%2C%22Item%22%3A%22int_guardianfsdbooster_size4%22%2C%22On%22%3Atrue%2C%22Priority%22%3A0%2C%22Value%22%3A3245012%7D%2C%7B%22Slot%22%3A%22Slot03_Size3%22%2C%22Item%22%3A%22int_cargorack_size2_class1%22%2C%22On%22%3Atrue%2C%22Priority%22%3A1%2C%22Value%22%3A3250%7D%2C%7B%22Slot%22%3A%22Slot04_Size3%22%2C%22Item%22%3A%22int_shieldgenerator_size3_class2%22%2C%22On%22%3Atrue%2C%22Priority%22%3A0%2C%22Value%22%3A15991%7D%2C%7B%22Slot%22%3A%22Slot05_Size2%22%2C%22Item%22%3A%22int_detailedsurfacescanner_tiny%22%2C%22On%22%3Atrue%2C%22Priority%22%3A0%2C%22Value%22%3A212500%7D%2C%7B%22Slot%22%3A%22Slot06_Size2%22%2C%22Item%22%3A%22int_buggybay_size2_class2%22%2C%22On%22%3Atrue%2C%22Priority%22%3A0%2C%22Value%22%3A18360%7D%2C%7B%22Slot%22%3A%22Slot07_Size1%22%2C%22Item%22%3A%22int_supercruiseassist%22%2C%22On%22%3Atrue%2C%22Priority%22%3A2%2C%22Value%22%3A7752%7D%2C%7B%22Slot%22%3A%22Slot08_Size1%22%2C%22Item%22%3A%22int_dockingcomputer_advanced%22%2C%22On%22%3Atrue%2C%22Priority%22%3A2%2C%22Value%22%3A11480%7D%5D%7D%7D%5D&max_time=60&cargo=0' \
+  --compressed ;
+curl 'https://www.google-analytics.com/j/collect?v=1&_v=j90&a=245097756&t=pageview&_s=3&dl=https%3A%2F%2Fspansh.co.uk%2Fplotter&dp=%2Fexact-plotter%2Fresults%2FFFD882A0-CF74-11EB-A48A-D5D194EB4526&ul=en-us&de=UTF-8&dt=exact-plotter.results&sd=24-bit&sr=1440x2561&vp=1251x572&je=0&_u=SACAAAABAAAAAC~&jid=1417068995&gjid=853647911&cid=592541615.1615041017&tid=UA-39825570-5&_gid=278180876.1623853733&_r=1&z=1619943327' \
+  -X 'POST' \
+  -H 'authority: www.google-analytics.com' \
+  -H 'content-length: 0' \
+  -H 'sec-ch-ua: " Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36' \
+  -H 'content-type: text/plain' \
+  -H 'accept: */*' \
+  -H 'origin: https://spansh.co.uk' \
+  -H 'sec-fetch-site: cross-site' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'referer: https://spansh.co.uk/' \
+  -H 'accept-language: en-US,en;q=0.9,nl;q=0.8' \
+  --compressed ;
+curl 'https://www.google-analytics.com/collect?v=1&_v=j90&a=245097756&t=pageview&_s=4&dl=https%3A%2F%2Fspansh.co.uk%2Fplotter&dp=%2Fexact-plotter%2Fresults%2FFFD882A0-CF74-11EB-A48A-D5D194EB4526&ul=en-us&de=UTF-8&dt=exact-plotter.results&sd=24-bit&sr=1440x2561&vp=1251x572&je=0&_u=SACAAAABAAAAAC~&jid=&gjid=&cid=592541615.1615041017&tid=UA-39825570-5&_gid=278180876.1623853733&z=1635641183' \
+  -H 'authority: www.google-analytics.com' \
+  -H 'sec-ch-ua: " Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36' \
+  -H 'accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8' \
+  -H 'sec-fetch-site: cross-site' \
+  -H 'sec-fetch-mode: no-cors' \
+  -H 'sec-fetch-dest: image' \
+  -H 'referer: https://spansh.co.uk/' \
+  -H 'accept-language: en-US,en;q=0.9,nl;q=0.8' \
+  --compressed ;
+curl 'https://spansh.co.uk/api/results/FFD882A0-CF74-11EB-A48A-D5D194EB4526' \
+  -H 'authority: spansh.co.uk' \
+  -H 'sec-ch-ua: " Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"' \
+  -H 'accept: */*' \
+  -H 'x-requested-with: XMLHttpRequest' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'referer: https://spansh.co.uk/exact-plotter/results/FFD882A0-CF74-11EB-A48A-D5D194EB4526' \
+  -H 'accept-language: en-US,en;q=0.9,nl;q=0.8' \
+  -H 'cookie: _ga=GA1.3.592541615.1615041017; _gid=GA1.3.278180876.1623853733; mojolicious=eyJiaW5kX3Nlc3Npb25fdG9faXAuaXAiOiIzMS4yMDEuNjEuMjM2IiwiZXhwaXJlcyI6MTYyNDAyNTA5OH0---3f054c3d5f90c4c1ab163c628c8de4a3d20dcc76; _gat=1' \
+  --compressed ;
+curl 'https://spansh.co.uk/api/results/FFD882A0-CF74-11EB-A48A-D5D194EB4526' \
+  -H 'authority: spansh.co.uk' \
+  -H 'sec-ch-ua: " Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"' \
+  -H 'accept: */*' \
+  -H 'x-requested-with: XMLHttpRequest' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'referer: https://spansh.co.uk/exact-plotter/results/FFD882A0-CF74-11EB-A48A-D5D194EB4526' \
+  -H 'accept-language: en-US,en;q=0.9,nl;q=0.8' \
+  -H 'cookie: _ga=GA1.3.592541615.1615041017; _gid=GA1.3.278180876.1623853733; mojolicious=eyJiaW5kX3Nlc3Npb25fdG9faXAuaXAiOiIzMS4yMDEuNjEuMjM2IiwiZXhwaXJlcyI6MTYyNDAyNTA5OH0---3f054c3d5f90c4c1ab163c628c8de4a3d20dcc76; _gat=1' \
+  --compressed ;
+curl 'https://spansh.co.uk/api/results/FFD882A0-CF74-11EB-A48A-D5D194EB4526' \
+  -H 'authority: spansh.co.uk' \
+  -H 'sec-ch-ua: " Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"' \
+  -H 'accept: */*' \
+  -H 'x-requested-with: XMLHttpRequest' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'referer: https://spansh.co.uk/exact-plotter/results/FFD882A0-CF74-11EB-A48A-D5D194EB4526' \
+  -H 'accept-language: en-US,en;q=0.9,nl;q=0.8' \
+  -H 'cookie: _ga=GA1.3.592541615.1615041017; _gid=GA1.3.278180876.1623853733; _gat=1; mojolicious=eyJiaW5kX3Nlc3Npb25fdG9faXAuaXAiOiIzMS4yMDEuNjEuMjM2IiwiZXhwaXJlcyI6MTYyNDAyNTEwMH0---20ad0030c7cf5486a2f40629dcc6ff11becacab9' \
+  --compressed
+
+
+
+  {"result":
+    {"base_mass":318.62,
+    "cargo":0,
+    "destination":"Bandjigali",
+    "exclude_secondary":false,
+    "fuel_multiplier":0.012,
+    "fuel_power":2.45,
+    "internal_tank_size":0.52,
+    "is_supercharged":false,
+    "jumps":
+        [
+            {"distance":0,
+            "distance_to_destination":189.683425100383,
+            "fuel_in_tank":32,
+            "fuel_used":0,
+            "has_neutron":false,
+            "id64":"7269902984625",
+            "is_scoopable":false,
+            "must_refuel":1,
+            "name":"Croatigae",
+            x":137.75,
+            "y":-100.375,
+            "z":25.09375},
+            {"distance":62.4035349309236,
+            "distance_to_destination":185.859376970366,
+            "fuel_in_tank":27.245376579409,
+            "fuel_used":4.75462342059104,
+            "has_neutron":false,
+            "id64":"13866972882337",
+            "is_scoopable":false,
+            "must_refuel":0,
+            "name":"Col 285 Sector UD-Y b15-6",
+            "x":141.21875,
+            "y":-51.3125,
+            "z":-13.3125},
+            {"distance":63.6680309422437,
+            "distance_to_destination":225.917378944992,
+            "fuel_in_tank":22.3921460980816,
+            "fuel_used":4.85323048132731,
+            "has_neutron":true,"id64":"5532807773","is_scoopable":false,"must_refuel":0,"name":"Jackson's Lighthouse","x":157,"y":-27,"z":-70},{"distance":225.917378944992,"distance_to_destination":0,"fuel_in_tank":18.879277057349,"fuel_used":3.51286904073266,"has_neutron":false,"id64":"3618249902451","is_scoopable":false,"must_refuel":1,"name":"Bandjigali","x":-8.71875,"y":7.0625,"z":79.71875}],"max_fuel_per_jump":5,"max_time":null,"optimal_mass":1627.5,"range_boost":9.25,"ship_build":"[{\"header\":{\"appName\":\"EDSY\",\"appVersion\":37546,\"appURL\":\"https:\/\/edsy.org\/#\/L=Fi8RKz70H4C0S00,,mpUCzYW5FPCjwWF2v,9p31-A7MXP2SOAMgWOKuVAdsG-5G_W0AqqW68QB4Sm68Q4r_W0BK4W68QBcgXI1H9,,4_wWIb7-330WKnWz03wX23B7Q4W7Fd2jwWK3FX1IMW8Hx0nGY87a0nFY8BD,,CP_D10D\"},\"data\":{\"event\":\"Loadout\",\"Ship\":\"diamondbackxl\",\"ShipName\":\"\",\"ShipIdent\":\"CP-10D\",\"HullValue\":1373307,\"ModulesValue\":7603732,\"UnladenMass\":318.1,\"CargoCapacity\":4,\"MaxJumpRange\":68.336134,\"FuelCapacity\":{\"Main\":32,\"Reserve\":0.52},\"Rebuy\":448851,\"Modules\":[{\"Slot\":\"CargoHatch\",\"Item\":\"modularcargobaydoor\",\"On\":true,\"Priority\":0},{\"Slot\":\"TinyHardpoint3\",\"Item\":\"hpt_plasmapointdefence_turret_tiny\",\"On\":true,\"Priority\":0,\"Value\":15765},{\"Slot\":\"TinyHardpoint4\",\"Item\":\"hpt_heatsinklauncher_turret_tiny\",\"On\":true,\"Priority\":0,\"Value\":2975},{\"Slot\":\"Armour\",\"Item\":\"diamondbackxl_armour_grade1\",\"On\":true,\"Priority\":1,\"Value\":0},{\"Slot\":\"PowerPlant\",\"Item\":\"int_powerplant_size4_class3\",\"On\":true,\"Priority\":1,\"Value\":160137},{\"Slot\":\"MainEngines\",\"Item\":\"int_engine_size4_class5\",\"On\":true,\"Priority\":0,\"Value\":1368568},{\"Slot\":\"FrameShiftDrive\",\"Item\":\"int_hyperdrive_size5_class5\",\"On\":true,\"Priority\":0,\"Value\":0,\"Engineering\":{\"BlueprintName\":\"FSD_LongRange\",\"Level\":5,\"Quality\":1,\"Modifiers\":[{\"Label\":\"Mass\",\"Value\":26,\"OriginalValue\":20},{\"Label\":\"Integrity\",\"Value\":102,\"OriginalValue\":120},{\"Label\":\"PowerDraw\",\"Value\":0.69,\"OriginalValue\":0.6},{\"Label\":\"FSDOptimalMass\",\"Value\":1627.5,\"OriginalValue\":1050}]}},{\"Slot\":\"LifeSupport\",\"Item\":\"int_lifesupport_size3_class2\",\"On\":true,\"Priority\":0,\"Value\":8614},{\"Slot\":\"PowerDistributor\",\"Item\":\"int_powerdistributor_size3_class2\",\"On\":true,\"Priority\":0,\"Value\":8614,\"Engineering\":{\"BlueprintName\":\"PowerDistributor_PriorityEngines\",\"Level\":3,\"Quality\":1,\"ExperimentalEffect\":\"special_powerdistributor_fast\",\"Modifiers\":[{\"Label\":\"WeaponsCapacity\",\"Value\":15.7248,\"OriginalValue\":18},{\"Label\":\"WeaponsRecharge\",\"Value\":2.11848,\"OriginalValue\":2.1},{\"Label\":\"EnginesCapacity\",\"Value\":18.816,\"OriginalValue\":14},{\"Label\":\"EnginesRecharge\",\"Value\":1.352,\"OriginalValue\":1},{\"Label\":\"SystemsCapacity\",\"Value\":12.2304,\"OriginalValue\":14},{\"Label\":\"SystemsRecharge\",\"Value\":0.9464,\"OriginalValue\":1}]}},{\"Slot\":\"Radar\",\"Item\":\"int_sensors_size3_class2\",\"On\":true,\"Priority\":0,\"Value\":8614},{\"Slot\":\"FuelTank\",\"Item\":\"int_fueltank_size5_class3\",\"On\":true,\"Priority\":1,\"Value\":83090},{\"Slot\":\"Slot01_Size4\",\"Item\":\"int_fuelscoop_size4_class5\",\"On\":true,\"Priority\":0,\"Value\":2433010},{\"Slot\":\"Slot02_Size4\",\"Item\":\"int_guardianfsdbooster_size4\",\"On\":true,\"Priority\":0,\"Value\":3245012},{\"Slot\":\"Slot03_Size3\",\"Item\":\"int_cargorack_size2_class1\",\"On\":true,\"Priority\":1,\"Value\":3250},{\"Slot\":\"Slot04_Size3\",\"Item\":\"int_shieldgenerator_size3_class2\",\"On\":true,\"Priority\":0,\"Value\":15991},{\"Slot\":\"Slot05_Size2\",\"Item\":\"int_detailedsurfacescanner_tiny\",\"On\":true,\"Priority\":0,\"Value\":212500},{\"Slot\":\"Slot06_Size2\",\"Item\":\"int_buggybay_size2_class2\",\"On\":true,\"Priority\":0,\"Value\":18360},{\"Slot\":\"Slot07_Size1\",\"Item\":\"int_supercruiseassist\",\"On\":true,\"Priority\":2,\"Value\":7752},{\"Slot\":\"Slot08_Size1\",\"Item\":\"int_dockingcomputer_advanced\",\"On\":true,\"Priority\":2,\"Value\":11480}]}}]","source":"Croatigae","tank_size":32,"use_injections":false,"use_supercharge":true},"status":"ok"}
