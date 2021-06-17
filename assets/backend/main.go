@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"io/fs"
 	"net/http"
+	"os"
 )
 
 var Missions []Mission
@@ -13,6 +15,10 @@ var CurrentRoute Route
 
 func init() {
 	Initialized = false
+	if _, err := os.Stat(getStorageDir()); os.IsNotExist(err) {
+		_ = os.Mkdir(getStorageDir(), fs.ModeDir)
+		// TODO: handle error
+	}
 	fmt.Println("Loading Logs")
 	getLogList()
 	fmt.Println("Loading Missions")

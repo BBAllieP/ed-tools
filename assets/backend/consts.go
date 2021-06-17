@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"runtime"
@@ -37,5 +38,6 @@ func getStorageDir() string {
 		panic(err)
 	}
 	dir = dir + "\\ED-Tools"
+	fmt.Println(dir)
 	return dir
 }

@@ -175,6 +175,7 @@ func acceptRoute(routePath string) {
 
 func LoadRoutes() {
 	loadFile := getStorageDir() + "\\route.json"
+	fmt.Println(loadFile)
 	if _, err := os.Stat(loadFile); err == nil {
 		file, _ := ioutil.ReadFile(loadFile)
 		_ = json.Unmarshal([]byte(file), &CurrentRoute)
