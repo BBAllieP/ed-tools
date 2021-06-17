@@ -175,7 +175,6 @@ func acceptRoute(routePath string) {
 
 func LoadRoutes() {
 	loadFile := getStorageDir() + "\\route.json"
-	fmt.Println(loadFile)
 	if _, err := os.Stat(loadFile); err == nil {
 		file, _ := ioutil.ReadFile(loadFile)
 		_ = json.Unmarshal([]byte(file), &CurrentRoute)
@@ -283,14 +282,3 @@ func ProcessBoost() {
 	SuperCharged = true
 	broadcast <- Message{"SuperCharge", true}
 }
-
-/* Messages to Process:
-{"DeepScan", i index of body in current system}
-{"LightScan", i index of body in current system}
-{"SystemVisit", i index of system in route}
-		needs to also set i as current system
-{"SuperCharge", bool value whether FSD is supercharged}
-{"UnsetCopy", i index of system in route}
-{"SetCopy", i index of system in route}
-
-*/
