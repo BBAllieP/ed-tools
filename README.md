@@ -2,11 +2,12 @@
 
 This is my custom companion tool for Elite Dangerous.
 
-Currently implemented Massacre Mission stacking assistant
-
-# Future Plans
+Currently implemented: 
+Massacre Mission stacking assistant
 
 Route Planner - will take exported CSV files from spansh.co.uk tool, monitor the game journal, and whenever a jump is completed copy the next system to the clipboard so you don't have to tab out to target the next system
+
+# Future Plans
 
 Shield Calculator - Go port of D2EA's shield calculator. Since it's already done, easy enough to just include
 
