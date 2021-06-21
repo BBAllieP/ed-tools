@@ -136,6 +136,14 @@ const socketMiddleware = () => {
 					})
 				);
 				break;
+			case actionTypes.DELETE_ROUTE:
+				socket.send(
+					JSON.stringify({
+						action: "deleteRoute",
+						value: null
+					})
+				);
+				break;
 			default:
 				//console.log("the next action:", action);
 				return next(action);

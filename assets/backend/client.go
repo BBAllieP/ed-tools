@@ -46,6 +46,10 @@ func (c *Client) Read() {
 			acceptRoute(msg.Value)
 		case "copyDestination":
 			CopyDest(msg.Value)
+		case "deleteRoute":
+			DeleteRoute()
+			routeMsg := Message{"GetRoutes", CurrentRoute}
+			c.Pool.Broadcast <- routeMsg
 		default:
 			c.Pool.Broadcast <- Message{"1", []byte("Unhandled Request")}
 		}

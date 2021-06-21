@@ -184,6 +184,15 @@ func LoadRoutes() {
 		broadcast <- Message{Action: "SendRoutes", Body: CurrentRoute}
 	}
 }
+func DeleteRoute() {
+	CurrentRoute = Route{"", "", "", "", 0, nil}
+	loadFile := getStorageDir() + "\\route.json"
+	if _, err := os.Stat(loadFile); err == nil {
+		return
+	}
+	file, _ := json.MarshalIndent(CurrentRoute, "", " ")
+	_ = ioutil.WriteFile(getStorageDir()+"\\route.json", file, 0644)
+}
 
 /*
 processJump(event)

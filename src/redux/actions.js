@@ -91,3 +91,8 @@ export const sendCopy = (payload) => ({
 	type: actions.SEND_COPY,
 	payload: payload
 });
+
+export const deleteRoute = () => ({
+	type: actions.DELETE_ROUTE,
+	payload: null
+});

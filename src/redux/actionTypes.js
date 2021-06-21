@@ -22,3 +22,4 @@ export const SUPER_CHARGE = "SUPER_CHARGE";
 export const UNSET_COPY = "UNSET_COPY";
 export const SET_COPY = "SET_COPY";
 export const SEND_COPY = "SEND_COPY";
+export const DELETE_ROUTE = "DELETE_ROUTE";
