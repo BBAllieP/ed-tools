@@ -44,7 +44,7 @@
 		"electron-pack": "build --em.main=build/electron.js",
 		"preelectron-pack": "yarn run react-scripts build",
 		"build-old": "electron-packager . ed-tools --overwrite --asar=true --out=build --icon=./assets/icon.png",
-		"build": "electron-builder build --win --publish never",
+		"build": "(cd assets/backend && go build -o bin/backend-amd64.exe . && cd ../.. && yarn run react-scripts build) && electron-builder build --win --publish never",
 		"deploy": "electron-builder build --win --publish always"
 	},
 	"eslintConfig": {
