@@ -3,8 +3,8 @@ import { ReactComponent as MapIcon } from '../../resources/img/Map-galaxy-map.sv
 
 function GalaxyIcon(props) {
     return (
-      <SvgIcon {...props} >
-<MapIcon />
+      <SvgIcon {...props} color='primary'>
+        <MapIcon />
       </SvgIcon>
     );
 } 
