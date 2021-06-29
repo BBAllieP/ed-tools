@@ -27,7 +27,7 @@ const Home = () => (
 			</Grid>
 			<Grid item xs={12} container justify='flex-end' spacing={2}>
 				<Typography variant='button'>
-					<Link onClick={()=> shell.openExternal('https://ko-fi.com/bballiep')} target='_blank'gi>
+					<Link onClick={()=> shell.openExternal('https://ko-fi.com/bballiep')} target='_blank'>
 						Buy me a beer <BeerIco />
 					</Link>
 					

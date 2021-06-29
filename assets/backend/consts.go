@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"os"
 	"runtime"
 
@@ -10,12 +9,12 @@ import (
 
 func getLogLocation() string {
 	if runtime.GOOS == "windows" {
-		uhome, err := os.UserHomeDir()
+		/*uhome, err := os.UserHomeDir()
 		if err != nil {
 			log.Fatal(err)
 		}
-		return uhome + "\\Saved Games\\Frontier Developments\\Elite Dangerous"
-		//return "../templogs"
+		return uhome + "\\Saved Games\\Frontier Developments\\Elite Dangerous"*/
+		return "../templogs"
 	} else {
 		return "../data/Elite Dangerous"
 	}

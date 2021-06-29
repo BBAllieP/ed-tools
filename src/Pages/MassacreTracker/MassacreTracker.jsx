@@ -7,6 +7,8 @@ import RefreshIcon from '@material-ui/icons/Refresh';
 import {useInterval} from "../../utils/genericUtils";
 import { makeMil } from "../../utils/numUtils";
 import CircleProgress from "./CircleProgress";
+
+import { wsConnect, wsDisconnect } from "../../redux/reducers/websocket";
 import ProgressBar from "./ProgressBar";
 const fabStyle = {
     margin: 0,
@@ -133,9 +135,10 @@ const MassacreTracker = (props) => {
 					})}
 			</Grid>
 		</Grid>
-		<Fab style={fabStyle} color='primary' onClick={props.getAllFactions}>
+		{!props.socketState.connected && <Fab style={fabStyle} color= 'primary' onClick={()=>props.wsConnect("ws://127.0.0.1:8844/ws")}>
 			<RefreshIcon />
-		</Fab>
+		</Fab>}
+		
 		</Container>
 	);
 };
@@ -145,6 +148,8 @@ const mapStateToProps = (state) => {
 	}; 
 };
 const mapDispatchToProps = {
+	wsConnect: (host) => wsConnect(host),
+	wsDisconnect: (host) => wsDisconnect(host),
 	getAllFactions,
 };
 
