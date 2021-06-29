@@ -8,7 +8,6 @@ import (
 	"log"
 	"os"
 	"regexp"
-	"runtime"
 	"sort"
 	"strings"
 	"time"
@@ -22,17 +21,7 @@ import (
 // 5) set the active log - TODO
 func getLogList() {
 	//var resultLogs []Logfile
-	var logLocation string
-	if runtime.GOOS == "windows" {
-		/*uhome, err := os.UserHomeDir()
-		if err != nil {
-			log.Fatal(err)
-		}
-		logLocation = uhome + "\\Saved Games\\Frontier Developments\\Elite Dangerous"*/
-		logLocation = "../tempLogs"
-	} else {
-		logLocation = "../data/Elite Dangerous"
-	}
+	logLocation := getLogLocation()
 
 	logs, err := ioutil.ReadDir(logLocation)
 	if err != nil {
