@@ -1,4 +1,4 @@
-# CMDR CPT Allie's Elite Dangerous Companion Tool
+# CMDR CPT Allie's Elite Dangerous Companion Tool [[No Longer Maintained]]
 
 This is my custom companion tool for Elite Dangerous.
 
